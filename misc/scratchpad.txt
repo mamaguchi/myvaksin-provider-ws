@@ -1,0 +1,1928 @@
+ 
+{"ic":888888105555,"version":1,"name":"monster"}
+
+
+
+{"user1":{"ic":888888105555,"version":1,"name":"monster"},"user2":{"ic":888888106666,"version":1,"name":"mongola"}}
+
+
+
+{"data":{"user1":{"ic":888888105555,"version":1,"name":"monster"},"user2":{"ic":888888106666,"version":1,"name":"mongola"}}}
+
+
+--------------------------------
+
+{"data":{"user1":{"ic":"880601105149","created_at":"2018-01-30 10:00:00","updated_at":"2018-01-30 10:00:00","name":"patrick","gender":"MALE","address":"bandarputeri","state":"PAHANG","region":"MARAN","subregion":"JENGKA2","locality":"ULUJEMPOL","firstRegRegion":"klang"},"user2":{"ic":"880601105157","created_at":"2018-01-30 09:00:00","updated_at":"2018-01-30 09:00:00","name":"bellio5","gender":"MALE","address":"bandarputeri","state":"PAHANG","region":"MARAN","subregion":"JENGKA2","locality":"ULUJEMPOL","firstRegRegion":"klang"},"user3":{"ic":"880601105159","created_at":"2018-01-30 08:00:00","updated_at":"2018-01-30 08:00:00","name":"bellio7","gender":"MALE","address":"southernpark","state":"PAHANG","region":"MARAN","subregion":"JENGKA2","locality":"ULUJEMPOL","firstRegRegion":"klang"},"user4":{"ic":"880601105151","created_at":"2018-01-30 07:00:00","updated_at":"2018-01-30 07:00:00","name":"bellio2","gender":"FEMALE","address":"southernpark","state":"PAHANG","region":"MARAN","subregion":"JENGKA2","locality":"ULUJEMPOL","firstRegRegion":"klang"}}}
+
+
+--------------------------------
+
+{"data":{"user1":{"version":1,"ic":"880601105149","created_at":"2018-01-30 10:00:00","updated_at":"2018-01-30 10:00:00","name":"patrick","gender":"MALE","address":"bandarputeri","state":"PAHANG","region":"MARAN","subregion":"JENGKA2","locality":"ULUJEMPOL","firstRegRegion":"klang"},"user2":{"version":1,"ic":"880601105157","created_at":"2018-01-30 09:00:00","updated_at":"2018-01-30 09:00:00","name":"bellio5","gender":"MALE","address":"bandarputeri","state":"PAHANG","region":"MARAN","subregion":"JENGKA2","locality":"ULUJEMPOL","firstRegRegion":"klang"},"user3":{"version":1,"ic":"880601105159","created_at":"2018-01-30 08:00:00","updated_at":"2018-01-30 08:00:00","name":"bellio7","gender":"MALE","address":"southernpark","state":"PAHANG","region":"MARAN","subregion":"JENGKA2","locality":"ULUJEMPOL","firstRegRegion":"klang"},"user4":{"version":1,"ic":"880601105151","created_at":"2018-01-30 07:00:00","updated_at":"2018-01-30 07:00:00","name":"bellio2","gender":"FEMALE","address":"southernpark","state":"PAHANG","region":"MARAN","subregion":"JENGKA2","locality":"ULUJEMPOL","firstRegRegion":"klang"}}}
+
+
+
+--------------------------------
+
+{"data":{"user1":{"version":1,"status":"UpdateServerFrmLocal","ic":"880601105149","created_at":"2018-01-30 10:00:00","updated_at":"2018-01-30 10:00:00","name":"patrick","gender":"MALE","address":"bandarputeri","state":"PAHANG","region":"MARAN","subregion":"JENGKA2","locality":"ULUJEMPOL","firstRegRegion":"klang"},"user2":{"version":1,"status":"UpdateServerFrmGlobal","ic":"880601105157","created_at":"2018-01-30 09:00:00","updated_at":"2018-01-30 09:00:00","name":"bellio5","gender":"MALE","address":"bandarputeri","state":"PAHANG","region":"MARAN","subregion":"JENGKA2","locality":"ULUJEMPOL","firstRegRegion":"klang"},"user3":{"version":1,"status":"UpdateServerFrmGlobal","ic":"880601105159","created_at":"2018-01-30 08:00:00","updated_at":"2018-01-30 08:00:00","name":"bellio7","gender":"MALE","address":"southernpark","state":"PAHANG","region":"MARAN","subregion":"JENGKA2","locality":"ULUJEMPOL","firstRegRegion":"klang"},"user4":{"version":1,"status":"UpdateServerNewKospenuser","ic":"880601105151","created_at":"2018-01-30 07:00:00","updated_at":"2018-01-30 07:00:00","name":"bellio2","gender":"FEMALE","address":"southernpark","state":"PAHANG","region":"MARAN","subregion":"JENGKA2","locality":"ULUJEMPOL","firstRegRegion":"klang"}}}
+
+
+--------------------------------
+
+{"data":{"user1":{"version":1,"status":"UpdateServerFrmLocal","ic":"880601105149","created_at":"2018-01-30 10:00:00","updated_at":"2018-01-30 10:00:00","name":"patrick","gender":1,"address":"bandarputeri","state":1,"region":1,"subregion":1,"locality":1,"firstRegRegion":"klang"},"user2":{"version":1,"status":"UpdateServerFrmGlobal","ic":"880601105157","created_at":"2018-01-30 09:00:00","updated_at":"2018-01-30 09:00:00","name":"bellio5","gender":1,"address":"bandarputeri","state":1,"region":1,"subregion":1,"locality":1,"firstRegRegion":"klang"},"user3":{"version":1,"status":"UpdateServerFrmGlobal","ic":"880601105159","created_at":"2018-01-30 08:00:00","updated_at":"2018-01-30 08:00:00","name":"bellio7","gender":1,"address":"southernpark","state":1,"region":1,"subregion":1,"locality":1,"firstRegRegion":"klang"},"user4":{"version":1,"status":"UpdateServerNewKospenuser","ic":"880601105151","created_at":"2018-01-30 07:00:00","updated_at":"2018-01-30 07:00:00","name":"bellio2","gender":2,"address":"southernpark","state":1,"region":1,"subregion":1,"locality":1,"firstRegRegion":"klang"}}}
+
+
+
+--------------------------------
+
+{"data":{"screening1":{"ic":"880601105149","created_at":"2018-01-30 10:00:00","weight":60,"height":160,"systolic":120,"diastolic":80,"dxt":6,"smoker":0},"screening2":{"ic":"880601105152","created_at":"2018-01-30 09:00:00","weight":20,"height":80,"systolic":90,"diastolic":60,"dxt":6,"smoker":1}}}
+
+
+
+29March2018 - WESTern union trasnfer to HuaHin Thailand -> 
+Transaction Details
+Amount (RM) 	3183.32 	Foreign Currency Amount 	25000.00
+Service Charge 	18.00
+Sender Name 	CHOW HSIEN LUNG
+
+
+
+==================
+DOCKER IP Address
+==================
+172.17.0.3/16  -- myapp-php-fmp-nginx:1 [docker container]
+
+10.0.2.15/24 -- patrick-ubuntu-server [virtualbox]
+
+==================
+CREATED a SWARM:
+==================
+patrick@patrick-ubuntu-server:~/mydocker/img-config$ docker swarm init --advertise-addr 10.0.2.15
+Swarm initialized: current node (sgspjk9abahjr6iqb0i2z2mfp) is now a manager.
+                                                                                                                                                                                                          
+To add a worker to this swarm, run the following command:                                                                                                                                                 
+                                                                                                                                                                                                          
+    docker swarm join --token SWMTKN-1-4xci2npq03m27cb7hb4wqjnor59kbnm940u5gen71gb9mvw6h7-2exzzpbdl516uzhtd4hs83ewe 10.0.2.15:2377                                                                        
+                                                                                                                                                                                                          
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions. 
+
+
+
+==================
+DOCKER IMAGES 10APRIL2018
+==================
+patrick@patrick-ubuntu-server:~$ docker image ls
+REPOSITORY            TAG                   IMAGE ID            CREATED             SIZE
+myapp-php-fmp-nginx   1                     d590b203ba02        About an hour ago   82 MB
+myapp-phpfpm-nginx    1                     106516c18c7f        10 hours ago        90.2 MB
+mycustomapp           v1                    ebadff76081f        22 hours ago        156 MB
+composer              1.6                   5489f8526e8b        3 days ago          147 MB
+php                   7.2.4-fpm-alpine3.7   370c5a7f4cb2        4 days ago          78.1 MB
+php                   7.2.4-alpine3.7       83051719b255        4 days ago          63.3 MB
+nginx                 1.13-alpine           2dea9e73d89e        6 days ago          18 MB
+
+
+
+==================
+DOCKER CONFIG
+==================
+1)php.ini file-path:
+- Alpine linux container-> /etc/php7/php.ini 
+
+2)default.conf file-path:
+- Alpine linux container-> /etc/nginx/conf.d/default.conf
+
+
+
+
+
+============
+6Jan2019
+============
+A)THINGS TO BUY:
+
+1) 2 arduino uno [Done. Bought2]
+2) header pins [Done. Bought2male,1female]
+3) slide switch [Done. Bought12]
+4) resistors (kiv)
+5) 1 more lcd display (kiv)
+6) 1 more nodemcu (kiv)
+7) 2 Potentiometers
+8) Male to Female Jumper wire
+9) 9Volt Battery Connector
+10) 9Volt Battery
+
+
+
+==========================
+rpi sound
+==========================
+2 270ohm resistors [Done]
+2 150ohm resistors [Done]
+2 10uf electrolytic capacitors [Done]
+2 0.010uf/0.033uf polyester-film capacitors [Done]
+1 audio jack [Done]
+
+
+======
+TO DO
+======
+1. Create an online git repo to store my dev and lib files from 
+   my current rpi(used to run Hub12-P10 LED display).
+   
+   
+====================================================
+RaspberryPi  vs  Digispark  vs  ArduinoUNO
+16Feb2019
+====================================================
+1. Rpi:
+- mcu - rpi zero no wifi : rm23(limit 1 per person) cytron
+      - rpi zero no wifi : rm57-62(curier included) Aliexpress, 
+      - rpi zero with wifi : rm83(curier included) Aliexpress, rm46(limit 1 per person) cytron;rm64(no limit, with pin header) cytron
+- 16GB class10 sandisk microSD card - rm13
+
+2. Digispark:
+- 8kB Flash, 512B Memory
+- mcu - rm6-8(curier fee included) Aliexpress
+      - rm 8-9(without curier fee) Lelong
+
+3. ArduinoUNO:
+- 32kB Flash, 2kB Memory
+- mcu - rm11(curier fee included) Aliexpress
+
+4. NodemcuESP8266 V3 Lolin
+- 4MB Flash Memory, 128kB SRAM Memory
+- mcu - rm10-11(curier fee included) Aliexpress
+      - rm18-20(curier fee NOT included) cytron
+      
+5. Nodemcu ESP32
+- 4MB Flash Memory, 520kB SRAM Memory
+- mcu - rm20-21(curier fee included) Aliexpress
+      - rm35-39(curier fee NOT included) [ESP-WROOM-32 Module; ESP32-D0WDQ6 chip] Cytron
+      - rm36-38(curier fee NOT included) Lelong
+
+6. Raspberry Pi Camera Module v1.3 - can capture still image & video
+- Features:
+    -Fully Compatible with Both the Model A and Model B Raspberry Pi
+    -5MP Omnivision OV5647 Camera Module
+    -Still Picture Resolution: 2592 x 1944
+    -Video: Supports 1080p @ 30fps, 720p @ 60fps and 640x480p 60/90
+    -Recording: 15-pin MIPI Camera Serial Interface - Plugs Directly into the Raspberry Pi
+- lelong: EzLaserEnt - rm34.80 (24April2019)
+- Aliexpress: rm29-41 (24April2019)
+
+                                      
+===============================
+3March2019
+===============================
+1. Error when running OV7670 for the first time:
+    E (7) ledc: ledc_set_duty_with_hpoint(383): hpoint argument is invalid
+    
+    SOLUTION(by Iggr):
+    - """Moved here because this is a bug in this project, not IDF. camera_enable_out_clock function should zero-initialize ledc_timer_config_t and ledc_channel_config_t structures."""
+   
+   This problem occured from using Bitluni Arduino code. This problem has already been solved
+   in Iggr esp-idf code.
+
+2. TO BUY:
+- 2 tft display(for debugging OV7670
+- 2 breadboard
+- female to male jumper
+- male to male jumper
+- female to female jumper
+
+
+
+#
+# ESP32 Camera Demo Configuration
+#
+CONFIG_WIFI_SSID="Jengka2"
+CONFIG_WIFI_PASSWORD="4PW15KK@MRN06"
+
+#
+# ESP32 Camera Demo Configuration
+#
+CONFIG_WIFI_SSID="DiGi_Internet_53DD"
+CONFIG_WIFI_PASSWORD="60606653"
+
+==================================
+11March2019 martanbright - OV7670
+==================================
+// Pins configurations:
+// SDA/SIOD ---> pin A4 (for Arduino UNO) | pin 20/SDA (for Arduino MEGA)
+// SCL/SIOC ---> pin A5 (for Arduino UNO) | pin 21/SCL (for Arduino MEGA)
+// MCLK/XCLK --> pin 11 (for Arduino UNO) | pin 10 (for Arduino MEGA)
+// PCLK -------> pin 2
+// VS/VSYNC ---> pin 3
+// HS/HREF ----> pin 8
+// D0 ---------> pin A0
+// D1 ---------> pin A1
+// D2 ---------> pin A2
+// D3 ---------> pin A3
+// D4 ---------> pin 4
+// D5 ---------> pin 5
+// D6 ---------> pin 6
+// D7 ---------> pin 7
+
+#include <Wire.h>
+
+#define CAMERA_ADDRESS 0x21
+
+// Definitions of functions for manipulating the Arduino boards pins according to each Arduino board registers, so the code will work for both Arduino UNO and Arduino MEGA:
+// The only change is the connections of the SDA/SIOD, SCL/SIOC and MCLK/XCLK pins to each board (see the pins configurations above).
+#if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__) // If you are using Arduino MEGA the IDE will automatically define the "__AVR_ATmega1280__" or "__AVR_ATmega2560__" constants.
+#define TIMER2_PWM_A_PIN_MODE_OUTPUT() ({ DDRB |= 0b00010000; })
+#define PIN2_DIGITAL_READ() ({ (PINE & 0b00010000) == 0 ? LOW : HIGH; })
+#define PIN3_DIGITAL_READ() ({ (PINE & 0b00100000) == 0 ? LOW : HIGH; })
+#define PIN4_DIGITAL_READ() ({ (PING & 0b00100000) == 0 ? LOW : HIGH; })
+#define PIN5_DIGITAL_READ() ({ (PINE & 0b00001000) == 0 ? LOW : HIGH; })
+#define PIN6_DIGITAL_READ() ({ (PINH & 0b00001000) == 0 ? LOW : HIGH; })
+#define PIN7_DIGITAL_READ() ({ (PINH & 0b00010000) == 0 ? LOW : HIGH; })
+#define PIN8_DIGITAL_READ() ({ (PINH & 0b00100000) == 0 ? LOW : HIGH; })
+#define PINA0_DIGITAL_READ() ({ (PINF & 0b00000001) == 0 ? LOW : HIGH; })
+#define PINA1_DIGITAL_READ() ({ (PINF & 0b00000010) == 0 ? LOW : HIGH; })
+#define PINA2_DIGITAL_READ() ({ (PINF & 0b00000100) == 0 ? LOW : HIGH; })
+#define PINA3_DIGITAL_READ() ({ (PINF & 0b00001000) == 0 ? LOW : HIGH; })
+#elif defined(__AVR_ATmega328P__) // If you are using Arduino UNO the IDE will automatically define the "__AVR_ATmega328P__" constant.
+#define TIMER2_PWM_A_PIN_MODE_OUTPUT() ({ DDRB |= 0b00001000; })
+#define PIN2_DIGITAL_READ() ({ (PIND & 0b00000100) == 0 ? LOW : HIGH; })
+#define PIN3_DIGITAL_READ() ({ (PIND & 0b00001000) == 0 ? LOW : HIGH; })
+#define PIN4_DIGITAL_READ() ({ (PIND & 0b00010000) == 0 ? LOW : HIGH; })
+#define PIN5_DIGITAL_READ() ({ (PIND & 0b00100000) == 0 ? LOW : HIGH; })
+#define PIN6_DIGITAL_READ() ({ (PIND & 0b01000000) == 0 ? LOW : HIGH; })
+#define PIN7_DIGITAL_READ() ({ (PIND & 0b10000000) == 0 ? LOW : HIGH; })
+#define PIN8_DIGITAL_READ() ({ (PINB & 0b00000001) == 0 ? LOW : HIGH; })
+#define PINA0_DIGITAL_READ() ({ (PINC & 0b00000001) == 0 ? LOW : HIGH; })
+#define PINA1_DIGITAL_READ() ({ (PINC & 0b00000010) == 0 ? LOW : HIGH; })
+#define PINA2_DIGITAL_READ() ({ (PINC & 0b00000100) == 0 ? LOW : HIGH; })
+#define PINA3_DIGITAL_READ() ({ (PINC & 0b00001000) == 0 ? LOW : HIGH; })
+#endif
+
+
+void initializePWMTimer() {
+  cli();
+  TIMER2_PWM_A_PIN_MODE_OUTPUT(); // Set the A PWM pin of TIMER2 to output
+  ASSR &= ~(_BV(EXCLK) | _BV(AS2));
+  TCCR2A = (1 << COM2A0) | (1 << WGM21) | (1 << WGM20);
+  TCCR2B = (1 << WGM22) | (1 << CS20);
+  OCR2A = 0;
+  sei();
+}
+
+byte readCameraRegister(byte registerId) {
+  Wire.beginTransmission(CAMERA_ADDRESS);
+  Wire.write(registerId);
+  Wire.endTransmission();
+  Wire.requestFrom(CAMERA_ADDRESS, 1);
+  while (Wire.available() <= 0);
+  byte registerValue = Wire.read();
+  delay(1);
+  return registerValue;
+}
+
+void writeCameraRegister(byte registerId, byte registerValue) {
+  Wire.beginTransmission(CAMERA_ADDRESS);
+  Wire.write(registerId);
+  Wire.write(registerValue);
+  Wire.endTransmission();
+  delay(1);
+}
+
+void captureFrame(unsigned int frameWidth, unsigned int frameHeight) {
+  Serial.print("*RDY*"); // send to the frame capture software a "start of frame" message for beginning capturing
+
+  delay(1000);
+
+  cli(); // disable all interrupts during frame capture (because it needs to be as fast as possible)
+  while (PIN3_DIGITAL_READ() == LOW); // wait until VS/VSYNC pin is high
+  while (PIN3_DIGITAL_READ() == HIGH); // wait until VS/VSYNC pin is low
+  unsigned int tempWidth = 0;
+  while (frameHeight--) {
+    tempWidth = frameWidth;
+    while (tempWidth--) {
+      while (PIN2_DIGITAL_READ() == LOW); // wait until PCLK pin is high
+      while (PIN2_DIGITAL_READ() == HIGH); // wait until PCLK pin is low
+      byte byteToWrite = 0b00000000;
+      byteToWrite |= ((PIN7_DIGITAL_READ() == HIGH) << 7);
+      byteToWrite |= ((PIN6_DIGITAL_READ() == HIGH) << 6);
+      byteToWrite |= ((PIN5_DIGITAL_READ() == HIGH) << 5);
+      byteToWrite |= ((PIN4_DIGITAL_READ() == HIGH) << 4);
+      byteToWrite |= ((PINA3_DIGITAL_READ() == HIGH) << 3);
+      byteToWrite |= ((PINA2_DIGITAL_READ() == HIGH) << 2);
+      byteToWrite |= ((PINA1_DIGITAL_READ() == HIGH) << 1);
+      byteToWrite |= ((PINA0_DIGITAL_READ() == HIGH));
+      UDR0 = byteToWrite; // send data via serial connection with UART register (we need to use the serial register directly for fast transfer)
+      while (PIN2_DIGITAL_READ() == LOW); // wait until PCLK pin is high
+      while (PIN2_DIGITAL_READ() == HIGH); // wait until PCLK pin is low
+      // ignore each second byte (for a grayscale image we only need each first byte, which represents luminescence)
+    }
+  }
+  sei(); // enable all interrupts
+  
+  delay(1000);
+}
+
+
+void setup() {
+  initializePWMTimer();
+  Wire.begin();
+  Serial.begin(1000000); // the frame capture software communicates with the Arduino at a baud rate of 1MHz
+}
+
+void loop() {
+  captureFrame(320, 240); // capture a frame at QVGA resolution (320 x 240)
+}
+
+
+
+void initializeCamera() {
+  // these are common registers values for initializing the camera to QVGA (320 x 240) mode at the maximum clock prescaler:
+  writeCameraRegister(0x12, 0x80); // reset all camera registers to default value
+  delay(1000); // wait for reset proccess to be done (because it is quite slow)
+  writeCameraRegister(0x3A, 0x04);
+  writeCameraRegister(0x12, 0x00);
+  writeCameraRegister(0x17, 0x13);
+  writeCameraRegister(0x18, 0x01);
+  writeCameraRegister(0x32, 0xB6);
+  writeCameraRegister(0x19, 0x02);
+  writeCameraRegister(0x1A, 0x7A);
+  writeCameraRegister(0x03, 0x0A);
+  writeCameraRegister(0x0C, 0x00);
+  writeCameraRegister(0x3E, 0x00);
+  writeCameraRegister(0x70, 0x3A);
+  writeCameraRegister(0x71, 0x35);
+  writeCameraRegister(0x72, 0x11);
+  writeCameraRegister(0x73, 0xF0);
+  writeCameraRegister(0xA2, 0x01);
+  writeCameraRegister(0x15, 0x00);
+  writeCameraRegister(0x7A, 0x20);
+  writeCameraRegister(0x7B, 0x10);
+  writeCameraRegister(0x7C, 0x1E);
+  writeCameraRegister(0x7D, 0x35);
+  writeCameraRegister(0x7E, 0x5A);
+  writeCameraRegister(0x7F, 0x69);
+  writeCameraRegister(0x80, 0x76);
+  writeCameraRegister(0x81, 0x80);
+  writeCameraRegister(0x82, 0x88);
+  writeCameraRegister(0x83, 0x8F);
+  writeCameraRegister(0x84, 0x96);
+  writeCameraRegister(0x85, 0xA3);
+  writeCameraRegister(0x86, 0xAF);
+  writeCameraRegister(0x87, 0xC4);
+  writeCameraRegister(0x88, 0xD7);
+  writeCameraRegister(0x89, 0xE8);
+  writeCameraRegister(0x13, 0xC0);
+  writeCameraRegister(0x00, 0x00);
+  writeCameraRegister(0x10, 0x00);
+  writeCameraRegister(0x0D, 0x40);
+  writeCameraRegister(0x14, 0x18);
+  writeCameraRegister(0xA5, 0x05);
+  writeCameraRegister(0xAB, 0x07);
+  writeCameraRegister(0x24, 0x95);
+  writeCameraRegister(0x25, 0x33);
+  writeCameraRegister(0x26, 0xE3);
+  writeCameraRegister(0x9F, 0x78);
+  writeCameraRegister(0xA0, 0x68);
+  writeCameraRegister(0xA1, 0x03);
+  writeCameraRegister(0xA6, 0xD8);
+  writeCameraRegister(0xA7, 0xD8);
+  writeCameraRegister(0xA8, 0xF0);
+  writeCameraRegister(0xA9, 0x90);
+  writeCameraRegister(0xAA, 0x94);
+  writeCameraRegister(0x13, 0xC5);
+  writeCameraRegister(0x30, 0x00);
+  writeCameraRegister(0x31, 0x00);
+  writeCameraRegister(0x0E, 0x61);
+  writeCameraRegister(0x0F, 0x4B);
+  writeCameraRegister(0x16, 0x02);
+  writeCameraRegister(0x1E, 0x07);
+  writeCameraRegister(0x21, 0x02);
+  writeCameraRegister(0x22, 0x91);
+  writeCameraRegister(0x29, 0x07);
+  writeCameraRegister(0x33, 0x0B);
+  writeCameraRegister(0x35, 0x0B);
+  writeCameraRegister(0x37, 0x1D);
+  writeCameraRegister(0x38, 0x71);
+  writeCameraRegister(0x39, 0x2A);
+  writeCameraRegister(0x3C, 0x78);
+  writeCameraRegister(0x4D, 0x40);
+  writeCameraRegister(0x4E, 0x20);
+  writeCameraRegister(0x69, 0x00);
+  writeCameraRegister(0x74, 0x10);
+  writeCameraRegister(0x8D, 0x4F);
+  writeCameraRegister(0x8E, 0x00);
+  writeCameraRegister(0x8F, 0x00);
+  writeCameraRegister(0x90, 0x00);
+  writeCameraRegister(0x91, 0x00);
+  writeCameraRegister(0x96, 0x00);
+  writeCameraRegister(0x9A, 0x00);
+  writeCameraRegister(0xB0, 0x84);
+  writeCameraRegister(0xB1, 0x0C);
+  writeCameraRegister(0xB2, 0x0E);
+  writeCameraRegister(0xB3, 0x82);
+  writeCameraRegister(0xB8, 0x0A);
+  writeCameraRegister(0x43, 0x0A);
+  writeCameraRegister(0x44, 0xF0);
+  writeCameraRegister(0x45, 0x34);
+  writeCameraRegister(0x46, 0x58);
+  writeCameraRegister(0x47, 0x28);
+  writeCameraRegister(0x48, 0x3A);
+  writeCameraRegister(0x59, 0x88);
+  writeCameraRegister(0x5A, 0x88);
+  writeCameraRegister(0x5B, 0x44);
+  writeCameraRegister(0x5C, 0x67);
+  writeCameraRegister(0x5D, 0x49);
+  writeCameraRegister(0x5E, 0x0E);
+  writeCameraRegister(0x6C, 0x0A);
+  writeCameraRegister(0x6D, 0x55);
+  writeCameraRegister(0x6E, 0x11);
+  writeCameraRegister(0x6F, 0x9E);
+  writeCameraRegister(0x6A, 0x40);
+  writeCameraRegister(0x01, 0x40);
+  writeCameraRegister(0x02, 0x60);
+  writeCameraRegister(0x13, 0xC7);
+  writeCameraRegister(0x4F, 0x80);
+  writeCameraRegister(0x50, 0x80);
+  writeCameraRegister(0x51, 0x00);
+  writeCameraRegister(0x52, 0x22);
+  writeCameraRegister(0x53, 0x5E);
+  writeCameraRegister(0x54, 0x80);
+  writeCameraRegister(0x58, 0x9E);
+  writeCameraRegister(0x41, 0x08);
+  writeCameraRegister(0x3F, 0x00);
+  writeCameraRegister(0x75, 0x05);
+  writeCameraRegister(0x76, 0xE1);
+  writeCameraRegister(0x4C, 0x00);
+  writeCameraRegister(0x77, 0x01);
+  writeCameraRegister(0x3D, 0x48);
+  writeCameraRegister(0x4B, 0x09);
+  writeCameraRegister(0xC9, 0x60);
+  writeCameraRegister(0x56, 0x40);
+  writeCameraRegister(0x34, 0x11);
+  writeCameraRegister(0x3B, 0x12);
+  writeCameraRegister(0xA4, 0x82);
+  writeCameraRegister(0x96, 0x00);
+  writeCameraRegister(0x97, 0x30);
+  writeCameraRegister(0x98, 0x20);
+  writeCameraRegister(0x99, 0x30);
+  writeCameraRegister(0x9A, 0x84);
+  writeCameraRegister(0x9B, 0x29);
+  writeCameraRegister(0x9C, 0x03);
+  writeCameraRegister(0x9D, 0x4C);
+  writeCameraRegister(0x9E, 0x3F);
+  writeCameraRegister(0x78, 0x04);
+  writeCameraRegister(0x79, 0x01);
+  writeCameraRegister(0xC8, 0xF0);
+  writeCameraRegister(0x79, 0x0F);
+  writeCameraRegister(0xC8, 0x00);
+  writeCameraRegister(0x79, 0x10);
+  writeCameraRegister(0xC8, 0x7E);
+  writeCameraRegister(0x79, 0x0A);
+  writeCameraRegister(0xC8, 0x80);
+  writeCameraRegister(0x79, 0x0B);
+  writeCameraRegister(0xC8, 0x01);
+  writeCameraRegister(0x79, 0x0C);
+  writeCameraRegister(0xC8, 0x0F);
+  writeCameraRegister(0x79, 0x0D);
+  writeCameraRegister(0xC8, 0x20);
+  writeCameraRegister(0x79, 0x09);
+  writeCameraRegister(0xC8, 0x80);
+  writeCameraRegister(0x79, 0x02);
+  writeCameraRegister(0xC8, 0xC0);
+  writeCameraRegister(0x79, 0x03);
+  writeCameraRegister(0xC8, 0x40);
+  writeCameraRegister(0x79, 0x05);
+  writeCameraRegister(0xC8, 0x30);
+  writeCameraRegister(0x79, 0x26);
+  writeCameraRegister(0xFF, 0xFF);
+  writeCameraRegister(0x15, 0x20);
+  writeCameraRegister(0x0C, 0x04);
+  writeCameraRegister(0x3E, 0x19);
+  writeCameraRegister(0x72, 0x11);
+  writeCameraRegister(0x73, 0xF1);
+  writeCameraRegister(0x17, 0x16);
+  writeCameraRegister(0x18, 0x04);
+  writeCameraRegister(0x32, 0xA4);
+  writeCameraRegister(0x19, 0x02);
+  writeCameraRegister(0x1A, 0x7A);
+  writeCameraRegister(0x03, 0x0A);
+  writeCameraRegister(0xFF, 0xFF);
+  writeCameraRegister(0x12, 0x00);
+  writeCameraRegister(0x8C, 0x00);
+  writeCameraRegister(0x04, 0x00);
+  writeCameraRegister(0x40, 0xC0);
+  writeCameraRegister(0x14, 0x6A);
+  writeCameraRegister(0x4F, 0x80);
+  writeCameraRegister(0x50, 0x80);
+  writeCameraRegister(0x51, 0x00);
+  writeCameraRegister(0x52, 0x22);
+  writeCameraRegister(0x53, 0x5E);
+  writeCameraRegister(0x54, 0x80);
+  writeCameraRegister(0x3D, 0x40);
+  writeCameraRegister(0xFF, 0xFF);
+  writeCameraRegister(0x11, 0x1F);
+  writeCameraRegister(0x0C, 0x08);
+  writeCameraRegister(0x3E, 0x19);
+  writeCameraRegister(0x73, 0xF1);
+  writeCameraRegister(0x12, 0x10);
+  delay(1000); // wait for registers to be set (because it is quite slow)
+}
+
+
+
+=====================================================
+17March2019 - Building Application Using libtesseract
+=====================================================
+1. Pre-requisite for Leptonica:
+    libtiff5-dev
+    libjpeg-turbo8-dev
+    libpng16-dev
+    zlib1g-dev
+    
+2. g++ compilation command:
+
+-$ g++ -o ocr_c ocr_c.cpp -I/usr/local/include/leptonica -I/usr/local/include/tesseract -static-libgcc -Wl,-static -L/usr/lib/x86_64-linux-gnu -lleptonica -ltesseract -lpthread
+
+
+-$ g++ -o ocr_c ocr_c.cpp -I/usr/local/include/leptonica -I/usr/local/include/tesseract -static-libgcc -Wl,-static -L/usr/lib/x86_64-linux-gnu -lleptonica -ltesseract -lpthread -ljpeg -ltiff -lpng
+
+
+-$ g++ -o ocr_c ocr_c.cpp -I/usr/local/include/leptonica -I/usr/local/include/tesseract -static-libgcc -Wl,-static -L/usr/lib/x86_64-linux-gnu -lleptonica -ltesseract -lpthread -ljpeg -ltiff -lpng -ljbig -llzma -lz
+    
+    
+3. TODO: resolve the following WARNING!
+
+    patrick@patrick-kubuntu:/media/patrick/Data/DekstopeDrive/Left_Docker/OS/Electronics/[Electronic -- Quick Reference]/Digit-Letter_CharacterRecognition/Project_Tesseract/OcrSubRectangle$ g++ -o ocr_subrect_c ocr_subrect_c.cpp -I/usr/local/include/leptonica -I/usr/local/include/tesseract -static-libgcc -Wl,-static -L/usr/lib/x86_64-linux-gnu -lleptonica -ltesseract -lpthread -ljpeg -ltiff -lpng -ljbig -llzma -lz
+    
+    //usr/local/lib/libtesseract.a(svutil.cpp.o): In function `GetAddrInfo(char const*, int, addrinfo**)':
+    svutil.cpp:(.text+0xa19): warning: Using 'getaddrinfo' in statically linked applications requires at runtime the shared libraries from the glibc version used for       linking
+
+    
+    
+======================================================
+24March2019 - Porting Leptonica & Tesseract to ESP-IDF
+======================================================
+1. ocr.c from 11.3MB to 9.9MB after removing all image I/O libraries.
+
+2. to run esptool.py to flash to my ESP32 device requires me to install 
+   'pyserial' using 'pip' instead of using 'pip2' even though my system 
+   had previously installed 'pyserial' using 'pip2'.
+   
+    """patrick@patrick-kubuntu:/media/patrick/Data/DekstopeDrive/Top_Docker/Workspace/CMake_projects/qemu_esp32$ pip install pyserial
+        Collecting pyserial
+        Using cached https://files.pythonhosted.org/packages/0d/e4/2a744dd9e3be04a0c0907414e2a01a7c88bb3915cbe3c8cc06e209f59c30/pyserial-3.4-py2.py3-none-any.whl
+        distributed 1.21.8 requires msgpack, which is not installed.
+        Installing collected packages: pyserial
+        Successfully installed pyserial-3.4
+        You are using pip version 10.0.1, however version 19.0.3 is available.
+        You should consider upgrading via the 'pip install --upgrade pip' command."""
+        
+   - Otherwise running esptool.py to flash to my ESP32 device gives the following error:
+   
+    """AttributeError: 'Serial' object has no attribute 'dtr'"""
+    
+   - Apparently, for Arduino IDE we need to use 'pip2' to install 'pyserial', while
+     flashing directly using esptool.py on the cmd line requires us to use 'pip' to 
+     install 'pyserial'.
+     In both cases, i installed 'pyserial' version 3.4
+   
+
+   
+
+
+
+==========================================
+15April2019 - Porting Leptonica to ESP-IDF
+==========================================
+1. Added opening and closing parenthesis to jbig.c & jbig85.c line that contains 
+   "((((line_h2 >> 6) ^ line_h1) & 0x100)" to correct the 'logical not..' error from assert function.
+
+   
+   
+
+====================================
+11Aug2019 - LiFePO4 Battery Research
+====================================
+1.  HY2213 ic     - 1 cell Li-on/Li-polymer balance charger
+
+    DW01A ic      - overcharge, overdischarge, overcurrent protection
+    
+    P75NF75       - n-channel power mosfet. Used in a way to provide overcurrent/short circuit protection
+    
+    JST terminals - to connect to battery
+    
+    TP5410        - LiPo charger
+    
+    TP4056        - LiPo charger
+
+
+
+=======================================
+30August2019 - Bitluni ULP Sound Driver
+=======================================
+1. ULPSoundMono.ino : 
+
+    '0x1D4C0121' hex value is '0b11101010011000000000100100001' in binary.
+    
+    This value is used to create a custom REG_WR [TRM: page612] ULP Co-processor instruction to 
+    populate the opcode table invented by Bitluni in the C-macros ulp_insn_t program named 'mono' 
+    in this arduino file.
+
+2. '0b11101010011000000000100100001' binary can be broken down into 5 sections:
+
+    1) first 10bits (counting from LSB) - addr of the register to write data to
+                                        - '0100100001' binary value is a 32bit word addr_ulp, 
+                                          referring to 'RTCIO_PAD_DAC1_REG' register as seen from ULP.
+                                          To convert this to the address as seen from main CPU, use this formula:
+                                          
+                                          addr_ulp = (addr_dport - DR_REG_RTCCNTL_BASE)/4    [TRM: page612]
+                                          
+                                          addr_dport is the address as seen from main CPU that we're looking for.
+                                          so, 
+                                          
+                                          addr_dport = addr_ulp * 4 + DR_REG_RTCCNTL_BASE = 0x3FF48484
+                                          
+                                          [DR_REG_RTCCNTL_BASE(0x3ff48000) define macro in 'esp-idf/components/soc/esp32/include/soc/soc.h']
+                                          
+                                        - '0x3FF48484' hex value refers to 'RTCIO_PAD_DAC1_REG' register. [TRM: page78]
+                                          
+                                          The lower & upper 5 bits in point 3) & 4) below respectively refers to 
+                                          the 'RTCIO_PAD_PDAC1_DAC' bit in 'RTCIO_PAD_DAC1_REG' register.
+                                          'RTCIO_PAD_PDAC1_DAC' bit is the PAD DAC1 output value.
+                                          
+                                          ['RTC_IO_PAD_DAC1_REG' define macro is defined as '(DR_REG_RTCIO_BASE + 0x84)'
+                                          in 'esp-idf/components/soc/esp32/include/soc/rtc_io_reg.h']
+        
+    2) next 8bits                       - data value to be written to the addr in 1)
+    3) next 5bits                       - lower bit of the register pointed by addr in 1)
+    4) next 5bits                       - upper bit of the register pointed by addr in 1)
+    6) last 1bit                        - opcode referring to REG_WR instruction in ULP Co-processor.
+                                          [OPCODE_WR_REG define macro in 'esp-idf/components/ulp/include/esp32/ulp.h']
+
+3.  So, we're using ULP Co-processor to output the analog voltage output directly to dacn_out.
+    DAC data in dacn_out can be connected to I2S_DATA_OUT directly(for direct memory access) to be
+    output by I2S via DMA.  [TRM: page585]
+    
+    As a result, we can use ULP Co-processor to output audio data directly to dacn_out which is
+    connected to I2S which then output the audio data via DMA to external speaker, all without 
+    direct main CPU intervention, thus saving on CPU cycles for other cpu intensive work.  [TRM: page586]
+    
+    All main CPU has to do is to time to time copy the audio data to the data section in RTC_SLOW_MEM.
+    Each sample of audio data correspond to a certain level of DAC output voltage amplitude(1-256 in Bitluni's example)
+    which is imbued into the 256 custom REG_WR instructions in the opcode table invented by Bitluni in the mono ulp_insn_t program.
+    So, every sample will pick its corresponding DAV output voltage amplitude and the custom REG_WR instruction will 
+    write it directly to the dacn_out register that connects directly to I2S_DATA_OUT.
+    
+4. TODO: Research on how to convert eSpeakNG-MBROLA-FFmpeg sound C-header data to the format 
+    playable by Bitluni ULP sound driver.    
+    
+5. MISC:
+
+   WRITE_RTC_REG, READ_RTC_REG, WRITE_RTC_FIELD & READ_RTC_FIELD ULP macro instruction are defined in 
+   'esp-idf/components/soc/esp32/include/soc/soc_ulp.h'
+   
+
+
+
+========
+2Jan2020
+========
+vimtutor progress: Lesson line 877
+
+
+==========
+30June2020
+==========
+1.  RPIZeroW - Alpine Linux3.12 - Wifi: "HUAWEI-7028", Wifi PSK: "estherpatrick" - DHCP lease: "192.168.8.101"
+
+
+=========
+9July2020
+=========
+1.  
+gcc -O4 -Wall -pthread -I/usr/include -I/usr/
+local/include -o espeak-ng_mqtt_ffmpeg espeak-ng_mqtt_ffmpeg.c -L/usr/lib -L/usr/local/lib -l
+espeak-ng -lavdevice -lavformat -lavfilter -lavcodec -lavresample -lavutil -lswresample -lsws
+cale
+
+gcc -O4 -Wall -pthread -I/usr/include -I/usr/local/include -o espeak-ng_mqtt_ffmpeg2 espeak-ng_mqtt_ffmpeg2.c -L/usr/lib -L/usr/local/lib -lespeak-ng -lavdevice -lavformat -lavfilter -lavcodec -lavresample -lavutil -lswresample -lswscale
+
+gcc -O4 -Wall -pthread -I/usr/include -I/usr/local/include -o espeak-ng_mqtt_ffmpeg3 espeak-ng_mqtt_ffmpeg3.c -L/usr/lib -L/usr/local/lib -lespeak-ng -lavdevice -lavformat -lavfilter -lavcodec -lavresample -lavutil -lswresample -lswscale
+
+            
+2.
+./espeak-ng_mqtt_ffmpeg2 -z -p 60 -s 110 -g 1 -v mb-id1 "saya ana robot yang tahu bercakap"
+
+./espeak-ng_mqtt_ffmpeg2 -z -p 60 -s 110 -g 1 -v mb-id1 -w ghost.wav -o ghost_transcoding.wav "saya ana robot yang tahu bercakap"
+
+
+3.
+#########################################             
+#                                                     
+# Modified mb-id1 content with settings               
+# adapted from original mb-ma1 file content           
+# in order to produce the Malaysian female            
+# voice using the 'ma1' Malaysian female              
+# voice database file which has been                  
+# aliased as 'id1'.                                   
+#                                                     
+# This modification is needed because                 
+# the indonesian id1_phtrans produces correct         
+# espeakng-to-mbrola phoneme translation              
+# ,whereas ma1_phtrans does not do so correctly       
+# for certain phonemes.                               
+#                                                     
+######################################### 
+
+
+==========
+11July2020
+==========
+1.
+$setup-xorg-base 
+
+    (1/11) Installing udev-init-scripts (33-r1)
+    Executing udev-init-scripts-33-r1.post-install
+    (2/11) Installing udev-init-scripts-openrc (33-r1)
+    (3/11) Installing eudev-libs (3.2.9-r3)
+    (4/11) Installing libblkid (2.35.2-r0)
+    (5/11) Installing xz-libs (5.2.5-r0)
+    (6/11) Installing kmod-libs (27-r0)
+    (7/11) Installing eudev (3.2.9-r3)
+    (8/11) Installing eudev-openrc (3.2.9-r3)
+    (9/11) Installing hwids-pci (20200306-r0)
+    (10/11) Installing pciutils-libs (3.6.4-r0)
+    (11/11) Installing pciutils (3.6.4-r0)
+    Executing busybox-1.31.1-r19.trigger
+    Executing eudev-3.2.9-r3.trigger
+    OK: 21 MiB in 51 packages
+    pcilib: Cannot open /proc/bus/pci
+    lspci: Cannot find any working access method.
+    (1/57) Installing libevdev (1.9.0-r0)
+    (2/57) Installing mtdev (1.1.6-r0)
+    (3/57) Installing libinput-libs (1.15.5-r0)
+    (4/57) Installing xf86-input-libinput (0.30.0-r0)
+    (5/57) Installing encodings (1.0.5-r0)
+    (6/57) Installing font-alias (1.0.3-r1)
+    (7/57) Installing libfontenc (1.1.4-r0)
+    (8/57) Installing brotli-libs (1.0.7-r5)
+    (9/57) Installing libbz2 (1.0.8-r1)
+    (10/57) Installing libpng (1.6.37-r1)
+    (11/57) Installing freetype (2.10.2-r0)
+    (12/57) Installing mkfontscale (1.2.1-r1)
+    (13/57) Installing libgcc (9.3.0-r2)
+    (14/57) Installing expat (2.2.9-r1)
+    (15/57) Installing libuuid (2.35.2-r0)
+    (16/57) Installing fontconfig (2.13.1-r2)
+    (17/57) Installing pkgconf (1.7.2-r0)
+    (18/57) Installing util-macros (1.19.2-r1)
+    (19/57) Installing font-misc-misc (1.1.2-r1)
+    (20/57) Installing font-cursor-misc (1.0.3-r1)
+    (21/57) Installing xkeyboard-config (2.29-r0)
+    (22/57) Installing libxau (1.0.9-r0)
+    (23/57) Installing libbsd (0.10.0-r0)
+    (24/57) Installing libxdmcp (1.1.3-r0)
+    (25/57) Installing libxcb (1.14-r1)
+    (26/57) Installing libx11 (1.6.9-r0)
+    (27/57) Installing libxkbfile (1.1.0-r0)
+    (28/57) Installing xkbcomp (1.4.3-r0)
+    (29/57) Installing libxext (1.3.4-r0)
+    (30/57) Installing libice (1.0.10-r0)
+    (31/57) Installing libsm (1.2.3-r0)
+    (32/57) Installing libxt (1.2.0-r0)
+    (33/57) Installing libxmu (1.1.3-r0)
+    (34/57) Installing xauth (1.1-r0)
+    (35/57) Installing mcookie (2.35.2-r0)
+    (36/57) Installing xmodmap (1.0.10-r0)
+    (37/57) Installing xrdb (1.2.0-r1)
+    (38/57) Installing xinit (1.4.1-r0)
+    (39/57) Installing mesa (20.0.7-r0)
+    (40/57) Installing libxdamage (1.1.5-r0)
+    (41/57) Installing libxfixes (5.0.3-r2)
+    (42/57) Installing libxxf86vm (1.1.4-r2)
+    (43/57) Installing libdrm (2.4.102-r0)
+    (44/57) Installing mesa-glapi (20.0.7-r0)
+    (45/57) Installing libxshmfence (1.3-r0)
+    (46/57) Installing mesa-gl (20.0.7-r0)
+    (47/57) Installing libxfont2 (2.0.4-r0)
+    (48/57) Installing libepoxy (1.5.4-r0)
+    (49/57) Installing libffi (3.3-r2)
+    (50/57) Installing wayland-libs-server (1.18.0-r4)
+    (51/57) Installing mesa-gbm (20.0.7-r0)
+    (52/57) Installing gmp (6.2.0-r0)
+    (53/57) Installing nettle (3.5.1-r1)
+    (54/57) Installing libpciaccess (0.16-r0)
+    (55/57) Installing pixman (0.40.0-r2)
+    (56/57) Installing xorg-server (1.20.8-r2)
+    (57/57) Installing xf86-video-modesetting (0.9.0-r6)
+    Executing busybox-1.31.1-r19.trigger
+    Executing mkfontscale-1.2.1-r1.trigger
+    Executing fontconfig-2.13.1-r2.trigger
+    OK: 47 MiB in 108 packages
+    * Caching service dependencies ...                                                    [ ok ]
+    * Starting udev ...                                                                   [ ok ]
+    * Generating a rule to create a /dev/root symlink ...                                 [ ok ]
+    * Populating /dev with existing devices through uevents ...                           [ ok ]
+    * Waiting for uevents to be processed ...                                             [ ok ]
+
+    
+2.
+$df
+
+    Filesystem           1K-blocks      Used Available Use% Mounted on
+    devtmpfs                 10240         0     10240   0% /dev
+    shm                     221784         0    221784   0% /dev/shm
+    /dev/mmcblk0p2        14916060   1233588  12901724   9% /media/mmcblk0p2
+    /dev/mmcblk0p1          258095     90314    167781  35% /media/mmcblk0p1
+    tmpfs                   221784     17700    204084   8% /
+    tmpfs                    44360       192     44168   0% /run
+    /dev/loop0               25472     25472         0 100% /.modloop
+    df: /sys/kernel/debug/tracing: Permission denied
+    /dev/loop1              999320      2584    927924   0% /media/persist
+    overlay                 999320      2584    927924   0% /home
+    /dev/loop2           5325333416    118840 5056762736   0% /media/persist_root
+    overlay              5325333416    118840 5056762736   0% /usr
+    overlay              5325333416    118840 5056762736   0% /opt
+    overlay              5325333416    118840 5056762736   0% /etc
+    
+    
+3.
+$apk add xf86-video-vesa
+
+    (1/74) Installing udev-init-scripts (33-r1)
+    Executing udev-init-scripts-33-r1.post-install
+    (2/74) Installing udev-init-scripts-openrc (33-r1)
+    (3/74) Installing eudev-libs (3.2.9-r3)
+    (4/74) Installing libblkid (2.35.2-r0)
+    (5/74) Installing xz-libs (5.2.5-r0)
+    (6/74) Installing kmod-libs (27-r0)
+    (7/74) Installing eudev (3.2.9-r3)
+    (8/74) Installing eudev-openrc (3.2.9-r3)
+    (9/74) Installing hwids-pci (20200306-r0)
+    (10/74) Installing pciutils-libs (3.6.4-r0)
+    (11/74) Installing pciutils (3.6.4-r0)
+    (12/74) Installing libusb (1.0.23-r0)
+    (13/74) Installing librtlsdr (0.6.0-r0)
+    (14/74) Installing sysfsutils (2.1.0-r9)
+    (15/74) Installing rng-tools (6.10-r2)
+    (16/74) Installing rng-tools-openrc (6.10-r2)
+    (17/74) Installing libevdev (1.9.0-r0)
+    (18/74) Installing mtdev (1.1.6-r0)
+    (19/74) Installing libinput-libs (1.15.5-r0)
+    (20/74) Installing xf86-input-libinput (0.30.0-r0)
+    (21/74) Installing encodings (1.0.5-r0)
+    (22/74) Installing font-alias (1.0.3-r1)
+    (23/74) Installing libfontenc (1.1.4-r0)
+    (24/74) Installing brotli-libs (1.0.7-r5)
+    (25/74) Installing libbz2 (1.0.8-r1)
+    (26/74) Installing libpng (1.6.37-r1)
+    (27/74) Installing freetype (2.10.2-r0)
+    (28/74) Installing mkfontscale (1.2.1-r1)
+    (29/74) Installing libgcc (9.3.0-r2)
+    (30/74) Installing expat (2.2.9-r1)
+    (31/74) Installing libuuid (2.35.2-r0)
+    (32/74) Installing fontconfig (2.13.1-r2)
+    (33/74) Installing pkgconf (1.7.2-r0)
+    (34/74) Installing util-macros (1.19.2-r1)
+    (35/74) Installing font-misc-misc (1.1.2-r1)
+    (36/74) Installing font-cursor-misc (1.0.3-r1)
+    (37/74) Installing xkeyboard-config (2.29-r0)
+    (38/74) Installing libxau (1.0.9-r0)
+    (39/74) Installing libbsd (0.10.0-r0)
+    (40/74) Installing libxdmcp (1.1.3-r0)
+    (41/74) Installing libxcb (1.14-r1)
+    (42/74) Installing libx11 (1.6.9-r0)
+    (43/74) Installing libxkbfile (1.1.0-r0)
+    (44/74) Installing xkbcomp (1.4.3-r0)
+    (45/74) Installing libxext (1.3.4-r0)
+    (46/74) Installing libice (1.0.10-r0)
+    (47/74) Installing libsm (1.2.3-r0)
+    (48/74) Installing libxt (1.2.0-r0)
+    (49/74) Installing libxmu (1.1.3-r0)
+    (50/74) Installing xauth (1.1-r0)
+    (51/74) Installing mcookie (2.35.2-r0)
+    (52/74) Installing xmodmap (1.0.10-r0)
+    (53/74) Installing xrdb (1.2.0-r1)
+    (54/74) Installing xinit (1.4.1-r0)
+    (55/74) Installing mesa (20.0.7-r0)
+    (56/74) Installing libxdamage (1.1.5-r0)
+    (57/74) Installing libxfixes (5.0.3-r2)
+    (58/74) Installing libxxf86vm (1.1.4-r2)
+    (59/74) Installing libdrm (2.4.102-r0)
+    (60/74) Installing mesa-glapi (20.0.7-r0)
+    (61/74) Installing libxshmfence (1.3-r0)
+    (62/74) Installing mesa-gl (20.0.7-r0)
+    (63/74) Installing libxfont2 (2.0.4-r0)
+    (64/74) Installing libepoxy (1.5.4-r0)
+    (65/74) Installing libffi (3.3-r2)
+    (66/74) Installing wayland-libs-server (1.18.0-r4)
+    (67/74) Installing mesa-gbm (20.0.7-r0)
+    (68/74) Installing gmp (6.2.0-r0)
+    (69/74) Installing nettle (3.5.1-r1)
+    (70/74) Installing libpciaccess (0.16-r0)
+    (71/74) Installing pixman (0.40.0-r2)
+    (72/74) Installing xorg-server (1.20.8-r2)
+    (73/74) Installing xf86-video-modesetting (0.9.0-r6)
+    (74/74) Installing xf86-video-vesa (2.4.0-r0)
+    Executing busybox-1.31.1-r19.trigger
+    Executing eudev-3.2.9-r3.trigger
+    Executing mkfontscale-1.2.1-r1.trigger
+    Executing fontconfig-2.13.1-r2.trigger
+    OK: 47 MiB in 109 packages
+    
+    
+4.
+$df
+
+    Filesystem           1K-blocks      Used Available Use% Mounted on
+    devtmpfs                 10240         0     10240   0% /dev
+    shm                     221784         0    221784   0% /dev/shm
+    /dev/mmcblk0p2        14916060   1253784  12881528   9% /media/mmcblk0p2
+    /dev/mmcblk0p1          258095     90314    167781  35% /media/mmcblk0p1
+    tmpfs                   221784     19360    202424   9% /
+    tmpfs                    44360       192     44168   0% /run
+    /dev/loop0               25472     25472         0 100% /.modloop
+    /dev/loop1              999320      2584    927924   0% /media/persist
+    overlay                 999320      2584    927924   0% /home
+    /dev/loop2           5325333416    119100 5056762476   0% /media/persist_root
+    overlay              5325333416    119100 5056762476   0% /usr
+    overlay              5325333416    119100 5056762476   0% /opt
+    overlay              5325333416    119100 5056762476   0% /etc
+    
+    
+5.
+patrick-rpi-alpine:/home/patrick# apk add xf86-input-mouse
+(1/1) Installing xf86-input-mouse (1.9.3-r1)
+OK: 47 MiB in 110 packages
+patrick-rpi-alpine:/home/patrick# apk add xf86-input-keyboard
+(1/1) Installing xf86-input-keyboard (1.9.0-r1)
+OK: 48 MiB in 111 packages
+
+
+6.
+$df
+
+    Filesystem           1K-blocks      Used Available Use% Mounted on
+    devtmpfs                 10240         0     10240   0% /dev
+    shm                     221784         0    221784   0% /dev/shm
+    /dev/mmcblk0p2        14916060   1253816  12881496   9% /media/mmcblk0p2
+    /dev/mmcblk0p1          258095     90314    167781  35% /media/mmcblk0p1
+    tmpfs                   221784     19364    202420   9% /
+    tmpfs                    44360       192     44168   0% /run
+    /dev/loop0               25472     25472         0 100% /.modloop
+    /dev/loop1              999320      2584    927924   0% /media/persist
+    overlay                 999320      2584    927924   0% /home
+    /dev/loop2           5325333416    119156 5056762420   0% /media/persist_root
+    overlay              5325333416    119156 5056762420   0% /usr
+    overlay              5325333416    119156 5056762420   0% /opt
+    overlay              5325333416    119156 5056762420   0% /etc
+    
+    
+7.
+$vi /etc/apk/repositories
+
+    - Uncomment mirror for community repositories.  
+      (xfce4 is available in community repository but absent in main repository 
+       for armhf architecture.)
+    
+$apk update 
+    
+    
+8.
+$apk add xfce4
+
+    (1/88) Installing hicolor-icon-theme (0.17-r1)
+    (2/88) Installing libintl (0.20.2-r0)
+    (3/88) Installing libmount (2.35.2-r0)
+    (4/88) Installing pcre (8.44-r0)
+    (5/88) Installing glib (2.64.4-r0)
+    (6/88) Installing atk (2.36.0-r0)
+    (7/88) Installing libxrender (0.9.10-r3)
+    (8/88) Installing cairo (1.16.0-r2)
+    (9/88) Installing libxml2 (2.9.10-r4)
+    (10/88) Installing shared-mime-info (1.15-r0)
+    (11/88) Installing libjpeg-turbo (2.0.5-r0)
+    (12/88) Installing tiff (4.1.0-r0)
+    (13/88) Installing gdk-pixbuf (2.40.0-r2)
+    (14/88) Installing gtk-update-icon-cache (2.24.32-r1)
+    (15/88) Installing libxcomposite (0.4.5-r0)
+    (16/88) Installing libxcursor (1.2.0-r0)
+    (17/88) Installing libxi (1.7.10-r0)
+    (18/88) Installing libxinerama (1.1.4-r1)
+    (19/88) Installing libxrandr (1.5.2-r0)
+    (20/88) Installing libxtst (1.2.3-r3)
+    (21/88) Installing at-spi2-core (2.36.0-r1)
+    (22/88) Installing at-spi2-atk (2.34.2-r1)
+    (23/88) Installing cairo-gobject (1.16.0-r2)
+    (24/88) Installing avahi-libs (0.8-r0)
+    (25/88) Installing p11-kit (0.23.20-r5)
+    (26/88) Installing libtasn1 (4.16.0-r1)
+    (27/88) Installing libunistring (0.9.10-r0)
+    (28/88) Installing gnutls (3.6.14-r0)
+    (29/88) Installing cups-libs (2.3.3-r0)
+    (30/88) Installing fribidi (1.0.9-r0)
+    (31/88) Installing graphite2 (1.3.14-r0)
+    (32/88) Installing harfbuzz (2.6.6-r0)
+    (33/88) Installing libxft (2.3.3-r0)
+    (34/88) Installing pango (1.44.7-r2)
+    (35/88) Installing wayland-libs-client (1.18.0-r4)
+    (36/88) Installing wayland-libs-cursor (1.18.0-r4)
+    (37/88) Installing wayland-libs-egl (1.18.0-r4)
+    (38/88) Installing libxkbcommon (0.10.0-r1)
+    (39/88) Installing gtk+3.0 (3.24.21-r0)
+    Executing gtk+3.0-3.24.21-r0.post-install
+    (40/88) Installing gtk+2.0 (2.24.32-r1)
+    Executing gtk+2.0-2.24.32-r1.post-install
+    (41/88) Installing libxfce4util (4.14.0-r0)
+    (42/88) Installing exo-libs (0.12.11-r0)
+    (43/88) Installing xcb-util (0.4.0-r3)
+    (44/88) Installing startup-notification (0.12-r4)
+    (45/88) Installing xfconf (4.14.3-r0)
+    (46/88) Installing libxfce4ui-gtk3 (4.14.1-r2)
+    (47/88) Installing exo (0.12.11-r0)
+    (48/88) Installing libxfce4ui (4.14.1-r2)
+    (49/88) Installing garcon (0.7.0-r0)
+    (50/88) Installing desktop-file-utils (0.24-r0)
+    (51/88) Installing libexif (0.6.22-r0)
+    (52/88) Installing libgudev (233-r1)
+    (53/88) Installing libnotify (0.7.9-r1)
+    (54/88) Installing libxres (1.2.0-r1)
+    (55/88) Installing libwnck3 (3.36.0-r0)
+    (56/88) Installing xfce4-panel (4.14.4-r1)
+    (57/88) Installing thunar (1.8.15-r0)
+    Executing thunar-1.8.15-r0.post-install
+    (58/88) Installing ca-certificates (20191127-r4)
+    (59/88) Installing nghttp2-libs (1.41.0-r0)
+    (60/88) Installing libcurl (7.69.1-r0)
+    (61/88) Installing lcms2 (2.9-r1)
+    (62/88) Installing openjpeg (2.3.1-r4)
+    (63/88) Installing libstdc++ (9.3.0-r2)
+    (64/88) Installing poppler (0.88.0-r0)
+    (65/88) Installing poppler-glib (0.88.0-r0)
+    (66/88) Installing tumbler (0.2.8-r1)
+    (67/88) Installing ttf-dejavu (2.37-r1)
+    (68/88) Installing xfce4-appfinder (4.14.0-r0)
+    (69/88) Installing icu-libs (67.1-r0)
+    (70/88) Installing nspr (4.25-r0)
+    (71/88) Installing readline (8.0.4-r0)
+    (72/88) Installing mozjs60 (60.9.0-r7)
+    (73/88) Installing linux-pam (1.3.1-r4)
+    (74/88) Installing polkit (0.116-r1)
+    Executing polkit-0.116-r1.pre-install
+    (75/88) Installing upower (0.99.11-r0)
+    (76/88) Installing xfce4-power-manager (1.6.6-r0)
+    (77/88) Installing iceauth (1.0.8-r0)
+    (78/88) Installing dbus (1.12.18-r0)
+    Executing dbus-1.12.18-r0.pre-install
+    Executing dbus-1.12.18-r0.post-install
+    (79/88) Installing dbus-openrc (1.12.18-r0)
+    (80/88) Installing dbus-x11 (1.12.18-r0)
+    (81/88) Installing xfce4-session (4.14.2-r0)
+    (82/88) Installing iso-codes (4.5.0-r0)
+    (83/88) Installing libxklavier (5.4-r5)
+    (84/88) Installing xfce4-settings (4.14.2-r0)
+    (85/88) Installing xfdesktop (4.14.2-r0)
+    (86/88) Installing libxpresent (1.0.0-r0)
+    (87/88) Installing xfwm4 (4.14.2-r0)
+    (88/88) Installing xfce4 (4.14_pre1-r0)
+    Executing busybox-1.31.1-r19.trigger
+    Executing eudev-3.2.9-r3.trigger
+    Executing mkfontscale-1.2.1-r1.trigger
+    Executing fontconfig-2.13.1-r2.trigger
+    Executing glib-2.64.4-r0.trigger
+    Executing shared-mime-info-1.15-r0.trigger
+    Executing gdk-pixbuf-2.40.0-r2.trigger
+    Executing gtk-update-icon-cache-2.24.32-r1.trigger
+    Executing desktop-file-utils-0.24-r0.trigger
+    Executing ca-certificates-20191127-r4.trigger
+    Executing dbus-1.12.18-r0.trigger
+    OK: 176 MiB in 199 packages
+    
+    
+9. 
+$df
+
+    Filesystem           1K-blocks      Used Available Use% Mounted on
+    devtmpfs                 10240         0     10240   0% /dev
+    shm                     221784         0    221784   0% /dev/shm
+    /dev/mmcblk0p2        14916060   1421404  12713908  10% /media/mmcblk0p2
+    /dev/mmcblk0p1          258095     90314    167781  35% /media/mmcblk0p1
+    tmpfs                   221784     20632    201152   9% /
+    tmpfs                    44360       192     44168   0% /run
+    /dev/loop0               25472     25472         0 100% /.modloop
+    /dev/loop1              999320      2584    927924   0% /media/persist
+    overlay                 999320      2584    927924   0% /home
+    /dev/loop2           5325333416    251416 5056630160   0% /media/persist_root
+    overlay              5325333416    251416 5056630160   0% /usr
+    overlay              5325333416    251416 5056630160   0% /opt
+    overlay              5325333416    251416 5056630160   0% /etc
+    
+    
+10.
+$apk add xfce4-terminal 
+
+    (1/3) Installing pcre2 (10.35-r0)
+    (2/3) Installing vte3 (0.60.2-r0)
+    (3/3) Installing xfce4-terminal (0.8.9.2-r0)
+    Executing busybox-1.31.1-r19.trigger
+    Executing desktop-file-utils-0.24-r0.trigger
+    OK: 177 MiB in 202 packages
+    
+    
+11.
+$df
+
+    Filesystem           1K-blocks      Used Available Use% Mounted on
+    devtmpfs                 10240         0     10240   0% /dev
+    shm                     221784         0    221784   0% /dev/shm
+    /dev/mmcblk0p2        14916060   1422984  12712328  10% /media/mmcblk0p2
+    /dev/mmcblk0p1          258095     90314    167781  35% /media/mmcblk0p1
+    tmpfs                   221784     20636    201148   9% /
+    tmpfs                    44360       192     44168   0% /run
+    /dev/loop0               25472     25472         0 100% /.modloop
+    /dev/loop1              999320      2584    927924   0% /media/persist
+    overlay                 999320      2584    927924   0% /home
+    /dev/loop2           5325333416    252592 5056628984   0% /media/persist_root
+    overlay              5325333416    252592 5056628984   0% /usr
+    overlay              5325333416    252592 5056628984   0% /opt
+    overlay              5325333416    252592 5056628984   0% /etc
+    
+    
+12.
+$apk add lightdm-gtk-greeter
+
+    (1/11) Installing accountsservice (0.6.55-r1)
+    (2/11) Installing ttf-cantarell (0.201-r1)
+    (3/11) Installing librsvg (2.48.8-r0)
+    (4/11) Installing adwaita-gtk2-theme (3.28-r1)
+    (5/11) Installing gnome-themes-extra (3.28-r1)
+    (6/11) Installing adwaita-icon-theme (3.36.1-r0)
+    (7/11) Installing libgpg-error (1.37-r0)
+    (8/11) Installing libgcrypt (1.8.5-r0)
+    (9/11) Installing lightdm (1.30.0-r2)
+    Executing lightdm-1.30.0-r2.pre-install
+    (10/11) Installing lightdm-openrc (1.30.0-r2)
+    (11/11) Installing lightdm-gtk-greeter (2.0.7-r0)
+    Executing busybox-1.31.1-r19.trigger
+    Executing dbus-1.12.18-r0.trigger
+    Executing fontconfig-2.13.1-r2.trigger
+    Executing gdk-pixbuf-2.40.0-r2.trigger
+    Executing gtk-update-icon-cache-2.24.32-r1.trigger
+    Executing mkfontscale-1.2.1-r1.trigger
+    OK: 245 MiB in 213 packages
+    
+    
+13.
+$df
+
+    Filesystem           1K-blocks      Used Available Use% Mounted on
+    devtmpfs                 10240         0     10240   0% /dev
+    shm                     221784         0    221784   0% /dev/shm
+    /dev/mmcblk0p2        14916060   1513936  12621376  11% /media/mmcblk0p2
+    /dev/mmcblk0p1          258095     90314    167781  35% /media/mmcblk0p1
+    tmpfs                   221784     21284    200500  10% /
+    tmpfs                    44360       192     44168   0% /run
+    /dev/loop0               25472     25472         0 100% /.modloop
+    /dev/loop1              999320      2584    927924   0% /media/persist
+    overlay                 999320      2584    927924   0% /home
+    /dev/loop2           5325333416    322108 5056559468   0% /media/persist_root
+    overlay              5325333416    322108 5056559468   0% /usr
+    overlay              5325333416    322108 5056559468   0% /opt
+    overlay              5325333416    322108 5056559468   0% /etc
+    
+
+14.
+$apk add xfce-polkit
+
+    (1/1) Installing xfce-polkit (0.3-r1)
+    OK: 245 MiB in 214 packages
+    
+    
+15.
+$df
+
+    Filesystem           1K-blocks      Used Available Use% Mounted on
+    devtmpfs                 10240         0     10240   0% /dev
+    shm                     221784         0    221784   0% /dev/shm
+    /dev/mmcblk0p2        14916060   1513964  12621348  11% /media/mmcblk0p2
+    /dev/mmcblk0p1          258095     90314    167781  35% /media/mmcblk0p1
+    tmpfs                   221784     21284    200500  10% /
+    tmpfs                    44360       192     44168   0% /run
+    /dev/loop0               25472     25472         0 100% /.modloop
+    /dev/loop1              999320      2584    927924   0% /media/persist
+    overlay                 999320      2584    927924   0% /home
+    /dev/loop2           5325333416    322128 5056559448   0% /media/persist_root
+    overlay              5325333416    322128 5056559448   0% /usr
+    overlay              5325333416    322128 5056559448   0% /opt
+    overlay              5325333416    322128 5056559448   0% /etc
+
+    
+16.
+$apk add consolekit2
+
+    (1/1) Installing consolekit2 (1.2.1-r1)
+    Executing busybox-1.31.1-r19.trigger
+    Executing dbus-1.12.18-r0.trigger
+    OK: 245 MiB in 215 packages
+
+
+17.
+$df
+
+    Filesystem           1K-blocks      Used Available Use% Mounted on
+    devtmpfs                 10240         0     10240   0% /dev
+    shm                     221784         0    221784   0% /dev/shm
+    /dev/mmcblk0p2        14916060   1514736  12620576  11% /media/mmcblk0p2
+    /dev/mmcblk0p1          258095     90314    167781  35% /media/mmcblk0p1
+    tmpfs                   221784     21288    200496  10% /
+    tmpfs                    44360       192     44168   0% /run
+    /dev/loop0               25472     25472         0 100% /.modloop
+    /dev/loop1              999320      2584    927924   0% /media/persist
+    overlay                 999320      2584    927924   0% /home
+    /dev/loop2           5325333416    322752 5056558824   0% /media/persist_root
+    overlay              5325333416    322752 5056558824   0% /usr
+    overlay              5325333416    322752 5056558824   0% /opt
+    overlay              5325333416    322752 5056558824   0% /etc
+    
+    
+18.
+$apk add xfce4-screensaver
+
+    (1/183) Installing libgcc (9.3.0-r2)
+    (2/183) Installing expat (2.2.9-r1)
+    (3/183) Installing libffi (3.3-r2)
+    (4/183) Installing libintl (0.20.2-r0)
+    (5/183) Installing libblkid (2.35.2-r0)
+    (6/183) Installing libmount (2.35.2-r0)
+    (7/183) Installing pcre (8.44-r0)
+    (8/183) Installing glib (2.64.4-r0)
+    (9/183) Installing libstdc++ (9.3.0-r2)
+    (10/183) Installing icu-libs (67.1-r0)
+    (11/183) Installing nspr (4.25-r0)
+    (12/183) Installing readline (8.0.4-r0)
+    (13/183) Installing mozjs60 (60.9.0-r7)
+    (14/183) Installing linux-pam (1.3.1-r4)
+    (15/183) Installing polkit (0.116-r1)
+    Executing polkit-0.116-r1.pre-install
+    (16/183) Installing udev-init-scripts (33-r1)
+    Executing udev-init-scripts-33-r1.post-install
+    (17/183) Installing udev-init-scripts-openrc (33-r1)
+    (18/183) Installing eudev-libs (3.2.9-r3)
+    (19/183) Installing xz-libs (5.2.5-r0)
+    (20/183) Installing kmod-libs (27-r0)
+    (21/183) Installing eudev (3.2.9-r3)
+    (22/183) Installing eudev-openrc (3.2.9-r3)
+    (23/183) Installing libxau (1.0.9-r0)
+    (24/183) Installing libbsd (0.10.0-r0)
+    (25/183) Installing libxdmcp (1.1.3-r0)
+    (26/183) Installing libxcb (1.14-r1)
+    (27/183) Installing libx11 (1.6.9-r0)
+    (28/183) Installing consolekit2 (1.2.1-r1)
+    (29/183) Installing dbus (1.12.18-r0)
+    Executing dbus-1.12.18-r0.pre-install
+    Executing dbus-1.12.18-r0.post-install
+    (30/183) Installing dbus-openrc (1.12.18-r0)
+    (31/183) Installing libxext (1.3.4-r0)
+    (32/183) Installing libice (1.0.10-r0)
+    (33/183) Installing libuuid (2.35.2-r0)
+    (34/183) Installing libsm (1.2.3-r0)
+    (35/183) Installing libxt (1.2.0-r0)
+    (36/183) Installing libxmu (1.1.3-r0)
+    (37/183) Installing xauth (1.1-r0)
+    (38/183) Installing mcookie (2.35.2-r0)
+    (39/183) Installing xmodmap (1.0.10-r0)
+    (40/183) Installing xrdb (1.2.0-r1)
+    (41/183) Installing xinit (1.4.1-r0)
+    (42/183) Installing accountsservice (0.6.55-r1)
+    (43/183) Installing ttf-cantarell (0.201-r1)
+    (44/183) Installing libxrender (0.9.10-r3)
+    (45/183) Installing brotli-libs (1.0.7-r5)
+    (46/183) Installing libbz2 (1.0.8-r1)
+    (47/183) Installing libpng (1.6.37-r1)
+    (48/183) Installing freetype (2.10.2-r0)
+    (49/183) Installing fontconfig (2.13.1-r2)
+    (50/183) Installing pixman (0.40.0-r2)
+    (51/183) Installing cairo (1.16.0-r2)
+    (52/183) Installing cairo-gobject (1.16.0-r2)
+    (53/183) Installing pkgconf (1.7.2-r0)
+    (54/183) Installing libxml2 (2.9.10-r4)
+    (55/183) Installing shared-mime-info (1.15-r0)
+    (56/183) Installing libjpeg-turbo (2.0.5-r0)
+    (57/183) Installing tiff (4.1.0-r0)
+    (58/183) Installing gdk-pixbuf (2.40.0-r2)
+    (59/183) Installing libxft (2.3.3-r0)
+    (60/183) Installing fribidi (1.0.9-r0)
+    (61/183) Installing graphite2 (1.3.14-r0)
+    (62/183) Installing harfbuzz (2.6.6-r0)
+    (63/183) Installing pango (1.44.7-r2)
+    (64/183) Installing librsvg (2.48.8-r0)
+    (65/183) Installing hicolor-icon-theme (0.17-r1)
+    (66/183) Installing gtk-update-icon-cache (2.24.32-r1)
+    (67/183) Installing libxcomposite (0.4.5-r0)
+    (68/183) Installing libxfixes (5.0.3-r2)
+    (69/183) Installing libxcursor (1.2.0-r0)
+    (70/183) Installing libxdamage (1.1.5-r0)
+    (71/183) Installing libxi (1.7.10-r0)
+    (72/183) Installing libxrandr (1.5.2-r0)
+    (73/183) Installing atk (2.36.0-r0)
+    (74/183) Installing avahi-libs (0.8-r0)
+    (75/183) Installing gmp (6.2.0-r0)
+    (76/183) Installing nettle (3.5.1-r1)
+    (77/183) Installing p11-kit (0.23.20-r5)
+    (78/183) Installing libtasn1 (4.16.0-r1)
+    (79/183) Installing libunistring (0.9.10-r0)
+    (80/183) Installing gnutls (3.6.14-r0)
+    (81/183) Installing cups-libs (2.3.3-r0)
+    (82/183) Installing gtk+2.0 (2.24.32-r1)
+    Executing gtk+2.0-2.24.32-r1.post-install
+    (83/183) Installing adwaita-gtk2-theme (3.28-r1)
+    (84/183) Installing gnome-themes-extra (3.28-r1)
+    (85/183) Installing adwaita-icon-theme (3.36.1-r0)
+    (86/183) Installing libgpg-error (1.37-r0)
+    (87/183) Installing libgcrypt (1.8.5-r0)
+    (88/183) Installing xkeyboard-config (2.29-r0)
+    (89/183) Installing iso-codes (4.5.0-r0)
+    (90/183) Installing libxkbfile (1.1.0-r0)
+    (91/183) Installing libxklavier (5.4-r5)
+    (92/183) Installing lightdm (1.30.0-r2)
+    Executing lightdm-1.30.0-r2.pre-install
+    (93/183) Installing lightdm-openrc (1.30.0-r2)
+    (94/183) Installing libxinerama (1.1.4-r1)
+    (95/183) Installing libxtst (1.2.3-r3)
+    (96/183) Installing at-spi2-core (2.36.0-r1)
+    (97/183) Installing at-spi2-atk (2.34.2-r1)
+    (98/183) Installing libepoxy (1.5.4-r0)
+    (99/183) Installing wayland-libs-client (1.18.0-r4)
+    (100/183) Installing wayland-libs-cursor (1.18.0-r4)
+    (101/183) Installing wayland-libs-egl (1.18.0-r4)
+    (102/183) Installing libxkbcommon (0.10.0-r1)
+    (103/183) Installing gtk+3.0 (3.24.21-r0)
+    Executing gtk+3.0-3.24.21-r0.post-install
+    (104/183) Installing lightdm-gtk-greeter (2.0.7-r0)
+    (105/183) Installing hwids-pci (20200306-r0)
+    (106/183) Installing pciutils-libs (3.6.4-r0)
+    (107/183) Installing pciutils (3.6.4-r0)
+    (108/183) Installing libusb (1.0.23-r0)
+    (109/183) Installing librtlsdr (0.6.0-r0)
+    (110/183) Installing sysfsutils (2.1.0-r9)
+    (111/183) Installing rng-tools (6.10-r2)
+    (112/183) Installing rng-tools-openrc (6.10-r2)
+    (113/183) Installing xf86-input-keyboard (1.9.0-r1)
+    (114/183) Installing libevdev (1.9.0-r0)
+    (115/183) Installing mtdev (1.1.6-r0)
+    (116/183) Installing libinput-libs (1.15.5-r0)
+    (117/183) Installing xf86-input-libinput (0.30.0-r0)
+    (118/183) Installing xf86-input-mouse (1.9.3-r1)
+    (119/183) Installing encodings (1.0.5-r0)
+    (120/183) Installing font-alias (1.0.3-r1)
+    (121/183) Installing libfontenc (1.1.4-r0)
+    (122/183) Installing mkfontscale (1.2.1-r1)
+    (123/183) Installing util-macros (1.19.2-r1)
+    (124/183) Installing font-misc-misc (1.1.2-r1)
+    (125/183) Installing font-cursor-misc (1.0.3-r1)
+    (126/183) Installing xkbcomp (1.4.3-r0)
+    (127/183) Installing mesa (20.0.7-r0)
+    (128/183) Installing libxxf86vm (1.1.4-r2)
+    (129/183) Installing libdrm (2.4.102-r0)
+    (130/183) Installing mesa-glapi (20.0.7-r0)
+    (131/183) Installing libxshmfence (1.3-r0)
+    (132/183) Installing mesa-gl (20.0.7-r0)
+    (133/183) Installing libxfont2 (2.0.4-r0)
+    (134/183) Installing wayland-libs-server (1.18.0-r4)
+    (135/183) Installing mesa-gbm (20.0.7-r0)
+    (136/183) Installing libpciaccess (0.16-r0)
+    (137/183) Installing xorg-server (1.20.8-r2)
+    (138/183) Installing xf86-video-modesetting (0.9.0-r6)
+    (139/183) Installing xf86-video-vesa (2.4.0-r0)
+    (140/183) Installing xcb-util (0.4.0-r3)
+    (141/183) Installing startup-notification (0.12-r4)
+    (142/183) Installing libxfce4util (4.14.0-r0)
+    (143/183) Installing xfconf (4.14.3-r0)
+    (144/183) Installing libxfce4ui-gtk3 (4.14.1-r2)
+    (145/183) Installing xfce-polkit (0.3-r1)
+    (146/183) Installing exo-libs (0.12.11-r0)
+    (147/183) Installing exo (0.12.11-r0)
+    (148/183) Installing libxfce4ui (4.14.1-r2)
+    (149/183) Installing garcon (0.7.0-r0)
+    (150/183) Installing desktop-file-utils (0.24-r0)
+    (151/183) Installing libexif (0.6.22-r0)
+    (152/183) Installing libgudev (233-r1)
+    (153/183) Installing libnotify (0.7.9-r1)
+    (154/183) Installing libxres (1.2.0-r1)
+    (155/183) Installing libwnck3 (3.36.0-r0)
+    (156/183) Installing xfce4-panel (4.14.4-r1)
+    (157/183) Installing thunar (1.8.15-r0)
+    Executing thunar-1.8.15-r0.post-install
+    (158/183) Installing ca-certificates (20191127-r4)
+    (159/183) Installing nghttp2-libs (1.41.0-r0)
+    (160/183) Installing libcurl (7.69.1-r0)
+    (161/183) Installing lcms2 (2.9-r1)
+    (162/183) Installing openjpeg (2.3.1-r4)
+    (163/183) Installing poppler (0.88.0-r0)
+    (164/183) Installing poppler-glib (0.88.0-r0)
+    (165/183) Installing tumbler (0.2.8-r1)
+    (166/183) Installing ttf-dejavu (2.37-r1)
+    (167/183) Installing xfce4-appfinder (4.14.0-r0)
+    (168/183) Installing upower (0.99.11-r0)
+    (169/183) Installing xfce4-power-manager (1.6.6-r0)
+    (170/183) Installing iceauth (1.0.8-r0)
+    (171/183) Installing dbus-x11 (1.12.18-r0)
+    (172/183) Installing xfce4-session (4.14.2-r0)
+    (173/183) Installing xfce4-settings (4.14.2-r0)
+    (174/183) Installing xfdesktop (4.14.2-r0)
+    (175/183) Installing libxpresent (1.0.0-r0)
+    (176/183) Installing xfwm4 (4.14.2-r0)
+    (177/183) Installing xfce4 (4.14_pre1-r0)
+    (178/183) Installing libxscrnsaver (1.2.3-r0)
+    (179/183) Installing dbus-glib (0.110-r0)
+    (180/183) Installing xfce4-screensaver (0.1.10-r0)
+    (181/183) Installing pcre2 (10.35-r0)
+    (182/183) Installing vte3 (0.60.2-r0)
+    (183/183) Installing xfce4-terminal (0.8.9.2-r0)
+    Executing busybox-1.31.1-r19.trigger
+    Executing glib-2.64.4-r0.trigger
+    Executing eudev-3.2.9-r3.trigger
+    Executing dbus-1.12.18-r0.trigger
+    Executing fontconfig-2.13.1-r2.trigger
+    Executing shared-mime-info-1.15-r0.trigger
+    Executing gdk-pixbuf-2.40.0-r2.trigger                                                                                                                                                                    
+    Executing gtk-update-icon-cache-2.24.32-r1.trigger                                                                                                                                                        
+    Executing mkfontscale-1.2.1-r1.trigger                                                                                                                                                                    
+    Executing desktop-file-utils-0.24-r0.trigger                                                                                                                                                              
+    Executing ca-certificates-20191127-r4.trigger                                                                                                                                                             
+    OK: 246 MiB in 218 packages   
+    
+    
+19.
+$apk add xf86-video-fbdev
+
+    (1/1) Installing xf86-video-fbdev (0.5.0-r2)
+    OK: 246 MiB in 219 packages
+    
+
+20.
+$df
+
+    Filesystem           1K-blocks      Used Available Use% Mounted on
+    devtmpfs                 10240         0     10240   0% /dev
+    shm                     221784         0    221784   0% /dev/shm
+    /dev/mmcblk0p2        14916060   1696640  12438672  12% /media/mmcblk0p2
+    /dev/mmcblk0p1          258095     90314    167781  35% /media/mmcblk0p1
+    tmpfs                   221784     21304    200480  10% /
+    tmpfs                    44360       252     44108   1% /run
+    /dev/loop0               25472     25472         0 100% /.modloop
+    /dev/loop1              999320      2584    927924   0% /media/persist
+    overlay                 999320      2584    927924   0% /home
+    /dev/loop2           5325333416    324392 5056557184   0% /media/persist_root
+    overlay              5325333416    324392 5056557184   0% /usr
+    overlay              5325333416    324392 5056557184   0% /opt
+    overlay              5325333416    324392 5056557184   0% /etc
+    
+    
+
+    
+    
+    
+    
+19.
+$df
+
+    Filesystem           1K-blocks      Used Available Use% Mounted on                                                                                                                                        
+    devtmpfs                 10240         0     10240   0% /dev                                                                                                                                              
+    shm                     221784         0    221784   0% /dev/shm                                                                                                                                          
+    /dev/mmcblk0p2        14916060   1696628  12438684  12% /media/mmcblk0p2                                                                                                                                  
+    /dev/mmcblk0p1          258095     90314    167781  35% /media/mmcblk0p1                                                                                                                                  
+    tmpfs                   221784     21268    200516  10% /                                                                                                                                                 
+    tmpfs                    44360       252     44108   1% /run                                                                                                                                              
+    /dev/loop0               25472     25472         0 100% /.modloop                                                                                                                                         
+    /dev/loop1              999320      2584    927924   0% /media/persist                                                                                                                                    
+    overlay                 999320      2584    927924   0% /home                                                                                                                                             
+    /dev/loop2           5325333416    324372 5056557204   0% /media/persist_root                                                                                                                             
+    overlay              5325333416    324372 5056557204   0% /usr                                                                                                                                            
+    overlay              5325333416    324372 5056557204   0% /opt                                                                                                                                            
+    overlay              5325333416    324372 5056557204   0% /etc  
+    
+    
+20.
+$apk add sudo
+
+
+21.
+$adduser <username>
+
+
+22.
+$rc-update add dbus
+
+     * service dbus added to runlevel default
+
+     
+23.
+$rc-service dbus start
+
+    * Caching service dependencies ...                                                                                                                                                                 [ ok ]
+    * Starting System Message Bus ... 
+
+    
+24.
+$rc-update add lightdm
+
+    * service lightdm added to runlevel default
+
+    
+25.
+$rc-service lightdm start
+
+
+
+
+
+==========
+12July2020
+==========
+1.
+patrick-rpi-alpine:~# lightdm --test-mode --debug
+[+0.00s] DEBUG: Logging to /var/log/lightdm/lightdm.log
+[+0.00s] DEBUG: Starting Light Display Manager 1.30.0, UID=0 PID=2734
+[+0.01s] DEBUG: Loading configuration dirs from /usr/share/lightdm/lightdm.conf.d
+[+0.01s] DEBUG: Loading configuration dirs from /usr/local/share/lightdm/lightdm.conf.d
+[+0.01s] DEBUG: Loading configuration dirs from /etc/xdg/lightdm/lightdm.conf.d
+[+0.01s] DEBUG: Loading configuration from /etc/lightdm/lightdm.conf
+[+0.01s] DEBUG: Registered seat module local
+[+0.02s] DEBUG: Registered seat module xremote
+[+0.02s] DEBUG: Using D-Bus name org.freedesktop.DisplayManager
+[+0.04s] DEBUG: _g_io_module_get_default: Found default implementation local (GLocalVfs) for *gio-vfs*
+[+0.09s] WARNING: Failed to get list of logind seats: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.login1 was not provided by any .service files
+[+0.09s] DEBUG: Adding default seat
+[+0.09s] DEBUG: Seat seat0: Loading properties from config section Seat:*
+[+0.10s] DEBUG: Seat seat0: Starting
+[+0.10s] DEBUG: Seat seat0: Creating user session
+[+0.13s] DEBUG: Loading users from org.freedesktop.Accounts
+[+0.13s] DEBUG: User /org/freedesktop/Accounts/User1000 added
+[+0.23s] DEBUG: Seat seat0: Failed to find session configuration default
+[+0.24s] DEBUG: Seat seat0: Can't find session 'default'
+[+0.24s] DEBUG: Seat seat0: Creating greeter session
+[+0.25s] DEBUG: Seat seat0: Creating display server of type x
+[+0.25s] DEBUG: posix_spawn avoided (fd close requested) 
+[+0.26s] DEBUG: Could not run plymouth --ping: Failed to execute child process *plymouth* (No such file or directory)
+[+0.26s] DEBUG: Using VT 7
+[+0.26s] DEBUG: Seat seat0: Starting local X display on VT 7
+[+0.27s] DEBUG: XServer 2: Logging to /var/log/lightdm/x-2.log
+[+0.27s] DEBUG: XServer 2: Writing X server authority to /var/run/lightdm/root/:2
+[+0.28s] DEBUG: XServer 2: Launching X Server
+[+0.28s] DEBUG: Launching process 2740: /usr/bin/X :2 -seat seat0 -auth /var/run/lightdm/root/:2 -nolisten tcp vt7 -novtswitch
+[+0.28s] DEBUG: XServer 2: Waiting for ready signal from X server :2
+[+0.29s] WARNING: Could not enumerate user data directory /var/lib/lightdm-data: Error opening directory '/var/lib/lightdm-data': No such file or directory
+[+0.29s] DEBUG: Acquired bus name org.freedesktop.DisplayManager
+[+0.30s] DEBUG: Registering seat with bus path /org/freedesktop/DisplayManager/Seat0
+Failed to use bus name org.freedesktop.DisplayManager, do you have appropriate permissions?
+ 
+2.
+patrick-rpi-alpine:~# lightdm --test-mode --debug
+[+0.00s] DEBUG: Logging to /var/log/lightdm/lightdm.log
+[+0.00s] DEBUG: Starting Light Display Manager 1.30.0, UID=0 PID=2754
+[+0.01s] DEBUG: Loading configuration dirs from /usr/share/lightdm/lightdm.conf.d
+[+0.01s] DEBUG: Loading configuration dirs from /usr/local/share/lightdm/lightdm.conf.d
+[+0.01s] DEBUG: Loading configuration dirs from /etc/xdg/lightdm/lightdm.conf.d
+[+0.01s] DEBUG: Loading configuration from /etc/lightdm/lightdm.conf
+[+0.01s] DEBUG: Registered seat module local
+[+0.01s] DEBUG: Registered seat module xremote
+[+0.02s] DEBUG: Using D-Bus name org.freedesktop.DisplayManager
+[+0.04s] DEBUG: _g_io_module_get_default: Found default implementation local (GLocalVfs) for *gio-vfs*
+[+0.08s] WARNING: Failed to get list of logind seats: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.login1 was not provided by any .service files
+[+0.09s] DEBUG: Adding default seat
+[+0.09s] DEBUG: Seat seat0: Loading properties from config section Seat:*
+[+0.09s] DEBUG: Seat seat0: Starting
+[+0.10s] DEBUG: Seat seat0: Creating user session
+[+0.12s] DEBUG: Loading users from org.freedesktop.Accounts
+[+0.13s] DEBUG: User /org/freedesktop/Accounts/User1000 added
+[+0.22s] DEBUG: Seat seat0: Failed to find session configuration default
+[+0.22s] DEBUG: Seat seat0: Can't find session 'default'
+[+0.23s] DEBUG: Seat seat0: Creating greeter session
+[+0.23s] DEBUG: Seat seat0: Creating display server of type x
+[+0.24s] DEBUG: posix_spawn avoided (fd close requested) 
+[+0.25s] DEBUG: Could not run plymouth --ping: Failed to execute child process *plymouth* (No such file or directory)
+[+0.25s] DEBUG: Using VT 7
+[+0.25s] DEBUG: Seat seat0: Starting local X display on VT 7
+[+0.26s] DEBUG: XServer 3: Logging to /var/log/lightdm/x-3.log
+[+0.26s] DEBUG: XServer 3: Writing X server authority to /var/run/lightdm/root/:3
+[+0.26s] DEBUG: XServer 3: Launching X Server
+[+0.27s] DEBUG: Launching process 2760: /usr/bin/X :3 -seat seat0 -auth /var/run/lightdm/root/:3 -nolisten tcp vt7 -novtswitch
+[+0.27s] DEBUG: XServer 3: Waiting for ready signal from X server :3
+[+0.29s] DEBUG: Acquired bus name org.freedesktop.DisplayManager
+[+0.29s] DEBUG: Registering seat with bus path /org/freedesktop/DisplayManager/Seat0
+Failed to use bus name org.freedesktop.DisplayManager, do you have appropriate permissions?
+
+
+
+
+
+
+
+
+==================================================================================================
+12July2020 
+
+The very 1st time I successfully setup and login to xfce4 Dekstop Environment on RaspberryPiZeroW,
+using Alpine Linux 3.10 with 2 video drivers(xf86-video-vesa, xf86-video-fbdev).
+Below is the system resource usage output & other configurations.
+==================================================================================================
+
+1.  patrick-rpi-alpine:~# df
+
+        Filesystem           1K-blocks      Used Available Use% Mounted on
+        devtmpfs                 10240         0     10240   0% /dev
+        shm                     222056         0    222056   0% /dev/shm
+        /dev/mmcblk0p2        14916060   1508716  12626596  11% /media/mmcblk0p2
+        /dev/mmcblk0p1          258095     84334    173762  33% /media/mmcblk0p1
+        tmpfs                   222056     18348    203708   8% /
+        tmpfs                    44412       340     44072   1% /run
+        /dev/loop0               24704     24704         0 100% /.modloop
+        /dev/loop1           5325333416    318100 5056563476   0% /media/persist_root
+        /dev/loop2              999320      2800    927708   0% /media/persist
+        overlay              5325333416    318100 5056563476   0% /sbin
+        overlay              5325333416    318100 5056563476   0% /bin
+        overlay              5325333416    318100 5056563476   0% /lib
+        overlay              5325333416    318100 5056563476   0% /etc
+        overlay              5325333416    318100 5056563476   0% /usr
+        overlay              5325333416    318100 5056563476   0% /opt
+        overlay                 999320      2800    927708   0% /home
+        none                    222056         0    222056   0% /run/user/1000
+
+
+2.  patrick-rpi-alpine:~# top
+
+        Mem: 350068K used, 94044K free, 19264K shrd, 20380K buff, 206868K cached
+        CPU:   0% usr   0% sys   0% nic  99% idle   0% io   0% irq   0% sirq
+        Load average: 0.00 0.04 0.13 1/147 2675
+        
+        PID  PPID USER     STAT   VSZ %VSZ CPU %CPU COMMAND
+        2675  1440 root     R     1648   0%   0   1% top
+        2448     1 polkitd  S     193m  45%   0   0% /usr/lib/polkit-1/polkitd --no-deb
+        2440  2428 root     S    39748   9%   0   0% /usr/bin/X :0 -seat seat0 -auth /v
+        2582  2526 patrick  S    36316   8%   0   0% xfdesktop
+        2549  2526 patrick  S    33584   8%   0   0% xfwm4
+        2554  2526 patrick  S    31664   7%   0   0% xfce4-panel
+        2555     1 patrick  S    29576   7%   0   0% xfsettingsd
+        2595  2526 patrick  S    28608   6%   0   0% xfce4-screensaver
+        2575  2526 patrick  S    28332   6%   0   0% Thunar --daemon
+        2581  2554 patrick  S    28280   6%   0   0% {panel-2-actions} /usr/lib/xfce4/p
+        2526  2497 patrick  S    27724   6%   0   0% xfce4-session
+        2580  2554 patrick  S    27344   6%   0   0% {panel-6-systray} /usr/lib/xfce4/p
+        2604     1 patrick  S    25312   6%   0   0% xfce4-power-manager
+        2592  2526 patrick  S    24892   6%   0   0% /usr/lib/xfce4/xfce-polkit
+        2489     1 lightdm  S     8084   2%   0   0% /usr/libexec/at-spi2-registryd --u
+        2497  2428 root     S     7728   2%   0   0% lightdm --session-child 12 19
+        2428     1 root     S     7512   2%   0   0% /usr/bin/lightdm
+        2483     1 lightdm  S     7308   2%   0   0% /usr/libexec/at-spi-bus-launcher
+        2463     1 root     S     6568   1%   0   0% /usr/sbin/console-kit-daemon --no-
+        2559     1 root     S     6464   1%   0   0% /usr/lib/upower/upowerd
+        
+        ---------------------------------------------------------------------------------        
+        
+        [press 's' key to show memory]
+        
+        Mem total:444112 anon:70992 map:39704 free:93928
+        slab:40288 buf:20380 cache:206868 dirty:0 write:0
+        Swap total:0 free:0
+        
+        PID   VSZ^VSZRW^  RSS (SHR) DIRTY (SHR) STACK COMMAND
+        2440 36680 25184 27484  2312 22400   332   132 /usr/bin/X :0 -seat seat0 -auth
+        2448  193m 11756 14352  3556  3352    88   132 /usr/lib/polkit-1/polkitd --no-
+        2582 36320  8928 26084 16756  8636   416   132 xfdesktop
+        2549 33588  5828 22748 16088  5556   244   132 xfwm4
+        2554 31668  4532 21696 16656  4280   292   132 xfce4-panel
+        2555 29580  3628 15824 12040  3804   216   132 xfsettingsd
+        2526 27728  3448 15968 12392  3444    68   132 xfce4-session
+        2581 28284  3436 18404 14960  3592   216   132 {panel-2-actions} /usr/lib/xfce
+        2595 28612  3392 17316 13680  3388    68   132 xfce4-screensaver
+        2575 28336  3364 16228 12440  3392    68   132 Thunar --daemon
+        2580 27348  3360 16696 13344  3340    68   132 {panel-6-systray} /usr/lib/xfce
+        2604 25316  1192 11716 10372  1248    68   132 xfce4-power-manager
+        2592 24896  1084 11724 10612  1128    68   132 /usr/lib/xfce4/xfce-polkit
+        2463  6572   940  3912  3288   460    64   132 /usr/sbin/console-kit-daemon --
+        2428  7516   780  4316  3796   556    68   132 /usr/bin/lightdm
+        2540  5964   736  3636  3120   516    64   132 /usr/lib/xfce4/xfconf/xfconfd
+        2497  7732   676  3960  3508   432    64   132 lightdm --session-child 12 19
+        2442  5988   664  3916  3440   396    28   132 /usr/libexec/accounts-daemon
+        2489  8088   652  4524  4064   416    48   132 /usr/libexec/at-spi2-registryd
+        2559  6468   648  3960  3320   452    68   132 /usr/lib/upower/upowerd
+        
+        
+3.  patrick-rpi-alpine:~# more /etc/fstab 
+
+        /dev/cdrom      /media/cdrom    iso9660 noauto,ro 0 0
+        /dev/usbdisk    /media/usb      vfat    noauto,ro 0 0
+        /dev/mmcblk0p2 /media/mmcblk0p2 ext4 rw,relatime,errors=remount-ro 0 0
+        /media/mmcblk0p2/persist_root.img /media/persist_root ext4 rw,relatime,errors=remount-ro 0 0
+        /media/mmcblk0p2/persist.img /media/persist ext4 rw,relatime,errors=remount-ro 0 0
+        overlay /sbin overlay lowerdir=/sbin,upperdir=/media/persist_root/sbin,workdir=/media/persist_root/.work_sbin 0 0
+        overlay /bin overlay lowerdir=/bin,upperdir=/media/persist_root/bin,workdir=/media/persist_root/.work_bin 0 0
+        overlay /lib overlay lowerdir=/lib,upperdir=/media/persist_root/lib,workdir=/media/persist_root/.work_lib 0 0
+        overlay /etc overlay lowerdir=/etc,upperdir=/media/persist_root/etc,workdir=/media/persist_root/.work_etc 0 0
+        overlay /usr overlay lowerdir=/usr,upperdir=/media/persist_root/usr,workdir=/media/persist_root/.work_usr 0 0
+        overlay /opt overlay lowerdir=/opt,upperdir=/media/persist_root/opt,workdir=/media/persist_root/.work_opt 0 0
+        overlay /home overlay lowerdir=/home,upperdir=/media/persist/home,workdir=/media/persist/.work 0 0
+        
+        
+4.  patrick-rpi-alpine:~# ls /etc/runlevels/default/
+
+        acpid           dbus            myinit          sshd
+        crond           lightdm         ntpd            udev-postmount
+
+
+5.  patrick-rpi-alpine:~# ls /etc/runlevels/boot/
+
+        bootmisc        modules         sysctl          wpa_supplicant
+        hostname        rngd            syslog
+        loadkmap        swclock         urandom
+
+
+6.  patrick-rpi-alpine:~# more /etc/init.d/myinit     
+
+    (a custom initscript I created myself to re-create back into Operating System memory on subsequent reboot the necessary 
+    directories and a file "README.compiled" back in the /var/lib/ directory.
+    These directories and a file are created by and required for the overall functioning of Xorg,Lightdm,Dbus,Xfce desktop.)
+    
+    After setting up Xorg,Lightdm,Xfce, I need to do the following to persist the xkb folder and
+    README.compiled file for my custom 'myinit' initscript to copy over during every subsequent reboot:
+    $cp -a /var/lib/xkb /home/patrick/
+
+"""
+#!/sbin/openrc-run
+
+depend() {
+        before dbus
+}
+
+start() {
+        echo "Hello Patrick Wooooorllllllld!!!!"
+        cp -a /home/patrick/xkb /var/lib/
+        mkdir /var/lib/dbus
+        mkdir /var/lib/upower
+        mkdir /var/lib/lightdm-data
+}
+"""
+
+
+7.  Timing:
+
+    -Boot to about to begin to load greeter: 1min4sec
+    -About to begin to load greeter to greeter fully loaded: 15sec
+    -From pressing enter at greeter to Xfce4 fully loaded: 1min 
+
+        
+    
+    
+    
+    
+    
+myTCA_Booking - 18Aug2020
+=========================
+1. MongoDB:
+
+clinic = {"state":"pahang", "district":"maran", "kk":"kk_maran", "numMO":4, "numMA":2, "avgConsultTime":10, "dailyOpSchedule":[{"date":"2020-08-18", "startOpHour":8, "endOpHour":10, "numMO":4, "numMA":2, "queueConsultCap":[36,36], "queue":[0,0],"queueConsultUsages":[0,0]}, {"date":"2020-08-19", "startOpHour":8, "endOpHour":10, "numMO":4, "numMA":2, "queueConsultCap":[36,36], "queue":[0,0],"queueConsultUsages":[0,0]}]}
+
+
+db.booking.updateOne({"clinic":"kk_maran"}, {"$unset" : {"monthlyOpSchedule":1}})
+
+    
+myTCA_Booking - 4Sept2020
+=========================
+ldap:///ou=People,dc=example,dc=com??sub?groupUid=b50ff8cc-3572-4583-a2be-c9e3252bc2dd
+
+b50ff8cc-3572-4583-a2be-c9e3252bc2dd
+
+
+myTCA_Booking - 12Sept2020
+==========================
+1.  Plan:
+
+    - Adjust all golang web service functions to match the 
+      latest scheme & pass all the test.
+    - Change the 'clinicServiceStartHour' & 'clinicServiceStopHour'
+      attribute type from Integer to Directory String.
+    - Create golang web service functions to update the data
+      received from front-end layer to the ldap directory.
+    - Move to front-end application layer.
+    
+    
+myTCA_Booking - 19Sept2020
+==========================
+1.  Coding JS function to format date from Nuxt app 
+    format back to the format used in OpenDJ:
+    
+""" [NOTE: This code is not complete yet!]   
+let func8 = function(dt, cy) {
+  let res = {}
+  dt.map((val)=> {
+    let tmp1 = val.split('-')
+    if(parseInt(tmp1[0]) < cy) {
+      return
+    }
+    if(!res[tmp1[0]]) {
+      res[tmp1[0]] = {}
+    }
+    if (!res[tmp1[0]][tmp1[1]] || res[tmp1[0]][tmp1[1]].length===0) {
+      res[tmp1[0]][tmp1[1]] = []
+    }
+    res[tmp1[0]][tmp1[1]].push(tmp1[2])
+    }
+  )
+  
+
+
+
+
+  let res2 = []
+    let yrs = Object.keys(ipt)
+    for (let i=0; i<yrs.length; i++) {
+      let mths = Object.keys(ipt[yrs[i]])
+      for (let j=0; j<mths.length; j++) {  
+        let tmp1 = [yrs[i], mths[j], ipt[yrs[i]][mths[j]].join(',')]
+        res2.push(tmp1.join(':'))
+      }
+    }
+  return res
+}
+"""
+
+"""
+let func8 = function(dt, cy) {
+  let res = {}
+  dt.map((val)=> {
+    let tmp1 = val.split('-')
+    if(parseInt(tmp1[0]) < cy) {
+      return
+    }
+    if(!res[tmp1[0]]) {
+      res[tmp1[0]] = {}
+    }
+    if (!res[tmp1[0]][tmp1[1]] || res[tmp1[0]][tmp1[1]].length===0) {
+      res[tmp1[0]][tmp1[1]] = []
+    }
+    res[tmp1[0]][tmp1[1]].push(tmp1[2])
+    }
+  )
+
+  let res2 = []
+  let yrs = Object.keys(res)
+  for (let i=0; i<yrs.length; i++) {
+    let mths = Object.keys(res[yrs[i]])
+    for (let j=0; j<mths.length; j++) {  
+      let tmp2 = [yrs[i], mths[j], res[yrs[i]][mths[j]].join(',')]
+      res2.push(tmp2.join(':'))
+    }
+  }
+  return res2
+}
+"""
+
+
+2.  Left Symmetric Difference function:
+
+"""
+let leftSymDiff = function(arr1, arr2) {
+  return arr1.filter(x => !arr2.includes(x))
+}
+"""
+
+
+=========================
+18Oct2020 - myTCA_Booking
+=========================
+aci: (target="ldap:///cn=kk_maran,ou=pkd_maran,ou=jkn_pahang,ou=kkm-clinic,ou=groups,dc=example,dc=com")(targetattr="* || +")(version 3.0; acl "KK admin can create clinic dept"; allow(add, write) groupdn="ldap:///cn=kk_maran-adm,cn=kk_maran,ou=pkd_maran,ou=jkn_pahang,ou=kkm-clinic,ou=groups,dc=example,dc=com";)
+aci: (target="ldap:///cn=kk_maran,ou=pkd_maran,ou=jkn_pahang,ou=kkm-clinic,ou=groups,dc=example,dc=com")(version 3.0; acl "KK admin owner can delete clinic dept"; allow(delete) groupdn="ldap:///cn=kk_maran-adm,cn=kk_maran,ou=pkd_maran,ou=jkn_pahang,ou=kkm-clinic,ou=groups,dc=example,dc=com";)
+
+aci: (target="ldap:///cn=kk_maran,ou=pkd_maran,ou=jkn_pahang,ou=kkm-clinic,ou=groups,dc=example,dc=com")(targetattr="* || +")(version 3.0; acl "KK admin can create clinic dept"; allow(add, write) groupdn="ldap:///cn=kk_maran,ou=pkd_maran,ou=jkn_pahang,ou=kkm-clinic,ou=groups,dc=example,dc=com";)
+aci: (target="ldap:///cn=kk_maran,ou=pkd_maran,ou=jkn_pahang,ou=kkm-clinic,ou=groups,dc=example,dc=com")(version 3.0; acl "KK admin owner can delete clinic dept"; allow(delete) groupdn="ldap:///cn=kk_maran,ou=pkd_maran,ou=jkn_pahang,ou=kkm-clinic,ou=groups,dc=example,dc=com";)
+
+=========================================
+5Oct2020 - myTCA_Booking - Authentication
+=========================================
+curl -X POST -d "userId=880601105149&userPwd=88motherfaker88" -H "Content-Type:application/x-www-form-urlencoded" http://localhost:8082/public/login
+
+
+======================
+10 Feb 2021 - myVaksin
+======================
+"{
+	\"ident\": \"880601105149\",
+	\"name\": \"chl\",
+	\"dob\": \"1988-06-01T00:00:00Z\",
+	\"tel\": \"0163184120\",
+	\"address\": \"Maran, Pahang\",
+	\"race\": \"Chinese\",
+	\"nationality\": \"Warganegara\",
+	\"edu_lvl\": \"Tertiary\",
+	\"occupation\": \"Doctor\",
+	\"comorbids\": [
+		1
+	],
+	\"support_vac\": true
+}"
+
+"{\"ident\": \"880601105149\",\"name\": \"patrick star\",\"dob\": \"1988-06-01T00:00:00Z\",\"tel\": \"999\",\"address\": \"Maran, Pahang\",\"race\": \"Alien\",\"nationality\": \"Warganegara\",\"edu_lvl\": \"Tertiary\",\"occupation\": \"Doctor\",\"comorbids\": [2],\"support_vac\":false}"
+
+
+patrick@patrick-ubuntu20-04:~$ curl http://localhost:8080/update/people -H "Content-Type:application/json" -d "{\"ident\": \"880601105149\",\"name\": \"patrick star\",\"dob\": \"1988-06-01T00:00:00Z\",\"tel\": \"999\",\"address\": \"Maran, Pahang\",\"race\": \"Alien\",\"nationality\": \"Warganegara\",\"edu_lvl\": \"Tertiary\",\"occupation\": \"Doctor\",\"comorbids\": [2],\"support_vac\":false}"
+

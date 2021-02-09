@@ -1,0 +1,62 @@
+schema: kkm
+
+
+table: people
+-------------
+id                  bigserial primary key
+ident               text
+name                text
+gender              enum*
+age                 integer*
+race                enum*
+tel                 text
+address             text
+race                enum
+nationality         enum
+edu_lvl             enum
+occupation          text
+comorbids           integer[]
+support_vac         boolean
+
+unique(ident)
+
+
+table: comorbid 
+---------------
+id                  serial primary key
+med_illness         text
+
+
+table: vaccine
+--------------
+id                  bigserial primary key
+brand               text*
+type                text
+against             text
+price               integer
+num_dose            integer
+efficacy            integer
+
+
+table: vaccination
+------------------
+id                  bigserial primary key
+vaccine             bigint not null references kkm.vaccine(id)
+people              bigint not null references kkm.people(id)
+vaccination         text*
+raoa                text* (recommended age of administration)
+aoa                 text*
+first_adm           boolean*
+first_dose_dt       timestamptz
+second_dose_dt      timestamptz 
+aefi_present        boolean
+aefi_sx             integer[]*
+
+unique(vaccine, people)
+
+
+table: aefi 
+-----------
+id                  serial primary key
+code                integer
+symptom             text
