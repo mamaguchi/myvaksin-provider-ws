@@ -2,9 +2,7 @@ package main
 
 import (
 	"net/http"
-	// "encoding/json"
-	// "fmt"
-	"myVaksin/webservice/data"
+	"myvaksin/webservice/data"
 )
 
 func main() {
@@ -13,6 +11,9 @@ func main() {
 	/* HANDLER FUNC */
 	http.HandleFunc("/peoples", data.GetPeopleHandler)
 	http.HandleFunc("/update/people", data.UpdatePeopleHandler)
+	http.HandleFunc("/add/people", data.AddPeopleHandler)
+	http.HandleFunc("/delete/people", data.DeletePeopleHandler)
+	http.HandleFunc("/test", data.TestHandler)
 
 	/* START HTTP SERVER */
 	http.ListenAndServe(":8080", nil)

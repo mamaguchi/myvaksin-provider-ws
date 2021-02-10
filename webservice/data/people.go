@@ -139,9 +139,8 @@ func GetPeople(conn *pgx.Conn, ident string) ([]byte, error) {
 func GetPeopleHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Origin", "*")
     w.Header().Set("Access-Control-Allow-Headers", "authorization")
-    
+    w.Header().Set("Access-Control-Allow-Headers", "content-type") 
     if (r.Method == "OPTIONS") { return }
-
     r.ParseForm()
     fmt.Println("[GetPeopleHandler] Request form data received")
     fmt.Println(r.Form)
@@ -155,7 +154,6 @@ func GetPeopleHandler(w http.ResponseWriter, r *http.Request) {
             log.Print(err)
         }
     }
-
     fmt.Fprintf(w, "%s", peopleJson)
 }
 
@@ -163,28 +161,7 @@ func UpdatePeople(conn *pgx.Conn, people People) error {
     sql := `update kkm.people 
             set name=$1, dob=$2, tel=$3, address=$4, race=$5,
               nationality=$6, edu_lvl=$7, occupation=$8, comorbids=$9, support_vac=$10 
-            where ident=$11`
-        
-    // DOB
-    // dob, err := time.Parse(DATE_ISO, people.Dob)
-    // if err != nil {
-	// 	return err
-	// }
-    // Comorbids
-	// var comorbids []int64
-	// strArr := strings.Split(people.Comorbids, ",")
-	// for _, s := range strArr {
-	//     n, err := strconv.ParseInt(s, 10, 32)
-	//     if err != nil {
-	// 		return err
-	//     }
-    //     comorbids = append(comorbids, n)
-	// }
-    // Support Vaccine
-	// support_vac, err := strconv.ParseBool(people.Support_vac)
-	// if err != nil {
-	// 	return err
-	// }
+            where ident=$11`   
 
     _, err := conn.Exec(context.Background(), sql,
         people.Name, people.Dob, people.Tel, people.Address, 
@@ -193,21 +170,28 @@ func UpdatePeople(conn *pgx.Conn, people People) error {
         people.Ident)
     if err != nil {
         return err
-    }
-    
+    }    
     return nil
 }
 
 func UpdatePeopleHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Origin", "*")
     w.Header().Set("Access-Control-Allow-Headers", "authorization")
-    
+    w.Header().Set("Access-Control-Allow-Headers", "content-type")
     if (r.Method == "OPTIONS") { return }
-
     r.ParseForm()
     fmt.Println("[UpdatePeopleHandler] Request form data received")
-    fmt.Printf("%s", r.Form)
 
+    /* MORE-EFFICIENT-JSON_DECODING-METHOD */
+    var people People
+    err := json.NewDecoder(r.Body).Decode(&people)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }
+    fmt.Printf("%v\n", people)
+
+    /* LESS-EFFICIENT-JSON_DECODING-METHOD */
     // var people People
     // err := json.Unmarshal([]byte(input), &people)
     // if err != nil {
@@ -216,15 +200,105 @@ func UpdatePeopleHandler(w http.ResponseWriter, r *http.Request) {
     //     fmt.Fprintf(w, "Internal server error! Unable to read http json input")
     //     return
     // }
-    // err = UpdatePeople(conn, people)
-    // if err != nil {
-    //     log.Print(err)
-    //     w.WriteHeader(500)
-    //     fmt.Fprintf(w, "Internal server error! Unable to update people")
-    //     return
-    // }   
+
+    err = UpdatePeople(conn, people)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }   
 }
 
+func AddPeople(conn *pgx.Conn, people People) error {
+    sql := `insert into kkm.people
+            (ident, name, dob, tel, address, race, nationality,
+            edu_lvl, occupation, comorbids, support_vac)
+            values 
+            ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`
+    
+    _, err := conn.Exec(context.Background(), sql, 
+        people.Ident, people.Name, people.Dob, people.Tel, people.Address, 
+        people.Race, people.Nationality, people.Edu_lvl, 
+        people.Occupation, people.Comorbids, people.Support_vac)
+    if err != nil {
+        return err
+    }
+    return nil
+}
 
+func AddPeopleHandler(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Access-Control-Allow-Origin", "*")
+    w.Header().Set("Access-Control-Allow-Headers", "authorization")
+    w.Header().Set("Access-Control-Allow-Headers", "content-type")
+    if (r.Method == "OPTIONS") { return }
+    r.ParseForm()
+    fmt.Println("[AddPeopleHandler] Request form data received")
+    
+    var people People
+    err := json.NewDecoder(r.Body).Decode(&people)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }
+    fmt.Printf("%v\n", people)
+
+    err = AddPeople(conn, people)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return 
+    }
+}
+
+func DeletePeople(conn *pgx.Conn, identity Identity) error {
+    sql := `delete from kkm.people 
+            where ident=$1`
+
+    _, err := conn.Exec(context.Background(), sql, identity.Ident)
+    if err != nil {
+        return err
+    }
+    return nil
+}
+
+type Identity struct {
+    Ident string    `json:"ident"`
+}
+
+func DeletePeopleHandler(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Access-Control-Allow-Origin", "*")
+    w.Header().Set("Access-Control-Allow-Headers", "authorization")
+    w.Header().Set("Access-Control-Allow-Headers", "content-type")
+    if (r.Method == "OPTIONS") { return }
+    fmt.Println("[DeletePeopleHandler] Request form data received")
+
+    var identity Identity
+    err := json.NewDecoder(r.Body).Decode(&identity)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }
+    fmt.Printf("%v\n", identity)
+
+    err = DeletePeople(conn, identity)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }
+}
+
+func TestHandler(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Access-Control-Allow-Origin", "*")
+    w.Header().Set("Access-Control-Allow-Headers", "authorization")
+    w.Header().Set("Access-Control-Allow-Headers", "content-type")
+    if (r.Method == "OPTIONS") { return }
+    fmt.Println("[TestHandler] Request form data received")
+
+    var identity Identity
+    err := json.NewDecoder(r.Body).Decode(&identity)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }
+    fmt.Printf("%+v\n", identity)    
+}
 
 

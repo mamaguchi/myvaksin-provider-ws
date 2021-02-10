@@ -1921,8 +1921,20 @@ curl -X POST -d "userId=880601105149&userPwd=88motherfaker88" -H "Content-Type:a
 	\"support_vac\": true
 }"
 
+
+======================
 "{\"ident\": \"880601105149\",\"name\": \"patrick star\",\"dob\": \"1988-06-01T00:00:00Z\",\"tel\": \"999\",\"address\": \"Maran, Pahang\",\"race\": \"Alien\",\"nationality\": \"Warganegara\",\"edu_lvl\": \"Tertiary\",\"occupation\": \"Doctor\",\"comorbids\": [2],\"support_vac\":false}"
 
 
-patrick@patrick-ubuntu20-04:~$ curl http://localhost:8080/update/people -H "Content-Type:application/json" -d "{\"ident\": \"880601105149\",\"name\": \"patrick star\",\"dob\": \"1988-06-01T00:00:00Z\",\"tel\": \"999\",\"address\": \"Maran, Pahang\",\"race\": \"Alien\",\"nationality\": \"Warganegara\",\"edu_lvl\": \"Tertiary\",\"occupation\": \"Doctor\",\"comorbids\": [2],\"support_vac\":false}"
+====================== UPDATE
+patrick@patrick-ubuntu20-04:~$ curl http://localhost:8080/update/people -H "Content-Type:application/json" -d "{\"ident\": \"880601105149\",\"name\": \"patrick star\",\"dob\": \"1988-06-01T00:00:00Z\",\"tel\": \"999\",\"address\": \"Maran, Pahang\",\"race\": \"Malay\",\"nationality\": \"Warganegara\",\"edu_lvl\": \"Tertiary\",\"occupation\": \"Doctor\",\"comorbids\": [2],\"support_vac\":false}"
+
+
+====================== ADD
+patrick@patrick-ubuntu20-04:~$ curl http://localhost:8080/add/people -H "Content-Type:application/json" -d "{\"ident\": \"880601105152\",\"name\": \"spondge bob\",\"dob\": \"2000-06-01T00:00:00Z\",\"tel\": \"7553535\",\"address\": \"Genting, Pahang\",\"race\": \"Indian\",\"nationality\": \"Warganegara\",\"edu_lvl\": \"Secondary\",\"occupation\": \"Cartoon Actor\",\"comorbids\": [1,2,3],\"support_vac\":true}"
+
+
+====================== DELETE
+patrick@patrick-ubuntu20-04:~$ curl http://localhost:8080/delete/people -H "Content-Type:application/json" -d "{\"ident\": \"880601105152\"}"
+
 

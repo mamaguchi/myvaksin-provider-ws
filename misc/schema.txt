@@ -1,14 +1,13 @@
 schema: kkm
 
 
-table: people
--------------
+table: people(v1)
+-----------------
 id                  bigserial primary key
 ident               text
 name                text
 gender              enum*
 age                 integer*
-race                enum*
 tel                 text
 address             text
 race                enum
@@ -21,14 +20,43 @@ support_vac         boolean
 unique(ident)
 
 
+table: people(v2)
+-----------------
+ident               text
+name                text
+gender              enum
+dob                 timestamp
+nationality         enum
+race                enum
+tel                 text
+address             text
+edu_lvl             enum
+occupation          text
+comorbids           integer[]
+support_vac         boolean
+
+unique(ident)
+
+
+
+
+enum: gender(v1)
+-----------------
+['Male', 'Female']
+
+
+
+
 table: comorbid 
 ---------------
 id                  serial primary key
 med_illness         text
 
 
-table: vaccine
---------------
+
+
+table: vaccine(v1)
+------------------
 id                  bigserial primary key
 brand               text*
 type                text
@@ -37,14 +65,26 @@ price               integer
 num_dose            integer
 efficacy            integer
 
-
-table: vaccination
+table: vaccine(v2)
 ------------------
+id                  bigserial primary key
+brand               text
+type                text
+against             text
+raoa		     text  (recommended age of administration)
+price               integer
+num_dose            integer
+efficacy            integer
+
+
+
+
+table: vaccination(v1)
+----------------------
 id                  bigserial primary key
 vaccine             bigint not null references kkm.vaccine(id)
 people              bigint not null references kkm.people(id)
 vaccination         text*
-raoa                text* (recommended age of administration)
 aoa                 text*
 first_adm           boolean*
 first_dose_dt       timestamptz
@@ -55,8 +95,42 @@ aefi_sx             integer[]*
 unique(vaccine, people)
 
 
-table: aefi 
------------
+table: vaccination(v2)
+----------------------
+id                  bigserial primary key
+vaccine             bigint not null references kkm.vaccine(id)
+people              bigint not null references kkm.people(id)
+vaccination         text
+aoa                 text
+first_adm           boolean
+first_dose_dt       timestamp
+second_dose_dt      timestamp
+aefi_class          integer[]
+aefi_reaction       integer[]
+
+unique(vaccine, people)
+
+
+
+
+table: aefi(v1) 
+---------------
 id                  serial primary key
 code                integer
 symptom             text
+
+
+table: aefi_class(v2) 
+---------------------
+id                  serial primary key
+code                integer
+class               text
+
+
+
+
+table: aefi_reaction(v1) 
+------------------------
+id                  serial primary key
+code                integer
+raection            text
