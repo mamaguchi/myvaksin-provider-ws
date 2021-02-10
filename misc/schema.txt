@@ -107,6 +107,7 @@ first_dose_dt       timestamp
 second_dose_dt      timestamp
 aefi_class          integer[]
 aefi_reaction       integer[]
+remarks             text
 
 unique(vaccine, people)
 

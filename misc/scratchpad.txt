@@ -1937,4 +1937,8 @@ patrick@patrick-ubuntu20-04:~$ curl http://localhost:8080/add/people -H "Content
 ====================== DELETE
 patrick@patrick-ubuntu20-04:~$ curl http://localhost:8080/delete/people -H "Content-Type:application/json" -d "{\"ident\": \"880601105152\"}"
 
+====================== SELECT <specific people>
+kkm=> select kkm.people.*, kkm.vaccine.*, kkm.vaccination.* from kkm.people join kkm.vaccination on kkm.people.ident = kkm.vaccination.people join kkm.vaccine on kkm.vaccination.vaccine = kkm.vaccine.id where kkm.people.ident='880601105149';
+
+
 
