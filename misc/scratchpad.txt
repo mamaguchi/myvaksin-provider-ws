@@ -1901,6 +1901,8 @@ aci: (target="ldap:///cn=kk_maran,ou=pkd_maran,ou=jkn_pahang,ou=kkm-clinic,ou=gr
 =========================================
 curl -X POST -d "userId=880601105149&userPwd=88motherfaker88" -H "Content-Type:application/x-www-form-urlencoded" http://localhost:8082/public/login
 
+curl -H "Content-Type:application/x-www-form-urlencoded" http://localhost:8080/people?ident=880601105149
+
 
 ======================
 10 Feb 2021 - myVaksin

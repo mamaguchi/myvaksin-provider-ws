@@ -30,6 +30,10 @@ nationality         enum
 race                enum
 tel                 text
 address             text
+postalCode          text
+locality	     text
+district 	     text
+state		     enum
 edu_lvl             enum
 occupation          text
 comorbids           integer[]
