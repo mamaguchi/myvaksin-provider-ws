@@ -9,7 +9,8 @@ func main() {
 	defer data.Close()
 
 	/* HANDLER FUNC */
-	http.HandleFunc("/people", data.GetPeopleHandler)
+	http.HandleFunc("/people/search", data.SearchPeopleHandler)
+	http.HandleFunc("/people/get", data.GetPeopleHandler)
 	http.HandleFunc("/people/update", data.UpdatePeopleHandler)
 	http.HandleFunc("/people/add", data.AddPeopleHandler)
 	http.HandleFunc("/people/delete", data.DeletePeopleHandler)

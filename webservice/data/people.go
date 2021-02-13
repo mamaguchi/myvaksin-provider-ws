@@ -32,6 +32,10 @@ func Close() {
     conn.Close(context.Background())
 }
 
+type Identity struct {
+    Ident string    `json:"ident"`
+}
+
 type Peoples struct {
     Peoples []People    `json:"peoples"`
 }
@@ -65,7 +69,7 @@ type Vaccine struct {
 type Vaccination struct {
     Vaccination string    `json:"vaccination"`
     Aoa string            `json:"aoa"`
-    FirstAdm bool         `json:"firstAdm"`
+    Fa bool               `json:"fa"`
     Fdd time.Time         `json:"fdd"`
     Sdd time.Time         `json:"sdd"`
     AefiClass string      `json:"aefiClass"`
@@ -77,6 +81,41 @@ type PeoplePage struct {
     People People            `json:"people"`
     Vaccine Vaccine          `json:"vaccine"`
     Vaccination Vaccination  `json:"vaccination"`
+}
+
+type VaccinationRecord struct {
+    Vaccination string       `json:"vaccination"`
+    VaccineBrand string      `json:"vaccineBrand"`
+    VaccineType string       `json:"vaccineType"`
+    VaccineAgainst string    `json:"vaccineAgainst"`
+    VaccineRaoa string       `json:"vaccineRaoa"`
+    Aoa string               `json:"aoa"`
+    Fa bool                  `json:"fa"`
+    Fdd time.Time            `json:"fdd"`
+    Sdd time.Time            `json:"sdd"`
+    AefiClass string         `json:"aefiClass"`
+    AefiReaction []string    `json:"aefiReaction"`
+    Remarks string           `json:"remarks"`
+}
+
+type PeopleProfile struct {
+    People People                           `json:"people"`   
+    VaccinationRecords []VaccinationRecord  `json:"vaccinationRecords"` 
+}
+
+type PeopleSearchResult struct {
+    Ident string             `json:"ident"`
+    Name string              `json:"name"`
+    Dob time.Time            `json:"dob"`
+    Race string              `json:"race"`
+    Nationality string       `json:"nationality"`
+    Locality string          `json:"locality"`
+    District string          `json:"district"`
+    State string             `json:"state"`
+}
+
+type PeopleSearch struct {
+    SearchResults []PeopleSearchResult    `json:"peopleSearchResults"`
 }
 
 func GetPeoples(conn *pgx.Conn) ([]byte, error) {
@@ -122,17 +161,11 @@ func GetPeoples(conn *pgx.Conn) ([]byte, error) {
     return output, err
 }
 
-// `select kkm.people.*, kkm.vaccine.*, kkm.vaccination.* 
-//    from kkm.people 
-//      join kkm.vaccination on kkm.people.ident = kkm.vaccination.people 
-//      join kkm.vaccine on kkm.vaccination.vaccine = kkm.vaccine.id 
-//     where kkm.people.ident='880601105149';`
-
 func GetPeople(conn *pgx.Conn, ident string) ([]byte, error) {
     row := conn.QueryRow(context.Background(), 
         `select kkm.people.name, kkm.people.gender, kkm.people.dob, 
         kkm.people.nationality, kkm.people.race, kkm.people.tel, 
-        kkm.people.address, kkm.people.postalCode, kkm.people.locality, 
+        kkm.people.address, kkm.people.postalcode, kkm.people.locality, 
         kkm.people.district, kkm.people.state, kkm.people.edu_lvl, 
         kkm.people.occupation, kkm.people.comorbids, kkm.people.support_vac,
         kkm.vaccine.brand, kkm.vaccine.type, kkm.vaccine.against, 
@@ -172,7 +205,7 @@ func GetPeople(conn *pgx.Conn, ident string) ([]byte, error) {
     // Vaccination
     var vaccination string  
     var aoa string
-    var firstAdm bool 
+    var fa bool 
     var fdd time.Time 
     var sdd time.Time 
     var aefiClass string 
@@ -181,7 +214,7 @@ func GetPeople(conn *pgx.Conn, ident string) ([]byte, error) {
                 &postalCode, &locality, &district, &state, &eduLvl, &occupation, 
                 &comorbids, &supportVac, 
                 &brand, &vacType, &against, &raoa, 
-                &vaccination, &aoa, &firstAdm, &fdd, &sdd, &aefiClass, &aefiReaction)
+                &vaccination, &aoa, &fa, &fdd, &sdd, &aefiClass, &aefiReaction)
     if err != nil {
         return nil, err
     }
@@ -212,7 +245,7 @@ func GetPeople(conn *pgx.Conn, ident string) ([]byte, error) {
     vaccinationStrct := Vaccination{
         Vaccination: vaccination,
         Aoa: aoa,
-        FirstAdm: firstAdm,
+        Fa: fa,
         Fdd: fdd,
         Sdd: sdd,
         AefiClass: aefiClass,
@@ -228,6 +261,125 @@ func GetPeople(conn *pgx.Conn, ident string) ([]byte, error) {
     return outputJson, err
 }
 
+func GetPeopleProfile(conn *pgx.Conn, ident string) ([]byte, error) {
+    rows, err := conn.Query(context.Background(), 
+        `select people.name, people.gender, people.dob, 
+         people.nationality, people.race, people.tel, 
+         people.address, people.postalcode, people.locality, 
+         people.district, people.state, people.edu_lvl, 
+         people.occupation, people.comorbids, people.support_vac,
+         vaccine.brand, vaccine.type, vaccine.against, 
+         vaccine.raoa,
+         vaccination.vaccination, vaccination.aoa, 
+         vaccination.first_adm, vaccination.first_dose_dt,
+         vaccination.second_dose_dt, vaccination.aefi_class,
+         vaccination.aefi_reaction, vaccination.remarks
+           from kkm.people 
+             join kkm.vaccination 
+               on kkm.people.ident = kkm.vaccination.people
+             join kkm.vaccine
+               on kkm.vaccination.vaccine = kkm.vaccine.id
+           where ident=$1`,
+        ident)
+    if err != nil {
+        return nil, err
+    }
+    var peopleProfile PeopleProfile
+    firstRecord := true
+
+    for rows.Next() {
+        // Vaccine
+        var brand string 
+        var vacType string 
+        var against string 
+        var raoa string 
+        // Vaccination
+        var vaccination string  
+        var aoa string
+        var fa bool 
+        var fdd time.Time 
+        var sdd time.Time 
+        var aefiClass string 
+        var aefiReaction []string 
+        var remarks string 
+
+        if firstRecord {
+            // People
+            var name string
+            var gender string
+            var dob time.Time
+            var nationality string
+            var race string
+            var tel string
+            var address string
+            var postalCode string 
+            var locality string 
+            var district string 
+            var state string 
+            var eduLvl string
+            var occupation string
+            var comorbids []int
+            var supportVac bool
+
+            err = rows.Scan(&name, &gender, &dob, &nationality, &race, &tel, &address,
+                &postalCode, &locality, &district, &state, &eduLvl, &occupation, 
+                &comorbids, &supportVac, 
+                &brand, &vacType, &against, &raoa, 
+                &vaccination, &aoa, &fa, &fdd, &sdd, &aefiClass, &aefiReaction, &remarks)
+            if err != nil {
+                return nil, err
+            }
+            peopleProfile.People = People{
+                Ident: ident,
+                Name: name,
+                Gender: gender,
+                Dob: dob,
+                Nationality: nationality,
+                Race: race,
+                Tel: tel,
+                Address: address,
+                PostalCode: postalCode,
+                Locality: locality,
+                District: district,
+                State: state,
+                EduLvl: eduLvl,
+                Occupation: occupation,
+                Comorbids: comorbids,
+                SupportVac: supportVac,
+            }
+            firstRecord = false                                     
+        } else {
+            err = rows.Scan(nil, nil, nil, nil, nil, nil, nil,
+                nil, nil, nil, nil, nil, nil, nil, nil, 
+                &brand, &vacType, &against, &raoa, 
+                &vaccination, &aoa, &fa, &fdd, &sdd, &aefiClass, &aefiReaction, &remarks)                      
+            if err != nil {
+                return nil, err
+            }
+        }
+        vaccinationRecord := VaccinationRecord{
+            Vaccination: vaccination,
+            VaccineBrand: brand,
+            VaccineType: vacType,
+            VaccineAgainst: against,
+            VaccineRaoa: raoa,
+            Aoa: aoa,
+            Fa: fa,
+            Fdd: fdd,
+            Sdd: sdd,
+            AefiClass: aefiClass,
+            AefiReaction: aefiReaction,
+            Remarks: remarks,
+        }
+        peopleProfile.VaccinationRecords = append(
+            peopleProfile.VaccinationRecords,
+            vaccinationRecord,
+        )
+    }
+
+    outputJson, err := json.MarshalIndent(peopleProfile, "", "\t")        
+    return outputJson, err
+}
 
 func GetPeopleHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -246,16 +398,88 @@ func GetPeopleHandler(w http.ResponseWriter, r *http.Request) {
         http.Error(w, err.Error(), http.StatusBadRequest)
         return
     }
-
-    peopleJson, err := GetPeople(conn, identity.Ident)
+    
+    // peopleProfJson, err := GetPeople(conn, identity.Ident)
+    peopleProfJson, err := GetPeopleProfile(conn, identity.Ident)
     if err != nil {
         if err == pgx.ErrNoRows {
             log.Print("People entry not found in database")
-        } else {
-            log.Print(err)
         }
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return 
     }
-    fmt.Fprintf(w, "%s", peopleJson)
+    fmt.Fprintf(w, "%s", peopleProfJson)
+}
+
+func SearchPeople(conn *pgx.Conn, ident string) ([]byte, error) {
+    sql1 := `select people.ident, people.name, people.dob, people.race, 
+               people.nationality, people.locality, people.district, people.state 
+             from kkm.people
+             where ident=$1`
+    
+    rows, err := conn.Query(context.Background(), sql1, ident)
+    if err != nil {
+        return nil, err 
+    }
+
+    var peopleSearch PeopleSearch
+    for rows.Next() {
+        var ident string 
+        var name string 
+        var dob time.Time
+        var race string 
+        var nationality string 
+        var locality string 
+        var district string 
+        var state string 
+
+        err = rows.Scan(&ident, &name, &dob, &race, &nationality, 
+                        &locality, &district, &state) 
+        if err != nil {
+            return nil, err 
+        }                   
+        peopleSearchResult := PeopleSearchResult{
+            Ident: ident,
+            Name: name,
+            Dob: dob,
+            Race: race,
+            Nationality: nationality,
+            Locality: locality,
+            District: district,
+            State: state,
+        }     
+        peopleSearch.SearchResults = append(
+            peopleSearch.SearchResults,
+            peopleSearchResult)
+    }
+
+    outputJson, err := json.MarshalIndent(peopleSearch, "", "\t")
+    return outputJson, err
+}
+
+func SearchPeopleHandler(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Access-Control-Allow-Origin", "*")
+    w.Header().Set("Access-Control-Allow-Headers", "authorization")
+    w.Header().Set("Access-Control-Allow-Headers", "content-type")
+    if (r.Method =="OPTIONS") {return}
+    fmt.Println("[SearchPeopleHandler] request received")
+
+    var identity Identity 
+    err := json.NewDecoder(r.Body).Decode(&identity)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }
+
+    SearchPeopleResultJson, err := SearchPeople(conn, identity.Ident)
+    if err != nil {
+        if err == pgx.ErrNoRows {
+            log.Print("People entry not found in database")
+        }
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return 
+    }
+    fmt.Fprintf(w, "%s", SearchPeopleResultJson)
 }
 
 func UpdatePeople(conn *pgx.Conn, people People) error {
@@ -358,10 +582,6 @@ func DeletePeople(conn *pgx.Conn, identity Identity) error {
         return err
     }
     return nil
-}
-
-type Identity struct {
-    Ident string    `json:"ident"`
 }
 
 func DeletePeopleHandler(w http.ResponseWriter, r *http.Request) {
