@@ -9,12 +9,13 @@ func main() {
 	defer data.Close()
 
 	/* HANDLER FUNC */
+	http.HandleFunc("/test", data.TestHandler)
 	http.HandleFunc("/people/search", data.SearchPeopleHandler)
 	http.HandleFunc("/people/get", data.GetPeopleHandler)
 	http.HandleFunc("/people/update", data.UpdatePeopleHandler)
 	http.HandleFunc("/people/add", data.AddPeopleHandler)
 	http.HandleFunc("/people/delete", data.DeletePeopleHandler)
-	http.HandleFunc("/test", data.TestHandler)
+	http.HandleFunc("/vacrec/insert", data.InsertNewVacRecHandler)
 
 	/* START HTTP SERVER */
 	http.ListenAndServe(":8080", nil)

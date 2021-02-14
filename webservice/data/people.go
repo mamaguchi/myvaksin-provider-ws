@@ -61,10 +61,12 @@ type People struct {
     Ident string          `json:"ident"`
     Name string           `json:"name"`
     Gender string         `json:"gender"`
-    Dob time.Time         `json:"dob"`
+    // Dob time.Time         `json:"dob"`
+    Dob string            `json:"dob"`
     Nationality string    `json:"nationality"`
     Race string           `json:"race"`
     Tel string            `json:"tel"`
+    Email string          `json:"email"`
     Address string        `json:"address"`  
     PostalCode string     `json:"postalCode"` 
     Locality string       `json:"locality"`
@@ -106,10 +108,12 @@ type VaccinationRecord struct {
     VaccineType string       `json:"vaccineType"`
     VaccineAgainst string    `json:"vaccineAgainst"`
     VaccineRaoa string       `json:"vaccineRaoa"`
-    Aoa string               `json:"aoa"`
-    Fa bool                  `json:"fa"`
-    Fdd time.Time            `json:"fdd"`
-    Sdd time.Time            `json:"sdd"`
+    // Fa bool                  `json:"fa"`
+    // Fdd time.Time            `json:"fdd"`
+    // Sdd time.Time            `json:"sdd"`
+    Fa string                `json:"fa"`
+    Fdd string               `json:"fdd"`
+    Sdd string               `json:"sdd"`
     AefiClass string         `json:"aefiClass"`
     AefiReaction []string    `json:"aefiReaction"`
     Remarks string           `json:"remarks"`
@@ -118,6 +122,11 @@ type VaccinationRecord struct {
 type PeopleProfile struct {
     People People                           `json:"people"`   
     VaccinationRecords []VaccinationRecord  `json:"vaccinationRecords"` 
+}
+
+type VacRecUpsert struct {
+    Ident string             `json:"ident"`   
+    VacRec VaccinationRecord `json:"vacRec"` 
 }
 
 type PeopleSearchResult struct {
@@ -135,15 +144,33 @@ type PeopleSearch struct {
     SearchResults []PeopleSearchResult    `json:"peopleSearchResults"`
 }
 
+
+func TestHandler(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Access-Control-Allow-Origin", "*")
+    w.Header().Set("Access-Control-Allow-Headers", "authorization")
+    w.Header().Set("Access-Control-Allow-Headers", "content-type")
+    if (r.Method == "OPTIONS") { return }
+    fmt.Println("[TestHandler] Request form data received")
+
+    var identity Identity
+    err := json.NewDecoder(r.Body).Decode(&identity)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }
+    fmt.Printf("%+v\n", identity)    
+}
+
 func GetPeoples(conn *pgx.Conn) ([]byte, error) {
     var peoples Peoples
     rows, _ := conn.Query(context.Background(), 
-        "select ident, name, dob, tel, address, race, nationality, edu_lvl, occupation, comorbids, support_vac from kkm.people")
+        "select ident, name, dob::text, tel, address, race, nationality, eduLvl, occupation, comorbids, supportVac from kkm.people")
 
     for rows.Next() {
         var ident string
         var name string
-        var dob time.Time
+        // var dob time.Time
+        var dob string
         var tel string
         var address string
         var race string
@@ -180,11 +207,11 @@ func GetPeoples(conn *pgx.Conn) ([]byte, error) {
 
 func GetPeople(conn *pgx.Conn, ident string) ([]byte, error) {
     row := conn.QueryRow(context.Background(), 
-        `select kkm.people.name, kkm.people.gender, kkm.people.dob, 
+        `select kkm.people.name, kkm.people.gender, kkm.people.dob::text, 
         kkm.people.nationality, kkm.people.race, kkm.people.tel, 
         kkm.people.address, kkm.people.postalcode, kkm.people.locality, 
-        kkm.people.district, kkm.people.state, kkm.people.edu_lvl, 
-        kkm.people.occupation, kkm.people.comorbids, kkm.people.support_vac,
+        kkm.people.district, kkm.people.state, kkm.people.eduLvl, 
+        kkm.people.occupation, kkm.people.comorbids, kkm.people.supportVac,
         kkm.vaccine.brand, kkm.vaccine.type, kkm.vaccine.against, 
         kkm.vaccine.raoa,
         kkm.vaccination.vaccination, kkm.vaccination.aoa, 
@@ -201,7 +228,8 @@ func GetPeople(conn *pgx.Conn, ident string) ([]byte, error) {
     // People
     var name string
     var gender string
-    var dob time.Time
+    // var dob time.Time
+    var dob string
     var nationality string
     var race string
     var tel string
@@ -280,17 +308,17 @@ func GetPeople(conn *pgx.Conn, ident string) ([]byte, error) {
 
 func GetPeopleProfile(conn *pgx.Conn, ident string) ([]byte, error) {
     rows, err := conn.Query(context.Background(), 
-        `select people.name, people.gender, people.dob, 
-         people.nationality, people.race, people.tel, 
+        `select people.name, people.gender, people.dob::text, 
+         people.nationality, people.race, people.tel, people.email,
          people.address, people.postalcode, people.locality, 
-         people.district, people.state, people.edu_lvl, 
-         people.occupation, people.comorbids, people.support_vac,
+         people.district, people.state, people.eduLvl, 
+         people.occupation, people.comorbids, people.supportVac,
          vaccine.brand, vaccine.type, vaccine.against, 
          vaccine.raoa,
-         vaccination.vaccination, vaccination.aoa, 
-         vaccination.first_adm, vaccination.first_dose_dt,
-         vaccination.second_dose_dt, vaccination.aefi_class,
-         vaccination.aefi_reaction, vaccination.remarks
+         vaccination.vaccination, vaccination.firstAdm::text, 
+         coalesce(vaccination.firstDoseDt::text, '') as firstDoseDt, 
+         coalesce(vaccination.secondDoseDt::text, '') as secondDoseDt, 
+         vaccination.aefiClass, vaccination.aefiReaction, vaccination.remarks
            from kkm.people 
              join kkm.vaccination 
                on kkm.people.ident = kkm.vaccination.people
@@ -312,10 +340,13 @@ func GetPeopleProfile(conn *pgx.Conn, ident string) ([]byte, error) {
         var raoa string 
         // Vaccination
         var vaccination string  
-        var aoa string
-        var fa bool 
-        var fdd time.Time 
-        var sdd time.Time 
+        // var aoa string
+        // var fa bool 
+        // var fdd time.Time 
+        // var sdd time.Time 
+        var fa string 
+        var fdd string
+        var sdd string 
         var aefiClass string 
         var aefiReaction []string 
         var remarks string 
@@ -324,10 +355,12 @@ func GetPeopleProfile(conn *pgx.Conn, ident string) ([]byte, error) {
             // People
             var name string
             var gender string
-            var dob time.Time
+            // var dob time.Time
+            var dob string
             var nationality string
             var race string
             var tel string
+            var email string 
             var address string
             var postalCode string 
             var locality string 
@@ -338,11 +371,11 @@ func GetPeopleProfile(conn *pgx.Conn, ident string) ([]byte, error) {
             var comorbids []int
             var supportVac bool
 
-            err = rows.Scan(&name, &gender, &dob, &nationality, &race, &tel, &address,
-                &postalCode, &locality, &district, &state, &eduLvl, &occupation, 
-                &comorbids, &supportVac, 
+            err = rows.Scan(&name, &gender, &dob, &nationality, &race, &tel, 
+                &email, &address, &postalCode, &locality, &district, &state, 
+                &eduLvl, &occupation, &comorbids, &supportVac, 
                 &brand, &vacType, &against, &raoa, 
-                &vaccination, &aoa, &fa, &fdd, &sdd, &aefiClass, &aefiReaction, &remarks)
+                &vaccination, &fa, &fdd, &sdd, &aefiClass, &aefiReaction, &remarks)
             if err != nil {
                 return nil, err
             }
@@ -354,6 +387,7 @@ func GetPeopleProfile(conn *pgx.Conn, ident string) ([]byte, error) {
                 Nationality: nationality,
                 Race: race,
                 Tel: tel,
+                Email: email,
                 Address: address,
                 PostalCode: postalCode,
                 Locality: locality,
@@ -367,9 +401,9 @@ func GetPeopleProfile(conn *pgx.Conn, ident string) ([]byte, error) {
             firstRecord = false                                     
         } else {
             err = rows.Scan(nil, nil, nil, nil, nil, nil, nil,
-                nil, nil, nil, nil, nil, nil, nil, nil, 
+                nil, nil, nil, nil, nil, nil, nil, nil, nil,
                 &brand, &vacType, &against, &raoa, 
-                &vaccination, &aoa, &fa, &fdd, &sdd, &aefiClass, &aefiReaction, &remarks)                      
+                &vaccination, &fa, &fdd, &sdd, &aefiClass, &aefiReaction, &remarks)                      
             if err != nil {
                 return nil, err
             }
@@ -380,7 +414,7 @@ func GetPeopleProfile(conn *pgx.Conn, ident string) ([]byte, error) {
             VaccineType: vacType,
             VaccineAgainst: against,
             VaccineRaoa: raoa,
-            Aoa: aoa,
+            // Aoa: aoa,
             Fa: fa,
             Fdd: fdd,
             Sdd: sdd,
@@ -403,7 +437,7 @@ func GetPeopleHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Headers", "authorization")
     w.Header().Set("Access-Control-Allow-Headers", "content-type") 
     if (r.Method == "OPTIONS") { return }
-    fmt.Println("[GetPeopleHandler] Request form data received")
+    fmt.Println("[GetPeopleHandler] request received")
     // r.ParseForm()
     // fmt.Println(r.Form)
     // peopleIdent := r.Form["ident"][0]
@@ -412,6 +446,7 @@ func GetPeopleHandler(w http.ResponseWriter, r *http.Request) {
     var identity Identity
     err := json.NewDecoder(r.Body).Decode(&identity)
     if err != nil {
+        log.Print(err)
         http.Error(w, err.Error(), http.StatusBadRequest)
         return
     }
@@ -422,9 +457,11 @@ func GetPeopleHandler(w http.ResponseWriter, r *http.Request) {
         if err == pgx.ErrNoRows {
             log.Print("People entry not found in database")
         }
+        log.Print(err)
         http.Error(w, err.Error(), http.StatusBadRequest)
         return 
     }
+    fmt.Printf("%s\n", peopleProfJson)
     fmt.Fprintf(w, "%s", peopleProfJson)
 }
 
@@ -435,7 +472,7 @@ func SearchPeople(conn *pgx.Conn, sqlInputVars SqlInputVars) ([]byte, error) {
          from kkm.people
          where ident=$1`
 
-    // NOTE: pgx (Golang PostgreSQL driver) does not require the term
+    // NOTE: pgx (Golang PostgreSQL driver) does not support the term
     //       'timestamp' before the date string in the sql, or else it
     //       will cause syntax error.
     //       Using 'timestamp' term before date string is supported 
@@ -521,17 +558,15 @@ func SearchPeopleHandler(w http.ResponseWriter, r *http.Request) {
     if (r.Method =="OPTIONS") {return}
     fmt.Println("[SearchPeopleHandler] request received")
 
-    // var identity Identity 
     var sqlInputVars SqlInputVars
-    // err := json.NewDecoder(r.Body).Decode(&identity)
     err := json.NewDecoder(r.Body).Decode(&sqlInputVars)
     if err != nil {
+        log.Print(err)
         http.Error(w, err.Error(), http.StatusBadRequest)
         return
     }
     fmt.Printf("%+v\n", sqlInputVars)
 
-    // SearchPeopleResultJson, err := SearchPeople(conn, identity.Ident)
     SearchPeopleResultJson, err := SearchPeople(conn, sqlInputVars)
     if err != nil {
         if err == pgx.ErrNoRows {
@@ -546,16 +581,30 @@ func SearchPeopleHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdatePeople(conn *pgx.Conn, people People) error {
-    sql := `update kkm.people 
-            set name=$1, dob=$2, tel=$3, address=$4, race=$5,
-              nationality=$6, edu_lvl=$7, occupation=$8, comorbids=$9, support_vac=$10 
-            where ident=$11`   
+    // sql := `update kkm.people 
+    //         set name=$1, dob=$2, tel=$3, address=$4, race=$5,
+    //           nationality=$6, eduLvl=$7, occupation=$8, comorbids=$9, supportVac=$10 
+    //         where ident=$11`   
+
+    // _, err := conn.Exec(context.Background(), sql,
+    //     people.Name, people.Dob, people.Tel, people.Address, 
+    //     people.Race, people.Nationality, people.EduLvl, 
+    //     people.Occupation, people.Comorbids, people.SupportVac,
+    //     people.Ident)
+
+    sql := 
+        `update kkm.people 
+           set name=$1, gender=$2, dob=$3, nationality=$4, race=$5, 
+             tel=$6, email=$7, address=$8, postalCode=$9, locality=$10,
+             district=$11, state=$12, eduLvl=$13, occupation=$14, 
+             comorbids=$15, supportVac=$16 
+           where ident=$17`   
 
     _, err := conn.Exec(context.Background(), sql,
-        people.Name, people.Dob, people.Tel, people.Address, 
-        people.Race, people.Nationality, people.EduLvl, 
-        people.Occupation, people.Comorbids, people.SupportVac,
-        people.Ident)
+        people.Name, people.Gender, people.Dob, people.Nationality, 
+        people.Race, people.Tel, people.Email, people.Address, people.PostalCode, 
+        people.Locality, people.District, people.State, people.EduLvl, 
+        people.Occupation, people.Comorbids, people.SupportVac, people.Ident)
     if err != nil {
         return err
     }    
@@ -567,30 +616,25 @@ func UpdatePeopleHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Headers", "authorization")
     w.Header().Set("Access-Control-Allow-Headers", "content-type")
     if (r.Method == "OPTIONS") { return }
-    r.ParseForm()
-    fmt.Println("[UpdatePeopleHandler] Request form data received")
+    fmt.Println("[UpdatePeopleHandler] request received")
+    
+    /* LESS-EFFICIENT-JSON_DECODING-METHOD (Produces intermediate byte slice)
+       var people People
+       err := json.Unmarshal([]byte(input), &people) */
 
-    /* MORE-EFFICIENT-JSON_DECODING-METHOD */
+    /* MORE-EFFICIENT-JSON_DECODING-METHOD (No intermediate byte slice) */
     var people People
     err := json.NewDecoder(r.Body).Decode(&people)
     if err != nil {
+        log.Print(err)
         http.Error(w, err.Error(), http.StatusBadRequest)
         return
     }
-    fmt.Printf("%v\n", people)
-
-    /* LESS-EFFICIENT-JSON_DECODING-METHOD */
-    // var people People
-    // err := json.Unmarshal([]byte(input), &people)
-    // if err != nil {
-    //     log.Print(err)
-    //     w.WriteHeader(500)
-    //     fmt.Fprintf(w, "Internal server error! Unable to read http json input")
-    //     return
-    // }
+    fmt.Printf("%+v\n", people)
 
     err = UpdatePeople(conn, people)
     if err != nil {
+        log.Print(err)
         http.Error(w, err.Error(), http.StatusBadRequest)
         return
     }   
@@ -599,7 +643,7 @@ func UpdatePeopleHandler(w http.ResponseWriter, r *http.Request) {
 func AddPeople(conn *pgx.Conn, people People) error {
     sql := `insert into kkm.people
             (ident, name, dob, tel, address, race, nationality,
-            edu_lvl, occupation, comorbids, support_vac)
+            eduLvl, occupation, comorbids, supportVac)
             values 
             ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`
     
@@ -669,20 +713,117 @@ func DeletePeopleHandler(w http.ResponseWriter, r *http.Request) {
     }
 }
 
-func TestHandler(w http.ResponseWriter, r *http.Request) {
+// type VaccinationRecord struct {
+//     Vaccination string       `json:"vaccination"`
+//     VaccineBrand string      `json:"vaccineBrand"`
+//     VaccineType string       `json:"vaccineType"`
+//     VaccineAgainst string    `json:"vaccineAgainst"`
+//     VaccineRaoa string       `json:"vaccineRaoa"`
+//     Aoa string               `json:"aoa"`
+//     Fa bool                  `json:"fa"`
+//     Fdd time.Time            `json:"fdd"`
+//     Sdd time.Time            `json:"sdd"`
+//     AefiClass string         `json:"aefiClass"`
+//     AefiReaction []string    `json:"aefiReaction"`
+//     Remarks string           `json:"remarks"`
+// }
+// `insert into kkm.vaccination
+// (vaccine, people, vaccination, aoa, first_adm,
+//   first_dose_dt, second_dose_dt, aefi_class, 
+//   aefi_reaction, remarks)`
+func InsertNewVacRec(conn *pgx.Conn, vru VacRecUpsert) error {                  
+    var err error
+    if vru.VacRec.Fdd == "" {
+        sql := 
+            `insert into kkm.vaccination
+            (
+                vaccine, people, vaccination, firstAdm,  
+                secondDoseDt, aefiClass, aefiReaction, remarks
+            )
+            select vac.id, $1, $2, $3, $4, $5, $6, $7
+            from kkm.vaccine vac
+            where vac.brand=$8` 
+
+        _, err = conn.Exec(context.Background(), sql, 
+        vru.Ident, vru.VacRec.Vaccination, vru.VacRec.Fa,
+        vru.VacRec.Sdd, vru.VacRec.AefiClass,
+        vru.VacRec.AefiReaction, vru.VacRec.Remarks,
+        vru.VacRec.VaccineBrand)
+    } else if vru.VacRec.Sdd == "" {
+        sql := 
+            `insert into kkm.vaccination
+            (
+                vaccine, people, vaccination, firstAdm, firstDoseDt, 
+                aefiClass, aefiReaction, remarks
+            )
+            select vac.id, $1, $2, $3, $4, $5, $6, $7
+            from kkm.vaccine vac
+            where vac.brand=$8`
+
+        _, err = conn.Exec(context.Background(), sql, 
+        vru.Ident, vru.VacRec.Vaccination, vru.VacRec.Fa,
+        vru.VacRec.Fdd, vru.VacRec.AefiClass,
+        vru.VacRec.AefiReaction, vru.VacRec.Remarks,
+        vru.VacRec.VaccineBrand)
+    } else if vru.VacRec.Fdd == "" && vru.VacRec.Sdd == "" {
+        sql := 
+            `insert into kkm.vaccination
+            (
+                vaccine, people, vaccination, firstAdm,  
+                aefiClass, aefiReaction, remarks
+            )
+            select vac.id, $1, $2, $3, $4, $5, $6
+            from kkm.vaccine vac
+            where vac.brand=$7` 
+        _, err = conn.Exec(context.Background(), sql, 
+        vru.Ident, vru.VacRec.Vaccination, vru.VacRec.Fa,
+        vru.VacRec.AefiClass,
+        vru.VacRec.AefiReaction, vru.VacRec.Remarks,
+        vru.VacRec.VaccineBrand)
+    } else {
+        sql := 
+            `insert into kkm.vaccination
+            (
+                vaccine, people, vaccination, firstAdm, firstDoseDt, 
+                secondDoseDt, aefiClass, aefiReaction, remarks
+            )
+            select vac.id, $1, $2, $3, $4, $5, $6, $7, $8
+            from kkm.vaccine vac
+            where vac.brand=$9` 
+        _, err = conn.Exec(context.Background(), sql, 
+        vru.Ident, vru.VacRec.Vaccination, vru.VacRec.Fa,
+        vru.VacRec.Fdd, vru.VacRec.Sdd, vru.VacRec.AefiClass,
+        vru.VacRec.AefiReaction, vru.VacRec.Remarks,
+        vru.VacRec.VaccineBrand)
+    }    
+    if err != nil {
+        return err
+    }
+    return nil
+}
+
+func InsertNewVacRecHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Origin", "*")
     w.Header().Set("Access-Control-Allow-Headers", "authorization")
     w.Header().Set("Access-Control-Allow-Headers", "content-type")
     if (r.Method == "OPTIONS") { return }
-    fmt.Println("[TestHandler] Request form data received")
-
-    var identity Identity
-    err := json.NewDecoder(r.Body).Decode(&identity)
+    fmt.Println("[InsertNewVacRecHandler] request received")
+        
+    var vru VacRecUpsert
+    err := json.NewDecoder(r.Body).Decode(&vru)
     if err != nil {
+        log.Print(err)
         http.Error(w, err.Error(), http.StatusBadRequest)
         return
     }
-    fmt.Printf("%+v\n", identity)    
+    fmt.Printf("%+v\n", vru)
+
+    err = InsertNewVacRec(conn, vru)
+    if err != nil {
+        log.Print(err)
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }   
 }
 
  
