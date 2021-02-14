@@ -36,6 +36,23 @@ type Identity struct {
     Ident string    `json:"ident"`
 }
 
+type SqlInputVars struct {
+    Ident string            `json:"ident"`
+    Name string             `json:"name"`
+    DobInterval DobInterval `json:"dobInterval"`
+    Race string             `json:"race"`
+    Nationality string      `json:"nationality"`
+    State string            `json:"state"`
+    District string         `json:"district"`
+    Locality string         `json:"locality"`
+    SqlOpt string           `json:"sqlOpt"`
+}
+
+type DobInterval struct {
+    MinDate string      `json:"minDate"`
+    MaxDate string      `json:"maxDate"`
+}
+
 type Peoples struct {
     Peoples []People    `json:"peoples"`
 }
@@ -411,16 +428,56 @@ func GetPeopleHandler(w http.ResponseWriter, r *http.Request) {
     fmt.Fprintf(w, "%s", peopleProfJson)
 }
 
-func SearchPeople(conn *pgx.Conn, ident string) ([]byte, error) {
-    sql1 := `select people.ident, people.name, people.dob, people.race, 
-               people.nationality, people.locality, people.district, people.state 
-             from kkm.people
-             where ident=$1`
+func SearchPeople(conn *pgx.Conn, sqlInputVars SqlInputVars) ([]byte, error) {
+    sqlOpt1 := 
+        `select people.ident, people.name, people.dob, people.race, 
+           people.nationality, people.locality, people.district, people.state 
+         from kkm.people
+         where ident=$1`
+
+    // NOTE: pgx (Golang PostgreSQL driver) does not require the term
+    //       'timestamp' before the date string in the sql, or else it
+    //       will cause syntax error.
+    //       Using 'timestamp' term before date string is supported 
+    //       but optional in native psql command.
+    sqlOpt2 := 
+         `select people.ident, people.name, people.dob, people.race,
+            people.nationality, people.locality, people.district, people.state
+          from kkm.people
+          where dob between $1 and $2`
+
+    sqlOpt3 := 
+        `select people.ident, people.name, people.dob, people.race,
+           people.nationality, people.locality, people.district, people.state
+         from kkm.people
+         where name ilike $1
+           and race::text ilike $2
+           and nationality::text ilike $3
+           and state::text ilike $4
+           and district ilike $5
+           and locality ilike $6`
     
-    rows, err := conn.Query(context.Background(), sql1, ident)
+    var rows pgx.Rows 
+    var err error
+    if sqlInputVars.SqlOpt == "1" {
+        rows, err = conn.Query(context.Background(), sqlOpt1, 
+          sqlInputVars.Ident)        
+    } else if sqlInputVars.SqlOpt == "2" {
+        rows, err = conn.Query(context.Background(), sqlOpt2, 
+          sqlInputVars.DobInterval.MinDate,
+          sqlInputVars.DobInterval.MaxDate)   
+    } else if sqlInputVars.SqlOpt == "3" {
+        rows, err = conn.Query(context.Background(), sqlOpt3, 
+          sqlInputVars.Name,
+          sqlInputVars.Race,
+          sqlInputVars.Nationality,
+          sqlInputVars.State,
+          sqlInputVars.District,
+          sqlInputVars.Locality)
+    }
     if err != nil {
         return nil, err 
-    }
+    }    
 
     var peopleSearch PeopleSearch
     for rows.Next() {
@@ -464,21 +521,27 @@ func SearchPeopleHandler(w http.ResponseWriter, r *http.Request) {
     if (r.Method =="OPTIONS") {return}
     fmt.Println("[SearchPeopleHandler] request received")
 
-    var identity Identity 
-    err := json.NewDecoder(r.Body).Decode(&identity)
+    // var identity Identity 
+    var sqlInputVars SqlInputVars
+    // err := json.NewDecoder(r.Body).Decode(&identity)
+    err := json.NewDecoder(r.Body).Decode(&sqlInputVars)
     if err != nil {
         http.Error(w, err.Error(), http.StatusBadRequest)
         return
     }
+    fmt.Printf("%+v\n", sqlInputVars)
 
-    SearchPeopleResultJson, err := SearchPeople(conn, identity.Ident)
+    // SearchPeopleResultJson, err := SearchPeople(conn, identity.Ident)
+    SearchPeopleResultJson, err := SearchPeople(conn, sqlInputVars)
     if err != nil {
         if err == pgx.ErrNoRows {
             log.Print("People entry not found in database")
         }
+        log.Print(err)
         http.Error(w, err.Error(), http.StatusBadRequest)
         return 
     }
+    fmt.Printf("JSON Output\n%s\n", SearchPeopleResultJson)
     fmt.Fprintf(w, "%s", SearchPeopleResultJson)
 }
 
