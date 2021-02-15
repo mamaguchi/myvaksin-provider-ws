@@ -587,6 +587,57 @@ func SearchPeopleHandler(w http.ResponseWriter, r *http.Request) {
     fmt.Fprintf(w, "%s", SearchPeopleResultJson)
 }
 
+func CreateNewPeople(conn *pgx.Conn, people People) error {
+    sql :=
+        `insert into kkm.people
+        (
+            ident, name, gender, dob, nationality, race,
+            tel, email, address, postalCode, locality,
+            district, state, eduLvl, occupation, comorbids, 
+            supportvac
+        )
+        values
+        (
+            $1, $2, $3, $4, $5, $6, $7, $8, $9, $10,
+            $11, $12, $13, $14, $15, $16, $17
+        )`
+
+    _, err := conn.Exec(context.Background(), sql, 
+        people.Ident, people.Name, people.Gender, people.Dob, 
+        people.Nationality, people.Race, people.Tel, people.Email, 
+        people.Address, people.PostalCode, people.Locality, 
+        people.District, people.State, people.EduLvl, 
+        people.Occupation, people.Comorbids, people.SupportVac)
+    if err != nil {
+        return err
+    }
+    return nil
+}
+
+func CreateNewPeopleHandler(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Access-Control-Allow-Origin", "*")
+    w.Header().Set("Access-Control-Allow-Headers", "authorization")
+    w.Header().Set("Access-Control-Allow-Headers", "content-type")
+    if (r.Method == "OPTIONS") { return }
+    fmt.Println("[CreateNewPeopleHandler] request received")
+        
+    var people People
+    err := json.NewDecoder(r.Body).Decode(&people)
+    if err != nil {
+        log.Print(err)
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }
+    fmt.Printf("%+v\n", people)
+
+    err = CreateNewPeople(conn, people)
+    if err != nil {
+        log.Print(err)
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }   
+}
+
 func UpdatePeople(conn *pgx.Conn, people People) error {
     // sql := `update kkm.people 
     //         set name=$1, dob=$2, tel=$3, address=$4, race=$5,
@@ -720,12 +771,7 @@ func DeletePeopleHandler(w http.ResponseWriter, r *http.Request) {
     }
 }
 
-
-// `insert into kkm.vaccination
-// (vaccine, people, vaccination, aoa, first_adm,
-//   first_dose_dt, second_dose_dt, aefi_class, 
-//   aefi_reaction, remarks)`
-func InsertNewVacRec(conn *pgx.Conn, vru VacRecUpsert) error {                  
+func CreateNewVacRec(conn *pgx.Conn, vru VacRecUpsert) error {                  
     var err error
     if vru.VacRec.Fdd == "" {
         sql := 
@@ -796,12 +842,12 @@ func InsertNewVacRec(conn *pgx.Conn, vru VacRecUpsert) error {
     return nil
 }
 
-func InsertNewVacRecHandler(w http.ResponseWriter, r *http.Request) {
+func CreateNewVacRecHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Origin", "*")
     w.Header().Set("Access-Control-Allow-Headers", "authorization")
     w.Header().Set("Access-Control-Allow-Headers", "content-type")
     if (r.Method == "OPTIONS") { return }
-    fmt.Println("[InsertNewVacRecHandler] request received")
+    fmt.Println("[CreateNewVacRecHandler] request received")
         
     var vru VacRecUpsert
     err := json.NewDecoder(r.Body).Decode(&vru)
@@ -812,7 +858,7 @@ func InsertNewVacRecHandler(w http.ResponseWriter, r *http.Request) {
     }
     fmt.Printf("%+v\n", vru)
 
-    err = InsertNewVacRec(conn, vru)
+    err = CreateNewVacRec(conn, vru)
     if err != nil {
         log.Print(err)
         http.Error(w, err.Error(), http.StatusBadRequest)
@@ -820,22 +866,6 @@ func InsertNewVacRecHandler(w http.ResponseWriter, r *http.Request) {
     }   
 }
 
-// type VaccinationRecord struct {
-//     Vaccination string       `json:"vaccination"`
-//     VaccineBrand string      `json:"vaccineBrand"`
-//     VaccineType string       `json:"vaccineType"`
-//     VaccineAgainst string    `json:"vaccineAgainst"`
-//     VaccineRaoa string       `json:"vaccineRaoa"`
-//     Aoa string               `json:"aoa"`
-//     Fa bool                  `json:"fa"`
-//     Fdd time.Time            `json:"fdd"`
-//     Sdd time.Time            `json:"sdd"`
-//     AefiClass string         `json:"aefiClass"`
-//     AefiReaction []string    `json:"aefiReaction"`
-//     Remarks string           `json:"remarks"`
-// }
-// id|vaccine|people|vaccination|firstadm|firstdosedt|
-// seconddosedt|aeficlass|aefireaction|remarks 
 func UpdateVacRec(conn *pgx.Conn, vru VacRecUpsert) error {
     var err error
     if vru.VacRec.Fdd == "" {

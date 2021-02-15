@@ -11,11 +11,12 @@ func main() {
 	/* HANDLER FUNC */
 	http.HandleFunc("/test", data.TestHandler)
 	http.HandleFunc("/people/search", data.SearchPeopleHandler)
+	http.HandleFunc("/people/create", data.CreateNewPeopleHandler)
 	http.HandleFunc("/people/get", data.GetPeopleHandler)
 	http.HandleFunc("/people/update", data.UpdatePeopleHandler)
 	http.HandleFunc("/people/add", data.AddPeopleHandler)
 	http.HandleFunc("/people/delete", data.DeletePeopleHandler)
-	http.HandleFunc("/vacrec/insert", data.InsertNewVacRecHandler)
+	http.HandleFunc("/vacrec/create", data.CreateNewVacRecHandler)
 	http.HandleFunc("/vacrec/update", data.UpdateVacRecHandler)
 	http.HandleFunc("/vacrec/delete", data.DeleteVacRecHandler)
 
