@@ -17,6 +17,7 @@ func main() {
 	http.HandleFunc("/people/delete", data.DeletePeopleHandler)
 	http.HandleFunc("/vacrec/insert", data.InsertNewVacRecHandler)
 	http.HandleFunc("/vacrec/update", data.UpdateVacRecHandler)
+	http.HandleFunc("/vacrec/delete", data.DeleteVacRecHandler)
 
 	/* START HTTP SERVER */
 	http.ListenAndServe(":8080", nil)

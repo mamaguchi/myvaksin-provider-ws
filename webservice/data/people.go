@@ -126,8 +126,12 @@ type PeopleProfile struct {
 }
 
 type VacRecUpsert struct {
-    Ident string             `json:"ident"`   
+    Ident string             `json:"ident"`//People's Ident  
     VacRec VaccinationRecord `json:"vacRec"` 
+}
+
+type VacRecDelete struct {
+    VaccinationId int64      `json:"vaccinationId`
 }
 
 type PeopleSearchResult struct {
@@ -924,6 +928,40 @@ func UpdateVacRecHandler(w http.ResponseWriter, r *http.Request) {
     fmt.Printf("%+v\n", vru)
 
     err = UpdateVacRec(conn, vru)
+    if err != nil {
+        log.Print(err)
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }   
+}
+
+func DeleteVacRec(conn *pgx.Conn, vacRecId int64) error {
+    sql := `delete from kkm.vaccination where id=$1`
+
+    _, err := conn.Exec(context.Background(), sql, vacRecId)
+    if err != nil {
+        return err
+    }
+    return nil
+}
+
+func DeleteVacRecHandler(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Access-Control-Allow-Origin", "*")
+    w.Header().Set("Access-Control-Allow-Headers", "authorization")
+    w.Header().Set("Access-Control-Allow-Headers", "content-type")
+    if (r.Method == "OPTIONS") { return }
+    fmt.Println("[DeleteVacRecHandler] request received")
+        
+    var vrd VacRecDelete
+    err := json.NewDecoder(r.Body).Decode(&vrd)
+    if err != nil {
+        log.Print(err)
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }
+    fmt.Printf("%+v\n", vrd)
+
+    err = DeleteVacRec(conn, vrd.VaccinationId)
     if err != nil {
         log.Print(err)
         http.Error(w, err.Error(), http.StatusBadRequest)
