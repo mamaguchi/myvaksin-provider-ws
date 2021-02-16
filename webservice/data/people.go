@@ -5,32 +5,30 @@ import (
     "encoding/json"
     "time"
     "fmt"
-    "os"
     "log"
     "context"
-    // "strings"
-    // "strconv"
     "github.com/jackc/pgx"
+    "myvaksin/webservice/db"
 )
 
 const (
     DATE_ISO =  "2006-01-02"
 )
 
-var conn *pgx.Conn
+// var conn *pgx.Conn
 
-func init() {
-    var err error
-    conn, err = pgx.Connect(context.Background(), os.Getenv("DATABASE_URL"))
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Unable to make connection to database: %v\n", err)
-		os.Exit(1)
-    }     
-}
+// func init() {
+//     var err error
+//     conn, err = pgx.Connect(context.Background(), os.Getenv("DATABASE_URL"))
+//     if err != nil {
+//         fmt.Fprintf(os.Stderr, "Unable to make connection to database: %v\n", err)
+// 		os.Exit(1)
+//     }     
+// }
 
-func Close() {
-    conn.Close(context.Background())
-}
+// func Close() {
+//     conn.Close(context.Background())
+// }
 
 type Identity struct {
     Ident string    `json:"ident"`
@@ -458,8 +456,8 @@ func GetPeopleHandler(w http.ResponseWriter, r *http.Request) {
         return
     }
     
-    // peopleProfJson, err := GetPeople(conn, identity.Ident)
-    peopleProfJson, err := GetPeopleProfile(conn, identity.Ident)
+    // peopleProfJson, err := GetPeople(db.Conn, identity.Ident)
+    peopleProfJson, err := GetPeopleProfile(db.Conn, identity.Ident)
     if err != nil {
         if err == pgx.ErrNoRows {
             log.Print("People entry not found in database")
@@ -574,7 +572,7 @@ func SearchPeopleHandler(w http.ResponseWriter, r *http.Request) {
     }
     fmt.Printf("%+v\n", sqlInputVars)
 
-    SearchPeopleResultJson, err := SearchPeople(conn, sqlInputVars)
+    SearchPeopleResultJson, err := SearchPeople(db.Conn, sqlInputVars)
     if err != nil {
         if err == pgx.ErrNoRows {
             log.Print("People entry not found in database")
@@ -630,7 +628,7 @@ func CreateNewPeopleHandler(w http.ResponseWriter, r *http.Request) {
     }
     fmt.Printf("%+v\n", people)
 
-    err = CreateNewPeople(conn, people)
+    err = CreateNewPeople(db.Conn, people)
     if err != nil {
         log.Print(err)
         http.Error(w, err.Error(), http.StatusBadRequest)
@@ -638,18 +636,7 @@ func CreateNewPeopleHandler(w http.ResponseWriter, r *http.Request) {
     }   
 }
 
-func UpdatePeople(conn *pgx.Conn, people People) error {
-    // sql := `update kkm.people 
-    //         set name=$1, dob=$2, tel=$3, address=$4, race=$5,
-    //           nationality=$6, eduLvl=$7, occupation=$8, comorbids=$9, supportVac=$10 
-    //         where ident=$11`   
-
-    // _, err := conn.Exec(context.Background(), sql,
-    //     people.Name, people.Dob, people.Tel, people.Address, 
-    //     people.Race, people.Nationality, people.EduLvl, 
-    //     people.Occupation, people.Comorbids, people.SupportVac,
-    //     people.Ident)
-
+func UpdatePeople(conn *pgx.Conn, people People) error {  
     sql := 
         `update kkm.people 
            set name=$1, gender=$2, dob=$3, nationality=$4, race=$5, 
@@ -690,7 +677,7 @@ func UpdatePeopleHandler(w http.ResponseWriter, r *http.Request) {
     }
     fmt.Printf("%+v\n", people)
 
-    err = UpdatePeople(conn, people)
+    err = UpdatePeople(db.Conn, people)
     if err != nil {
         log.Print(err)
         http.Error(w, err.Error(), http.StatusBadRequest)
@@ -731,7 +718,7 @@ func AddPeopleHandler(w http.ResponseWriter, r *http.Request) {
     }
     fmt.Printf("%v\n", people)
 
-    err = AddPeople(conn, people)
+    err = AddPeople(db.Conn, people)
     if err != nil {
         http.Error(w, err.Error(), http.StatusBadRequest)
         return 
@@ -764,7 +751,7 @@ func DeletePeopleHandler(w http.ResponseWriter, r *http.Request) {
     }
     fmt.Printf("%v\n", identity)
 
-    err = DeletePeople(conn, identity)
+    err = DeletePeople(db.Conn, identity)
     if err != nil {
         http.Error(w, err.Error(), http.StatusBadRequest)
         return
@@ -858,7 +845,7 @@ func CreateNewVacRecHandler(w http.ResponseWriter, r *http.Request) {
     }
     fmt.Printf("%+v\n", vru)
 
-    err = CreateNewVacRec(conn, vru)
+    err = CreateNewVacRec(db.Conn, vru)
     if err != nil {
         log.Print(err)
         http.Error(w, err.Error(), http.StatusBadRequest)
@@ -957,7 +944,7 @@ func UpdateVacRecHandler(w http.ResponseWriter, r *http.Request) {
     }
     fmt.Printf("%+v\n", vru)
 
-    err = UpdateVacRec(conn, vru)
+    err = UpdateVacRec(db.Conn, vru)
     if err != nil {
         log.Print(err)
         http.Error(w, err.Error(), http.StatusBadRequest)
@@ -991,7 +978,7 @@ func DeleteVacRecHandler(w http.ResponseWriter, r *http.Request) {
     }
     fmt.Printf("%+v\n", vrd)
 
-    err = DeleteVacRec(conn, vrd.VaccinationId)
+    err = DeleteVacRec(db.Conn, vrd.VaccinationId)
     if err != nil {
         log.Print(err)
         http.Error(w, err.Error(), http.StatusBadRequest)

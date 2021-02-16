@@ -1907,6 +1907,8 @@ curl -H "Content-Type:application/x-www-form-urlencoded" http://localhost:8080/p
 
 curl -H "Content-Type:application/json" http://localhost:8080/people/get -d "{ \"ident\" : \"880601105149\" }"
 
+curl -H "Content-Type:application/json" http://localhost:8080/test -d "{ \"ident\" : \"880601105149\" }"
+
 
 ======================
 10 Feb 2021 - myVaksin

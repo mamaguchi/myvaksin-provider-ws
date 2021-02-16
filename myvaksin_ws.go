@@ -2,14 +2,25 @@ package main
 
 import (
 	"net/http"
+	"myvaksin/webservice/db"
+	"myvaksin/webservice/test"
 	"myvaksin/webservice/data"
+	"myvaksin/webservice/auth"
 )
 
 func main() {
-	defer data.Close()
+	/* INIT DATABASE CONNECTION */
+	// defer data.Close()	
+	db.Open()
+	defer db.Close()
 
 	/* HANDLER FUNC */
-	http.HandleFunc("/test", data.TestHandler)
+	// Test
+	http.HandleFunc("/test", test.TestGetPeopleHandler)
+	// Auth
+	http.HandleFunc("/signup", auth.SignUpPeopleHandler)
+	http.HandleFunc("/signin", auth.BindHandler)
+	// People
 	http.HandleFunc("/people/search", data.SearchPeopleHandler)
 	http.HandleFunc("/people/create", data.CreateNewPeopleHandler)
 	http.HandleFunc("/people/get", data.GetPeopleHandler)
