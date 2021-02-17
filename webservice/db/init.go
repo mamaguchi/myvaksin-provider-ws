@@ -53,6 +53,16 @@ func CheckDbConn() {
 
 func LogErrAndSendBadReqStatus(w http.ResponseWriter, err error) {
     log.Print(err)
-    http.Error(w, err.Error(), http.StatusBadRequest)
+    http.Error(w, err.Error(), http.StatusBadRequest) //Http status code: 400
+}
+
+func LogErrAndSendUnauthorizedStatus(w http.ResponseWriter, err error) {
+    log.Print(err)
+    http.Error(w, err.Error(), http.StatusUnauthorized) //Http status code: 401
+}
+
+func LogErrAndSendInternalServerErrorStatus(w http.ResponseWriter, err error) {
+    log.Print(err)
+    http.Error(w, err.Error(), http.StatusInternalServerError) //Http status code: 500
 }
 
