@@ -439,8 +439,10 @@ func GetPeopleProfile(conn *pgx.Conn, ident string) ([]byte, error) {
 
 func GetPeopleHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Origin", "*")
-    w.Header().Set("Access-Control-Allow-Headers", "authorization")
-    w.Header().Set("Access-Control-Allow-Headers", "content-type") 
+    // w.Header().Set("Access-Control-Allow-Headers", "authorization")
+    // w.Header().Set("Access-Control-Allow-Headers", "content-type") 
+    w.Header().Set("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT")	
+	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
     if (r.Method == "OPTIONS") { return }
     fmt.Println("[GetPeopleHandler] request received")
     // r.ParseForm()
@@ -456,6 +458,7 @@ func GetPeopleHandler(w http.ResponseWriter, r *http.Request) {
         return
     }
     
+    db.CheckDbConn()
     // peopleProfJson, err := GetPeople(db.Conn, identity.Ident)
     peopleProfJson, err := GetPeopleProfile(db.Conn, identity.Ident)
     if err != nil {
@@ -558,8 +561,10 @@ func SearchPeople(conn *pgx.Conn, sqlInputVars SqlInputVars) ([]byte, error) {
 
 func SearchPeopleHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Origin", "*")
-    w.Header().Set("Access-Control-Allow-Headers", "authorization")
-    w.Header().Set("Access-Control-Allow-Headers", "content-type")
+    // w.Header().Set("Access-Control-Allow-Headers", "authorization")
+    // w.Header().Set("Access-Control-Allow-Headers", "content-type")
+    w.Header().Set("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT")	
+	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
     if (r.Method =="OPTIONS") {return}
     fmt.Println("[SearchPeopleHandler] request received")
 
@@ -572,6 +577,7 @@ func SearchPeopleHandler(w http.ResponseWriter, r *http.Request) {
     }
     fmt.Printf("%+v\n", sqlInputVars)
 
+    db.CheckDbConn()
     SearchPeopleResultJson, err := SearchPeople(db.Conn, sqlInputVars)
     if err != nil {
         if err == pgx.ErrNoRows {
@@ -614,8 +620,10 @@ func CreateNewPeople(conn *pgx.Conn, people People) error {
 
 func CreateNewPeopleHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Origin", "*")
-    w.Header().Set("Access-Control-Allow-Headers", "authorization")
-    w.Header().Set("Access-Control-Allow-Headers", "content-type")
+    // w.Header().Set("Access-Control-Allow-Headers", "authorization")
+    // w.Header().Set("Access-Control-Allow-Headers", "content-type")
+    w.Header().Set("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT")	
+	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
     if (r.Method == "OPTIONS") { return }
     fmt.Println("[CreateNewPeopleHandler] request received")
         
@@ -628,6 +636,7 @@ func CreateNewPeopleHandler(w http.ResponseWriter, r *http.Request) {
     }
     fmt.Printf("%+v\n", people)
 
+    db.CheckDbConn()
     err = CreateNewPeople(db.Conn, people)
     if err != nil {
         log.Print(err)
@@ -658,8 +667,10 @@ func UpdatePeople(conn *pgx.Conn, people People) error {
 
 func UpdatePeopleHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Origin", "*")
-    w.Header().Set("Access-Control-Allow-Headers", "authorization")
-    w.Header().Set("Access-Control-Allow-Headers", "content-type")
+    // w.Header().Set("Access-Control-Allow-Headers", "authorization")
+    // w.Header().Set("Access-Control-Allow-Headers", "content-type")
+    w.Header().Set("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT")	
+	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
     if (r.Method == "OPTIONS") { return }
     fmt.Println("[UpdatePeopleHandler] request received")
     
@@ -677,6 +688,7 @@ func UpdatePeopleHandler(w http.ResponseWriter, r *http.Request) {
     }
     fmt.Printf("%+v\n", people)
 
+    db.CheckDbConn()
     err = UpdatePeople(db.Conn, people)
     if err != nil {
         log.Print(err)
@@ -704,8 +716,10 @@ func AddPeople(conn *pgx.Conn, people People) error {
 
 func AddPeopleHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Origin", "*")
-    w.Header().Set("Access-Control-Allow-Headers", "authorization")
-    w.Header().Set("Access-Control-Allow-Headers", "content-type")
+    // w.Header().Set("Access-Control-Allow-Headers", "authorization")
+    // w.Header().Set("Access-Control-Allow-Headers", "content-type")
+    w.Header().Set("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT")	
+	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
     if (r.Method == "OPTIONS") { return }
     r.ParseForm()
     fmt.Println("[AddPeopleHandler] Request form data received")
@@ -718,6 +732,7 @@ func AddPeopleHandler(w http.ResponseWriter, r *http.Request) {
     }
     fmt.Printf("%v\n", people)
 
+    db.CheckDbConn()
     err = AddPeople(db.Conn, people)
     if err != nil {
         http.Error(w, err.Error(), http.StatusBadRequest)
@@ -738,8 +753,10 @@ func DeletePeople(conn *pgx.Conn, identity Identity) error {
 
 func DeletePeopleHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Origin", "*")
-    w.Header().Set("Access-Control-Allow-Headers", "authorization")
-    w.Header().Set("Access-Control-Allow-Headers", "content-type")
+    // w.Header().Set("Access-Control-Allow-Headers", "authorization")
+    // w.Header().Set("Access-Control-Allow-Headers", "content-type")
+    w.Header().Set("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT")	
+	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
     if (r.Method == "OPTIONS") { return }
     fmt.Println("[DeletePeopleHandler] Request form data received")
 
@@ -751,6 +768,7 @@ func DeletePeopleHandler(w http.ResponseWriter, r *http.Request) {
     }
     fmt.Printf("%v\n", identity)
 
+    db.CheckDbConn()
     err = DeletePeople(db.Conn, identity)
     if err != nil {
         http.Error(w, err.Error(), http.StatusBadRequest)
@@ -831,8 +849,10 @@ func CreateNewVacRec(conn *pgx.Conn, vru VacRecUpsert) error {
 
 func CreateNewVacRecHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Origin", "*")
-    w.Header().Set("Access-Control-Allow-Headers", "authorization")
-    w.Header().Set("Access-Control-Allow-Headers", "content-type")
+    // w.Header().Set("Access-Control-Allow-Headers", "authorization")
+    // w.Header().Set("Access-Control-Allow-Headers", "content-type")
+    w.Header().Set("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT")	
+	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
     if (r.Method == "OPTIONS") { return }
     fmt.Println("[CreateNewVacRecHandler] request received")
         
@@ -845,6 +865,7 @@ func CreateNewVacRecHandler(w http.ResponseWriter, r *http.Request) {
     }
     fmt.Printf("%+v\n", vru)
 
+    db.CheckDbConn()
     err = CreateNewVacRec(db.Conn, vru)
     if err != nil {
         log.Print(err)
@@ -930,8 +951,10 @@ func UpdateVacRec(conn *pgx.Conn, vru VacRecUpsert) error {
  
 func UpdateVacRecHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Origin", "*")
-    w.Header().Set("Access-Control-Allow-Headers", "authorization")
-    w.Header().Set("Access-Control-Allow-Headers", "content-type")
+    // w.Header().Set("Access-Control-Allow-Headers", "authorization")
+    // w.Header().Set("Access-Control-Allow-Headers", "content-type")
+    w.Header().Set("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT")	
+	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
     if (r.Method == "OPTIONS") { return }
     fmt.Println("[UpdateVacRecHandler] request received")
         
@@ -944,6 +967,7 @@ func UpdateVacRecHandler(w http.ResponseWriter, r *http.Request) {
     }
     fmt.Printf("%+v\n", vru)
 
+    db.CheckDbConn()
     err = UpdateVacRec(db.Conn, vru)
     if err != nil {
         log.Print(err)
@@ -964,8 +988,10 @@ func DeleteVacRec(conn *pgx.Conn, vacRecId int64) error {
 
 func DeleteVacRecHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Origin", "*")
-    w.Header().Set("Access-Control-Allow-Headers", "authorization")
-    w.Header().Set("Access-Control-Allow-Headers", "content-type")
+    // w.Header().Set("Access-Control-Allow-Headers", "authorization")
+    // w.Header().Set("Access-Control-Allow-Headers", "content-type")
+    w.Header().Set("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT")	
+	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
     if (r.Method == "OPTIONS") { return }
     fmt.Println("[DeleteVacRecHandler] request received")
         
@@ -978,6 +1004,7 @@ func DeleteVacRecHandler(w http.ResponseWriter, r *http.Request) {
     }
     fmt.Printf("%+v\n", vrd)
 
+    db.CheckDbConn()
     err = DeleteVacRec(db.Conn, vrd.VaccinationId)
     if err != nil {
         log.Print(err)

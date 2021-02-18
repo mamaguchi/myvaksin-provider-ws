@@ -56,9 +56,8 @@ func LogErrAndSendBadReqStatus(w http.ResponseWriter, err error) {
     http.Error(w, err.Error(), http.StatusBadRequest) //Http status code: 400
 }
 
-func LogErrAndSendUnauthorizedStatus(w http.ResponseWriter, err error) {
-    log.Print(err)
-    http.Error(w, err.Error(), http.StatusUnauthorized) //Http status code: 401
+func SendUnauthorizedStatus(w http.ResponseWriter) {
+    http.Error(w, "Unauthorized Access", http.StatusUnauthorized) //Http status code: 401
 }
 
 func LogErrAndSendInternalServerErrorStatus(w http.ResponseWriter, err error) {

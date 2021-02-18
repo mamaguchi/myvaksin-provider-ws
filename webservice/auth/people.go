@@ -165,7 +165,7 @@ func BindHandler(w http.ResponseWriter, r *http.Request) {
 	}  
 	fmt.Printf("Bind status: %v\n", bindResult)
 	if !bindResult {
-        db.LogErrAndSendUnauthorizedStatus(w, err)
+        db.SendUnauthorizedStatus(w)
         return
     }  
 	tokenString, err := NewTokenHMAC(people.Ident)
