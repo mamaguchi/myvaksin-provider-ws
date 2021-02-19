@@ -74,6 +74,8 @@ type People struct {
     Occupation string     `json:"occupation"`
     Comorbids []int       `json:"comorbids"`
     SupportVac bool       `json:"supportVac"`
+    // ProfilePic []byte     `json:"profilePic"`
+    ProfilePic string     `json:"profilePic"`
 }
 
 type Vaccine struct {
@@ -315,7 +317,7 @@ func GetPeopleProfile(conn *pgx.Conn, ident string) ([]byte, error) {
          people.nationality, people.race, people.tel, people.email,
          people.address, people.postalcode, people.locality, 
          people.district, people.state, people.eduLvl, 
-         people.occupation, people.comorbids, people.supportVac,
+         people.occupation, people.comorbids, people.supportVac, people.profilepic::text,
          vaccine.brand, vaccine.type, vaccine.against, 
          vaccine.raoa,
          vaccination.id, vaccination.vaccination, vaccination.firstAdm::text, 
@@ -374,10 +376,11 @@ func GetPeopleProfile(conn *pgx.Conn, ident string) ([]byte, error) {
             var occupation string
             var comorbids []int
             var supportVac bool
+            var profilePic string 
 
             err = rows.Scan(&name, &gender, &dob, &nationality, &race, &tel, 
                 &email, &address, &postalCode, &locality, &district, &state, 
-                &eduLvl, &occupation, &comorbids, &supportVac, 
+                &eduLvl, &occupation, &comorbids, &supportVac, &profilePic,
                 &brand, &vacType, &against, &raoa, 
                 &vaccinationId, &vaccination, &fa, &fdd, &sdd, &aefiClass, &aefiReaction, &remarks)
             if err != nil {
@@ -401,11 +404,12 @@ func GetPeopleProfile(conn *pgx.Conn, ident string) ([]byte, error) {
                 Occupation: occupation,
                 Comorbids: comorbids,
                 SupportVac: supportVac,
+                ProfilePic: profilePic,
             }
             firstRecord = false                                     
         } else {
             err = rows.Scan(nil, nil, nil, nil, nil, nil, nil,
-                nil, nil, nil, nil, nil, nil, nil, nil, nil,
+                nil, nil, nil, nil, nil, nil, nil, nil, nil, nil,
                 &brand, &vacType, &against, &raoa, 
                 &vaccinationId, &vaccination, &fa, &fdd, &sdd, &aefiClass, &aefiReaction, &remarks)                      
             if err != nil {
@@ -592,7 +596,10 @@ func SearchPeopleHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateNewPeople(conn *pgx.Conn, people People) error {
-    sql :=
+    var err error    
+    
+    if people.ProfilePic == "" {
+        sql :=
         `insert into kkm.people
         (
             ident, name, gender, dob, nationality, race,
@@ -606,12 +613,35 @@ func CreateNewPeople(conn *pgx.Conn, people People) error {
             $11, $12, $13, $14, $15, $16, $17
         )`
 
-    _, err := conn.Exec(context.Background(), sql, 
+    _, err = conn.Exec(context.Background(), sql, 
         people.Ident, people.Name, people.Gender, people.Dob, 
         people.Nationality, people.Race, people.Tel, people.Email, 
         people.Address, people.PostalCode, people.Locality, 
         people.District, people.State, people.EduLvl, 
         people.Occupation, people.Comorbids, people.SupportVac)
+    } else {    
+        profilePic := []byte(people.ProfilePic)
+        sql :=
+            `insert into kkm.people
+            (
+                ident, name, gender, dob, nationality, race,
+                tel, email, address, postalCode, locality,
+                district, state, eduLvl, occupation, comorbids, 
+                supportvac, profilepic
+            )
+            values
+            (
+                $1, $2, $3, $4, $5, $6, $7, $8, $9, $10,
+                $11, $12, $13, $14, $15, $16, $17, $18
+            )`
+
+        _, err = conn.Exec(context.Background(), sql, 
+            people.Ident, people.Name, people.Gender, people.Dob, 
+            people.Nationality, people.Race, people.Tel, people.Email, 
+            people.Address, people.PostalCode, people.Locality, 
+            people.District, people.State, people.EduLvl, 
+            people.Occupation, people.Comorbids, people.SupportVac, profilePic)
+    }
     if err != nil {
         return err
     }
@@ -646,7 +676,10 @@ func CreateNewPeopleHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdatePeople(conn *pgx.Conn, people People) error {  
-    sql := 
+    var err error
+
+    if people.ProfilePic == "" {
+        sql := 
         `update kkm.people 
            set name=$1, gender=$2, dob=$3, nationality=$4, race=$5, 
              tel=$6, email=$7, address=$8, postalCode=$9, locality=$10,
@@ -654,11 +687,28 @@ func UpdatePeople(conn *pgx.Conn, people People) error {
              comorbids=$15, supportVac=$16 
            where ident=$17`   
 
-    _, err := conn.Exec(context.Background(), sql,
-        people.Name, people.Gender, people.Dob, people.Nationality, 
-        people.Race, people.Tel, people.Email, people.Address, people.PostalCode, 
-        people.Locality, people.District, people.State, people.EduLvl, 
-        people.Occupation, people.Comorbids, people.SupportVac, people.Ident)
+        _, err = conn.Exec(context.Background(), sql,
+            people.Name, people.Gender, people.Dob, people.Nationality, 
+            people.Race, people.Tel, people.Email, people.Address, people.PostalCode, 
+            people.Locality, people.District, people.State, people.EduLvl, 
+            people.Occupation, people.Comorbids, people.SupportVac, people.Ident)
+    } else {
+        profilePic := []byte(people.ProfilePic)
+        sql := 
+        `update kkm.people 
+           set name=$1, gender=$2, dob=$3, nationality=$4, race=$5, 
+             tel=$6, email=$7, address=$8, postalCode=$9, locality=$10,
+             district=$11, state=$12, eduLvl=$13, occupation=$14, 
+             comorbids=$15, supportVac=$16, profilepic=$17 
+           where ident=$18`   
+
+        _, err = conn.Exec(context.Background(), sql,
+            people.Name, people.Gender, people.Dob, people.Nationality, 
+            people.Race, people.Tel, people.Email, people.Address, people.PostalCode, 
+            people.Locality, people.District, people.State, people.EduLvl, 
+            people.Occupation, people.Comorbids, people.SupportVac, profilePic,
+            people.Ident)
+    }    
     if err != nil {
         return err
     }    
@@ -673,6 +723,9 @@ func UpdatePeopleHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
     if (r.Method == "OPTIONS") { return }
     fmt.Println("[UpdatePeopleHandler] request received")
+
+    r.ParseForm()
+    fmt.Printf("%+v\n", r.PostForm)
     
     /* LESS-EFFICIENT-JSON_DECODING-METHOD (Produces intermediate byte slice)
        var people People
@@ -698,16 +751,33 @@ func UpdatePeopleHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func AddPeople(conn *pgx.Conn, people People) error {
-    sql := `insert into kkm.people
+    var err error
+
+    if people.ProfilePic == "" {
+        sql := `insert into kkm.people
             (ident, name, dob, tel, address, race, nationality,
-            eduLvl, occupation, comorbids, supportVac)
+            edulvl, occupation, comorbids, supportvac)
             values 
             ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`
     
-    _, err := conn.Exec(context.Background(), sql, 
-        people.Ident, people.Name, people.Dob, people.Tel, people.Address, 
-        people.Race, people.Nationality, people.EduLvl, 
-        people.Occupation, people.Comorbids, people.SupportVac)
+        _, err = conn.Exec(context.Background(), sql, 
+            people.Ident, people.Name, people.Dob, people.Tel, people.Address, 
+            people.Race, people.Nationality, people.EduLvl, 
+            people.Occupation, people.Comorbids, people.SupportVac)
+    } else {
+        profilePic := []byte(people.ProfilePic)
+        sql := `insert into kkm.people
+            (ident, name, dob, tel, address, race, nationality,
+            edulvl, occupation, comorbids, supportvac, profilepic)
+            values 
+            ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`
+    
+        _, err = conn.Exec(context.Background(), sql, 
+            people.Ident, people.Name, people.Dob, people.Tel, people.Address, 
+            people.Race, people.Nationality, people.EduLvl, 
+            people.Occupation, people.Comorbids, people.SupportVac,
+            profilePic)
+    }    
     if err != nil {
         return err
     }
