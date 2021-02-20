@@ -9,6 +9,7 @@ import (
     "context"
     "github.com/jackc/pgx"
     "myvaksin/webservice/db"
+    "myvaksin/webservice/auth"
 )
 
 const (
@@ -74,7 +75,7 @@ type People struct {
     Occupation string     `json:"occupation"`
     Comorbids []int       `json:"comorbids"`
     SupportVac bool       `json:"supportVac"`
-    ProfilePicData string     `json:"profilePicData"`
+    ProfilePicData string `json:"profilePicData"`    
 }
 
 type Vaccine struct {
@@ -605,12 +606,12 @@ func CreateNewPeople(conn *pgx.Conn, people People) error {
             ident, name, gender, dob, nationality, race,
             tel, email, address, postalCode, locality,
             district, state, eduLvl, occupation, comorbids, 
-            supportvac
+            supportvac, password
         )
         values
         (
             $1, $2, $3, $4, $5, $6, $7, $8, $9, $10,
-            $11, $12, $13, $14, $15, $16, $17
+            $11, $12, $13, $14, $15, $16, $17, $18
         )`
 
     _, err = conn.Exec(context.Background(), sql, 
@@ -618,7 +619,8 @@ func CreateNewPeople(conn *pgx.Conn, people People) error {
         people.Nationality, people.Race, people.Tel, people.Email, 
         people.Address, people.PostalCode, people.Locality, 
         people.District, people.State, people.EduLvl, 
-        people.Occupation, people.Comorbids, people.SupportVac)
+        people.Occupation, people.Comorbids, people.SupportVac, 
+        auth.DEFAULT_PEOPLE_PWD)
     } else {    
         sql :=
             `insert into kkm.people
@@ -626,12 +628,12 @@ func CreateNewPeople(conn *pgx.Conn, people People) error {
                 ident, name, gender, dob, nationality, race,
                 tel, email, address, postalCode, locality,
                 district, state, eduLvl, occupation, comorbids, 
-                supportvac, profilepic
+                supportvac, password, profilepic
             )
             values
             (
                 $1, $2, $3, $4, $5, $6, $7, $8, $9, $10,
-                $11, $12, $13, $14, $15, $16, $17, $18
+                $11, $12, $13, $14, $15, $16, $17, $18, $19
             )`
 
         _, err = conn.Exec(context.Background(), sql, 
@@ -639,7 +641,8 @@ func CreateNewPeople(conn *pgx.Conn, people People) error {
             people.Nationality, people.Race, people.Tel, people.Email, 
             people.Address, people.PostalCode, people.Locality, 
             people.District, people.State, people.EduLvl, 
-            people.Occupation, people.Comorbids, people.SupportVac, people.ProfilePicData)
+            people.Occupation, people.Comorbids, people.SupportVac, 
+            auth.DEFAULT_PEOPLE_PWD, people.ProfilePicData)
     }
     if err != nil {
         return err

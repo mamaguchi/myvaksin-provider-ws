@@ -9,6 +9,10 @@ import (
 	"myvaksin/webservice/db"
 )
 
+const (
+	DEFAULT_PEOPLE_PWD = "myvaksin"
+)
+
 type People struct {
 	Name string 	`json:"name"`
     Ident string    `json:"ident"`
