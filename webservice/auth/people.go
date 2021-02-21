@@ -49,7 +49,6 @@ func SignUpPeople(conn *pgx.Conn, people People) (string, error) {
 		// People Ident doesn't exist, 
 		// so can sign up a new account.
 	    if err == pgx.ErrNoRows { 
-			defaultPwd := "myvaksin"
 			sqlInsert :=
 				`insert into kkm.people
 				(
@@ -61,7 +60,7 @@ func SignUpPeople(conn *pgx.Conn, people People) (string, error) {
 				)`
 			
 			_, err = conn.Exec(context.Background(), sqlInsert,
-				people.Name, people.Ident, people.Pwd, defaultPwd)
+				people.Name, people.Ident, people.Pwd, "receiver")
 			if err != nil {
 				// New account create failed.
 				return "", err
