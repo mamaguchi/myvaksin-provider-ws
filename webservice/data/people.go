@@ -5,6 +5,7 @@ import (
     "encoding/json"
     "time"
     "strconv"
+    "strings"
     "fmt"
     "log"
     "context"
@@ -462,7 +463,14 @@ func GetPeopleHandler(w http.ResponseWriter, r *http.Request) {
     // r.ParseForm()
     // fmt.Println(r.Form)
     // peopleIdent := r.Form["ident"][0]
-    // fmt.Printf("%s\n", peopleIdent)    
+    // fmt.Printf("%s\n", peopleIdent) 
+
+    // VERIFY AUTH TOKEN
+    authToken := strings.Split(r.Header.Get("Authorization"), " ")[1]
+    if !auth.VerifyTokenHMAC(authToken) {
+        db.SendUnauthorizedStatus(w)
+        return
+    }   
 
     var identity Identity
     err := json.NewDecoder(r.Body).Decode(&identity)
@@ -741,7 +749,14 @@ func SearchPeopleHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT")	
 	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
     if (r.Method =="OPTIONS") {return}
-    fmt.Println("[SearchPeopleHandler] request received")
+    fmt.Println("[SearchPeopleHandler] request received")   
+
+    // VERIFY AUTH TOKEN
+    authToken := strings.Split(r.Header.Get("Authorization"), " ")[1]
+    if !auth.VerifyTokenHMAC(authToken) {
+        db.SendUnauthorizedStatus(w)
+        return
+    }
 
     var sqlInputVars SqlInputVars
     err := json.NewDecoder(r.Body).Decode(&sqlInputVars)
@@ -852,6 +867,13 @@ func CreateNewPeopleHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
     if (r.Method == "OPTIONS") { return }
     fmt.Println("[CreateNewPeopleHandler] request received")
+
+    // VERIFY AUTH TOKEN
+    authToken := strings.Split(r.Header.Get("Authorization"), " ")[1]
+    if !auth.VerifyTokenHMAC(authToken) {
+        db.SendUnauthorizedStatus(w)
+        return
+    }
     
     // DECODING
     var people People
@@ -932,6 +954,13 @@ func UpdatePeopleHandler(w http.ResponseWriter, r *http.Request) {
     if (r.Method == "OPTIONS") { return }
     fmt.Println("[UpdatePeopleHandler] request received")
 
+    // VERIFY AUTH TOKEN
+    authToken := strings.Split(r.Header.Get("Authorization"), " ")[1]
+    if !auth.VerifyTokenHMAC(authToken) {
+        db.SendUnauthorizedStatus(w)
+        return
+    }
+
     r.ParseForm()
     fmt.Printf("%+v\n", r.PostForm)
     
@@ -1000,6 +1029,13 @@ func AddPeopleHandler(w http.ResponseWriter, r *http.Request) {
     if (r.Method == "OPTIONS") { return }
     r.ParseForm()
     fmt.Println("[AddPeopleHandler] Request form data received")
+
+    // VERIFY AUTH TOKEN
+    authToken := strings.Split(r.Header.Get("Authorization"), " ")[1]
+    if !auth.VerifyTokenHMAC(authToken) {
+        db.SendUnauthorizedStatus(w)
+        return
+    }
     
     var people People
     err := json.NewDecoder(r.Body).Decode(&people)
@@ -1036,6 +1072,13 @@ func DeletePeopleHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
     if (r.Method == "OPTIONS") { return }
     fmt.Println("[DeletePeopleHandler] Request form data received")
+
+    // VERIFY AUTH TOKEN
+    authToken := strings.Split(r.Header.Get("Authorization"), " ")[1]
+    if !auth.VerifyTokenHMAC(authToken) {
+        db.SendUnauthorizedStatus(w)
+        return
+    }
 
     var identity Identity
     err := json.NewDecoder(r.Body).Decode(&identity)
@@ -1132,6 +1175,13 @@ func CreateNewVacRecHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
     if (r.Method == "OPTIONS") { return }
     fmt.Println("[CreateNewVacRecHandler] request received")
+
+    // VERIFY AUTH TOKEN
+    authToken := strings.Split(r.Header.Get("Authorization"), " ")[1]
+    if !auth.VerifyTokenHMAC(authToken) {
+        db.SendUnauthorizedStatus(w)
+        return
+    }
         
     var vru VacRecUpsert
     err := json.NewDecoder(r.Body).Decode(&vru)
@@ -1157,12 +1207,12 @@ func UpdateVacRec(conn *pgx.Conn, vru VacRecUpsert) error {
         sql := 
             `update kkm.vaccination
             set vaccine=subq.id, firstadm=$1,
-                seconddosedt=$3, aeficlass=$4, aefireaction=$5,
-                remarks=$6
+                seconddosedt=$2, aeficlass=$3, aefireaction=$4,
+                remarks=$5
             from (select vac.id 
                 from kkm.vaccine vac
-                where vac.brand=$7) as subq
-            where kkm.vaccination.id=$8`
+                where vac.brand=$6) as subq
+            where kkm.vaccination.id=$7`
 
         _, err = conn.Exec(context.Background(), sql, 
             vru.VacRec.Fa, vru.VacRec.Sdd,
@@ -1173,12 +1223,12 @@ func UpdateVacRec(conn *pgx.Conn, vru VacRecUpsert) error {
         sql := 
             `update kkm.vaccination
             set vaccine=subq.id, firstadm=$1, firstdosedt=$2,
-                aeficlass=$4, aefireaction=$5,
-                remarks=$6
+                aeficlass=$3, aefireaction=$4,
+                remarks=$5
             from (select vac.id 
                 from kkm.vaccine vac
-                where vac.brand=$7) as subq
-            where kkm.vaccination.id=$8`
+                where vac.brand=$6) as subq
+            where kkm.vaccination.id=$7`
 
         _, err = conn.Exec(context.Background(), sql, 
             vru.VacRec.Fa, vru.VacRec.Fdd,
@@ -1190,12 +1240,12 @@ func UpdateVacRec(conn *pgx.Conn, vru VacRecUpsert) error {
         sql := 
             `update kkm.vaccination
             set vaccine=subq.id, firstadm=$1,
-                aeficlass=$4, aefireaction=$5,
-                remarks=$6
+                aeficlass=$2, aefireaction=$3,
+                remarks=$4
             from (select vac.id 
                 from kkm.vaccine vac
-                where vac.brand=$7) as subq
-            where kkm.vaccination.id=$8`
+                where vac.brand=$5) as subq
+            where kkm.vaccination.id=$6`
 
         _, err = conn.Exec(context.Background(), sql, 
             vru.VacRec.Fa,
@@ -1234,6 +1284,13 @@ func UpdateVacRecHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
     if (r.Method == "OPTIONS") { return }
     fmt.Println("[UpdateVacRecHandler] request received")
+
+    // VERIFY AUTH TOKEN
+    authToken := strings.Split(r.Header.Get("Authorization"), " ")[1]
+    if !auth.VerifyTokenHMAC(authToken) {
+        db.SendUnauthorizedStatus(w)
+        return
+    }
         
     var vru VacRecUpsert
     err := json.NewDecoder(r.Body).Decode(&vru)
@@ -1271,6 +1328,13 @@ func DeleteVacRecHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
     if (r.Method == "OPTIONS") { return }
     fmt.Println("[DeleteVacRecHandler] request received")
+
+    // VERIFY AUTH TOKEN
+    authToken := strings.Split(r.Header.Get("Authorization"), " ")[1]
+    if !auth.VerifyTokenHMAC(authToken) {
+        db.SendUnauthorizedStatus(w)
+        return
+    }
         
     var vrd VacRecDelete
     err := json.NewDecoder(r.Body).Decode(&vrd)

@@ -52,15 +52,15 @@ func SignUpPeople(conn *pgx.Conn, people People) (string, error) {
 			sqlInsert :=
 				`insert into kkm.people
 				(
-					name, ident, password
+					name, ident, password, role
 				)
 				values
 				(
-					$1, $2, $3
+					$1, $2, $3, $4
 				)`
 			
 			_, err = conn.Exec(context.Background(), sqlInsert,
-				people.Name, people.Ident, people.Pwd)
+				people.Name, people.Ident, people.Pwd, "myvaksin")
 			if err != nil {
 				// New account create failed.
 				return "", err
