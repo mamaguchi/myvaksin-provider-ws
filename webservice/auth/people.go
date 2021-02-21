@@ -52,7 +52,7 @@ func SignUpPeople(conn *pgx.Conn, people People) (string, error) {
 			sqlInsert :=
 				`insert into kkm.people
 				(
-					name, ident, password, role
+					name, ident, password, role::text
 				)
 				values
 				(
