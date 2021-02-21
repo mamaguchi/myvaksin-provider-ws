@@ -596,69 +596,92 @@ func SearchPeopleHandler(w http.ResponseWriter, r *http.Request) {
     fmt.Fprintf(w, "%s", SearchPeopleResultJson)
 }
 
-func CreateNewPeople(conn *pgx.Conn, people People) error {
-    var err error    
-    
-    if people.ProfilePicData == "" {
-        sql :=
-        `insert into kkm.people
-        (
-            ident, name, gender, dob, nationality, race,
-            tel, email, address, postalCode, locality,
-            district, state, eduLvl, occupation, comorbids, 
-            supportvac, password
-        )
-        values
-        (
-            $1, $2, $3, $4, $5, $6, $7, $8, $9, $10,
-            $11, $12, $13, $14, $15, $16, $17, $18
-        )`
+func CreateNewPeople(conn *pgx.Conn, people People) (string, error) {
+    sqlSelect := 
+		`select name from kkm.people
+		 where ident=$1`
 
-    _, err = conn.Exec(context.Background(), sql, 
-        people.Ident, people.Name, people.Gender, people.Dob, 
-        people.Nationality, people.Race, people.Tel, people.Email, 
-        people.Address, people.PostalCode, people.Locality, 
-        people.District, people.State, people.EduLvl, 
-        people.Occupation, people.Comorbids, people.SupportVac, 
-        auth.DEFAULT_PEOPLE_PWD)
-    } else {    
-        sql :=
-            `insert into kkm.people
-            (
-                ident, name, gender, dob, nationality, race,
-                tel, email, address, postalCode, locality,
-                district, state, eduLvl, occupation, comorbids, 
-                supportvac, password, profilepic
-            )
-            values
-            (
-                $1, $2, $3, $4, $5, $6, $7, $8, $9, $10,
-                $11, $12, $13, $14, $15, $16, $17, $18, $19
-            )`
+	row := conn.QueryRow(context.Background(), sqlSelect,
+				people.Ident)
+	var name string				
+	err := row.Scan(&name)				
+	if err != nil {
+		// People Ident doesn't exist, 
+		// so can create a new People profile.
+	    if err == pgx.ErrNoRows { 
+			if people.ProfilePicData == "" {
+                sql :=
+                    `insert into kkm.people
+                    (
+                        ident, name, gender, dob, nationality, race,
+                        tel, email, address, postalCode, locality,
+                        district, state, eduLvl, occupation, comorbids, 
+                        supportvac, password
+                    )
+                    values
+                    (
+                        $1, $2, $3, $4, $5, $6, $7, $8, $9, $10,
+                        $11, $12, $13, $14, $15, $16, $17, $18
+                    )`
+        
+                _, err = conn.Exec(context.Background(), sql, 
+                    people.Ident, people.Name, people.Gender, people.Dob, 
+                    people.Nationality, people.Race, people.Tel, people.Email, 
+                    people.Address, people.PostalCode, people.Locality, 
+                    people.District, people.State, people.EduLvl, 
+                    people.Occupation, people.Comorbids, people.SupportVac, 
+                    auth.DEFAULT_PEOPLE_PWD)
+            } else {    
+                sql :=
+                    `insert into kkm.people
+                    (
+                        ident, name, gender, dob, nationality, race,
+                        tel, email, address, postalCode, locality,
+                        district, state, eduLvl, occupation, comorbids, 
+                        supportvac, password, profilepic
+                    )
+                    values
+                    (
+                        $1, $2, $3, $4, $5, $6, $7, $8, $9, $10,
+                        $11, $12, $13, $14, $15, $16, $17, $18, $19
+                    )`
+        
+                    _, err = conn.Exec(context.Background(), sql, 
+                        people.Ident, people.Name, people.Gender, people.Dob, 
+                        people.Nationality, people.Race, people.Tel, people.Email, 
+                        people.Address, people.PostalCode, people.Locality, 
+                        people.District, people.State, people.EduLvl, 
+                        people.Occupation, people.Comorbids, people.SupportVac, 
+                        auth.DEFAULT_PEOPLE_PWD, people.ProfilePicData)
+            }
+            // New People profile create failed
+            if err != nil {
+                return "", err
+            }
+            // New People profile created successfully
+            return "1", nil
+		} 
+		// Other unknown error during database scan.
+		return "", err
+	} 
 
-        _, err = conn.Exec(context.Background(), sql, 
-            people.Ident, people.Name, people.Gender, people.Dob, 
-            people.Nationality, people.Race, people.Tel, people.Email, 
-            people.Address, people.PostalCode, people.Locality, 
-            people.District, people.State, people.EduLvl, 
-            people.Occupation, people.Comorbids, people.SupportVac, 
-            auth.DEFAULT_PEOPLE_PWD, people.ProfilePicData)
-    }
-    if err != nil {
-        return err
-    }
-    return nil
+    // People profile already exists in database,
+    // so no new profile created. 
+    return "0", nil   
+}
+
+type CreateNewPeopleHttpRespCode struct {
+	CreateNewPeopleRespCode string	`json:"createNewPeopleRespCode"`	
 }
 
 func CreateNewPeopleHandler(w http.ResponseWriter, r *http.Request) {
-    w.Header().Set("Access-Control-Allow-Origin", "*")
-    // w.Header().Set("Access-Control-Allow-Headers", "authorization")
-    // w.Header().Set("Access-Control-Allow-Headers", "content-type")
+    w.Header().Set("Access-Control-Allow-Origin", "*")    
     w.Header().Set("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT")	
 	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
     if (r.Method == "OPTIONS") { return }
     fmt.Println("[CreateNewPeopleHandler] request received")
-        
+    
+    // DECODING
     var people People
     err := json.NewDecoder(r.Body).Decode(&people)
     if err != nil {
@@ -667,14 +690,25 @@ func CreateNewPeopleHandler(w http.ResponseWriter, r *http.Request) {
         return
     }
     fmt.Printf("%+v\n", people)
-
+    
+    // CREATE NEW PEOPLE
     db.CheckDbConn()
-    err = CreateNewPeople(db.Conn, people)
+    createNewPeopleResult, err := CreateNewPeople(db.Conn, people)
     if err != nil {
-        log.Print(err)
-        http.Error(w, err.Error(), http.StatusBadRequest)
+        db.LogErrAndSendInternalServerErrorStatus(w, err)
         return
     }   
+    
+    // RESULT
+    createNewPeopleRespCode := CreateNewPeopleHttpRespCode {
+		CreateNewPeopleRespCode: createNewPeopleResult,
+	}
+	createNewPeopleRespJson, err := json.MarshalIndent(createNewPeopleRespCode, "", "")
+	if err != nil {
+        db.LogErrAndSendInternalServerErrorStatus(w, err)
+        return
+    } 
+	fmt.Fprintf(w, "%s", createNewPeopleRespJson)
 }
 
 func UpdatePeople(conn *pgx.Conn, people People) error {  

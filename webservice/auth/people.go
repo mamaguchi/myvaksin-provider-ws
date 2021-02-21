@@ -34,13 +34,14 @@ type SignInAuthResult struct {
 
 func SignUpPeople(conn *pgx.Conn, people People) (string, error) {
 	sqlSelect := 
-		`select name from kkm.people
+		`select name, password from kkm.people
 		 where ident=$1`
 
 	row := conn.QueryRow(context.Background(), sqlSelect,
 				people.Ident)
-	var dummy string				
-	err := row.Scan(&dummy)				
+	var name string				
+	var password string
+	err := row.Scan(&name, &password)				
 	if err != nil {
 		// People Ident doesn't exist, 
 		// so can sign up a new account.
@@ -67,33 +68,41 @@ func SignUpPeople(conn *pgx.Conn, people People) (string, error) {
 		// Other unknown error during database scan.
 		return "", err
 	} 
-	// People Ident already exists in the table, 
-	// so unable to sign up a new account.
-	return "0", nil
+
+	// A People profile has been created by myVaksin provider
+	// before the account has been registered.
+	// 'myvaksin' is the default password inserted when 
+	// creating a new People profile for a person who 
+	// has not registered an account.
+	// (Got profile, No account)
+	if password == "myvaksin" {
+		sqlUpdate := `update kkm.people
+				  set name=$1, password=$2
+				  where ident=$3`
+		_, err = conn.Exec(context.Background(), sqlUpdate,
+			people.Name, people.Pwd, people.Ident)
+		if err != nil {
+			return "", err
+		}
+		return "1", nil
+	} else {
+		// People Ident already exists in the table, 
+		// and the password is not the default one.
+		// So unable to sign up a new account.
+		// (Got account, Got profile)
+		return "0", nil
+	}
 
 
-	// sql :=
-	//     `insert into kkm.people
-	// 	(
-	// 		name, ident, password
-	// 	)
-	// 	values
-	// 	(
-	// 		$1, $2, $3
-	// 	)`
 	
-	// _, err := conn.Exec(context.Background(), sql,
-	// 	people.Name, people.Ident, people.Pwd)
-	// if err != nil {
-	// 	return err
-	// }
-	// return nil 
 }
 
 func SignUpPeopleHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Headers", "authorization")
-	w.Header().Set("Access-Control-Allow-Headers", "content-type")
+	// w.Header().Set("Access-Control-Allow-Headers", "authorization")
+	// w.Header().Set("Access-Control-Allow-Headers", "content-type")
+	w.Header().Set("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT")	
+	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
 	if (r.Method == "OPTIONS") { return }
     fmt.Println("[SignUpPeopleHandler] request received")
         
