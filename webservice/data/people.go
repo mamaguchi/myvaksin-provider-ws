@@ -75,7 +75,7 @@ type People struct {
     Occupation string     `json:"occupation"`
     Comorbids []int       `json:"comorbids"`
     SupportVac bool       `json:"supportVac"`
-    ProfilePicData string `json:"profilePicData"`    
+    ProfilePicData string `json:"profilePicData"` 
 }
 
 type Vaccine struct {
@@ -318,7 +318,7 @@ func GetPeopleProfile(conn *pgx.Conn, ident string) ([]byte, error) {
          people.address, people.postalcode, people.locality, 
          people.district, people.state, people.eduLvl, 
          people.occupation, people.comorbids, people.supportVac, 
-         coalesce(people.profilepic, '') as profilepic,
+         coalesce(people.profilepic, '') as profilepic, 
          vaccine.brand, vaccine.type, vaccine.against, 
          vaccine.raoa,
          vaccination.id, vaccination.vaccination, vaccination.firstAdm::text, 
@@ -424,7 +424,6 @@ func GetPeopleProfile(conn *pgx.Conn, ident string) ([]byte, error) {
             VaccineType: vacType,
             VaccineAgainst: against,
             VaccineRaoa: raoa,
-            // Aoa: aoa,
             Fa: fa,
             Fdd: fdd,
             Sdd: sdd,

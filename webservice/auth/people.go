@@ -30,6 +30,9 @@ type SignInHttpRespCode struct {
 
 type SignInAuthResult struct {
 	Token string			`json:"token"`
+	Name string 			`json:"name"`
+	Ident string 			`json:"ident"`
+	Role string 			`json:"role"`
 }
 
 func SignUpPeople(conn *pgx.Conn, people People) (string, error) {
@@ -99,8 +102,6 @@ func SignUpPeople(conn *pgx.Conn, people People) (string, error) {
 
 func SignUpPeopleHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	// w.Header().Set("Access-Control-Allow-Headers", "authorization")
-	// w.Header().Set("Access-Control-Allow-Headers", "content-type")
 	w.Header().Set("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT")	
 	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
 	if (r.Method == "OPTIONS") { return }
@@ -133,23 +134,24 @@ func SignUpPeopleHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // Bind == SignIn 
-func Bind(conn *pgx.Conn, people People) (bool, error) {
+func Bind(conn *pgx.Conn, people People) (bool, error, string, string) {
 	sql := 
-		`select name from kkm.people
+		`select name, role from kkm.people
 		 where ident=$1 and password=$2`
 
 	row := conn.QueryRow(context.Background(), sql,
 				people.Ident, people.Pwd)
 
-	var dummy string				
-	err := row.Scan(&dummy)				
+	var name string	
+	var role string
+	err := row.Scan(&name, &role)				
 	if err != nil {
 	    if err == pgx.ErrNoRows {
-		    return false, nil 
+		    return false, nil, "", "" 
 		}
-		return false, err
+		return false, err, "", ""
 	}  	   
-	return true, nil
+	return true, nil, name, role
 }
 
 func BindHandler(w http.ResponseWriter, r *http.Request) {
@@ -170,8 +172,10 @@ func BindHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Bind
 	var bindResult bool
+	var name string 
+	var role string
 	db.CheckDbConn()
-    bindResult, err = Bind(db.Conn, people)
+    bindResult, err, name, role = Bind(db.Conn, people)
     if err != nil {
 		db.LogErrAndSendBadReqStatus(w, err)
         return
@@ -187,18 +191,12 @@ func BindHandler(w http.ResponseWriter, r *http.Request) {
         return
 	}
 
-	// Encode
-	// signInRespCode := SignInHttpRespCode {
-	// 	SignInRespCode: bindResult,
-	// }
-	// signInRespJson, err := json.MarshalIndent(signInRespCode, "", "\t")
-	// if err != nil {
-    //     db.LogErrAndSendBadReqStatus(w, err)
-    //     return
-    // } 
-	// fmt.Fprintf(w, "%s", signInRespJson)
+	// Encode	
 	authResult := SignInAuthResult{
 		Token: tokenString,
+		Name: name,
+		Ident: people.Ident,
+		Role: role,
 	}
 	authResultJson, err := json.MarshalIndent(&authResult, "", "")
 	if err != nil {
