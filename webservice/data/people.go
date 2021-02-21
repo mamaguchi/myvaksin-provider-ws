@@ -320,6 +320,28 @@ func GetPeople(conn *pgx.Conn, ident string) ([]byte, error) {
 }
 
 func GetPeopleProfile(conn *pgx.Conn, ident string) ([]byte, error) {
+    // rows, err := conn.Query(context.Background(), 
+    //     `select people.name, people.gender, people.dob::text, 
+    //      people.nationality, people.race, people.tel, people.email,
+    //      people.address, people.postalcode, people.locality, 
+    //      people.district, people.state, people.eduLvl, 
+    //      people.occupation, people.comorbids, people.supportVac, 
+    //      coalesce(people.profilepic, '') as profilepic, people.role,
+    //      vaccine.brand, vaccine.type, vaccine.against, 
+    //      vaccine.raoa,
+    //      vaccination.id, vaccination.vaccination, vaccination.firstAdm::text, 
+    //      coalesce(vaccination.firstDoseDt::text, '') as firstDoseDt, 
+    //      coalesce(vaccination.secondDoseDt::text, '') as secondDoseDt, 
+    //      vaccination.aefiClass, vaccination.aefiReaction, vaccination.remarks
+    //        from kkm.people 
+    //          left join kkm.vaccination 
+    //            on kkm.people.ident = kkm.vaccination.people
+    //          left join kkm.vaccine
+    //            on kkm.vaccination.vaccine = kkm.vaccine.id
+    //        where ident=$1`,
+    //     ident)
+
+
     rows, err := conn.Query(context.Background(), 
         `select people.name, people.gender, people.dob::text, 
          people.nationality, people.race, people.tel, people.email,
@@ -327,16 +349,22 @@ func GetPeopleProfile(conn *pgx.Conn, ident string) ([]byte, error) {
          people.district, people.state, people.eduLvl, 
          people.occupation, people.comorbids, people.supportVac, 
          coalesce(people.profilepic, '') as profilepic, people.role,
-         vaccine.brand, vaccine.type, vaccine.against, 
-         vaccine.raoa,
-         vaccination.id, vaccination.vaccination, vaccination.firstAdm::text, 
+         coalesce(vaccine.brand, '') as brand, 
+         coalesce(vaccine.type, '') as type, 
+         coalesce(vaccine.against, '') as against, 
+         coalesce(vaccine.raoa, '') as raoa, 
+         coalesce( vaccination.id, -1) as id, 
+         coalesce(vaccination.vaccination, '') as vaccination, 
+         coalesce(vaccination.firstAdm::text, '') as firstAdm,                    
          coalesce(vaccination.firstDoseDt::text, '') as firstDoseDt, 
          coalesce(vaccination.secondDoseDt::text, '') as secondDoseDt, 
-         vaccination.aefiClass, vaccination.aefiReaction, vaccination.remarks
-           from kkm.people 
-             join kkm.vaccination 
+         coalesce(vaccination.aefiClass::text, '') as aefiClass, 
+         coalesce(vaccination.aefiReaction, '{}') as aefiReaction, 
+         coalesce(vaccination.remarks, '') as remarks
+         from kkm.people 
+             left join kkm.vaccination 
                on kkm.people.ident = kkm.vaccination.people
-             join kkm.vaccine
+             left join kkm.vaccine
                on kkm.vaccination.vaccine = kkm.vaccine.id
            where ident=$1`,
         ident)
@@ -428,24 +456,26 @@ func GetPeopleProfile(conn *pgx.Conn, ident string) ([]byte, error) {
                 return nil, err
             }
         }
-        vaccinationRecord := VaccinationRecord{
-            VaccinationId: vaccinationId,
-            Vaccination: vaccination,
-            VaccineBrand: brand,
-            VaccineType: vacType,
-            VaccineAgainst: against,
-            VaccineRaoa: raoa,
-            Fa: fa,
-            Fdd: fdd,
-            Sdd: sdd,
-            AefiClass: aefiClass,
-            AefiReaction: aefiReaction,
-            Remarks: remarks,
+        if vaccinationId != -1 {        
+            vaccinationRecord := VaccinationRecord{
+                VaccinationId: vaccinationId,
+                Vaccination: vaccination,
+                VaccineBrand: brand,
+                VaccineType: vacType,
+                VaccineAgainst: against,
+                VaccineRaoa: raoa,
+                Fa: fa,
+                Fdd: fdd,
+                Sdd: sdd,
+                AefiClass: aefiClass,
+                AefiReaction: aefiReaction,
+                Remarks: remarks,
+            }
+            peopleProfile.VaccinationRecords = append(
+                peopleProfile.VaccinationRecords,
+                vaccinationRecord,
+            )
         }
-        peopleProfile.VaccinationRecords = append(
-            peopleProfile.VaccinationRecords,
-            vaccinationRecord,
-        )
     }
 
     outputJson, err := json.MarshalIndent(peopleProfile, "", "\t")        
