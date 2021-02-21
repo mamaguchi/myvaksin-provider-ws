@@ -4,6 +4,7 @@ import (
     "net/http"
     "encoding/json"
     "time"
+    "strconv"
     "fmt"
     "log"
     "context"
@@ -144,6 +145,11 @@ type PeopleSearchResult struct {
     Locality string          `json:"locality"`
     District string          `json:"district"`
     State string             `json:"state"`
+    Vaccination string       `json:"vaccination"`
+    VaccineBrand string      `json:"vaccineBrand"`
+    NumDose string           `json:"numDose"`
+    // DoseIntvl string         `json:"doseIntvl"`
+    DoseTaken string         `json:"doseTaken"`    
 }
 
 type PeopleSearch struct {
@@ -567,6 +573,167 @@ func SearchPeople(conn *pgx.Conn, sqlInputVars SqlInputVars) ([]byte, error) {
     return outputJson, err
 }
 
+func SearchPeople2(conn *pgx.Conn, sqlInputVars SqlInputVars) ([]byte, error) {
+    // sql := 
+    //     `select people.ident, people.name, people.dob, people.race,
+    //         people.nationality, people.locality, people.district, people.state,            
+    //         vaccine.numdose, vaccine.doseintvl,
+    //         vaccination.vaccination,
+    //         coalesce(vaccination.firstdosedt, '') as firstdosedt, 
+    //         coalesce(vaccination.seconddosedt, '') as seconddosedt, 
+    //         coalesce(vaccination.thirddosedt, '') as thirddosedt            
+    //         from kkm.people 
+    //             left join kkm.vaccination 
+    //             on kkm.people.ident = kkm.vaccination.people
+    //             join kkm.vaccine
+    //             on kkm.vaccination.vaccine = kkm.vaccine.id
+    //         where ident=$1`
+
+    sqlOpt1 := 
+        `select people.ident, people.name, people.dob, people.race,
+            people.nationality, people.locality, people.district, people.state,
+            coalesce(vaccine.brand, '') as brand,
+            coalesce(vaccine.numdose, 0) as numdose,
+            coalesce(vaccination.vaccination, '') as vaccination,
+            coalesce(vaccination.firstdosedt::text, '') as firstdosedt, 
+            coalesce(vaccination.seconddosedt::text, '') as seconddosedt, 
+            coalesce(vaccination.thirddosedt::text, '') as thirddosedt            
+            from kkm.people 
+                left join kkm.vaccination 
+                on kkm.people.ident = kkm.vaccination.people
+                join kkm.vaccine
+                on kkm.vaccination.vaccine = kkm.vaccine.id
+            where ident=$1`
+
+    // NOTE: pgx (Golang PostgreSQL driver) does not support the term
+    //       'timestamp' before the date string in the sql, or else it
+    //       will cause syntax error.
+    //       Using 'timestamp' term before date string is supported 
+    //       but optional in native psql command.
+    sqlOpt2 := 
+         `select people.ident, people.name, people.dob, people.race,
+            people.nationality, people.locality, people.district, people.state,
+            coalesce(vaccine.brand, '') as brand,
+            coalesce(vaccine.numdose, 0) as numdose,
+            coalesce(vaccination.vaccination, '') as vaccination,
+            coalesce(vaccination.firstdosedt::text, '') as firstdosedt, 
+            coalesce(vaccination.seconddosedt::text, '') as seconddosedt, 
+            coalesce(vaccination.thirddosedt::text, '') as thirddosedt            
+            from kkm.people 
+                left join kkm.vaccination 
+                on kkm.people.ident = kkm.vaccination.people
+                join kkm.vaccine
+                on kkm.vaccination.vaccine = kkm.vaccine.id
+            where dob between $1 and $2`
+
+    sqlOpt3 := 
+        `select people.ident, people.name, people.dob, people.race,
+            people.nationality, people.locality, people.district, people.state,
+            coalesce(vaccine.brand, '') as brand,
+            coalesce(vaccine.numdose, 0) as numdose,
+            coalesce(vaccination.vaccination, '') as vaccination,
+            coalesce(vaccination.firstdosedt::text, '') as firstdosedt, 
+            coalesce(vaccination.seconddosedt::text, '') as seconddosedt, 
+            coalesce(vaccination.thirddosedt::text, '') as thirddosedt            
+            from kkm.people 
+                left join kkm.vaccination 
+                on kkm.people.ident = kkm.vaccination.people
+                left join kkm.vaccine
+                on kkm.vaccination.vaccine = kkm.vaccine.id
+            where name ilike $1
+                and race::text ilike $2
+                and nationality::text ilike $3
+                and state::text ilike $4
+                and district ilike $5
+                and locality ilike $6`
+    
+    var rows pgx.Rows 
+    var err error
+    if sqlInputVars.SqlOpt == "1" {
+        rows, err = conn.Query(context.Background(), sqlOpt1, 
+          sqlInputVars.Ident)        
+    } else if sqlInputVars.SqlOpt == "2" {
+        rows, err = conn.Query(context.Background(), sqlOpt2, 
+          sqlInputVars.DobInterval.MinDate,
+          sqlInputVars.DobInterval.MaxDate)   
+    } else if sqlInputVars.SqlOpt == "3" {
+        rows, err = conn.Query(context.Background(), sqlOpt3, 
+          sqlInputVars.Name,
+          sqlInputVars.Race,
+          sqlInputVars.Nationality,
+          sqlInputVars.State,
+          sqlInputVars.District,
+          sqlInputVars.Locality)
+    }
+    if err != nil {
+        return nil, err 
+    }    
+
+    var peopleSearch PeopleSearch
+    for rows.Next() {
+        var ident string 
+        var name string 
+        var dob time.Time
+        var race string 
+        var nationality string 
+        var locality string 
+        var district string 
+        var state string
+        var vaccineBrand string 
+        var numDose int 
+        var vaccination string 
+        var fdd string 
+        var sdd string 
+        var tdd string 
+
+        err = rows.Scan(&ident, &name, &dob, &race, &nationality, 
+                        &locality, &district, &state, 
+                        &vaccineBrand, &numDose, 
+                        &vaccination, &fdd, &sdd, &tdd) 
+        if err != nil {
+            return nil, err 
+        }                   
+
+        numDoseStr := strconv.Itoa(numDose)
+        // doseIntvlStr := strconv.Itoa(doseIntvl)
+        doseTaken := 0
+        if len(vaccination) != 0 {
+            if len(fdd) != 0 {
+                doseTaken++
+            }
+            if len(sdd) != 0 {
+                doseTaken++
+            }
+            if len(tdd) != 0 {
+                doseTaken++
+            }
+        }
+        doseTakenStr := strconv.Itoa(doseTaken)
+
+        peopleSearchResult := PeopleSearchResult{
+            Ident: ident,
+            Name: name,
+            Dob: dob,
+            Race: race,
+            Nationality: nationality,
+            Locality: locality,
+            District: district,
+            State: state,            
+            Vaccination: vaccination,
+            VaccineBrand: vaccineBrand,
+            NumDose: numDoseStr,
+            // DoseIntvl: doseIntvlStr,
+            DoseTaken: doseTakenStr,            
+        }     
+        peopleSearch.SearchResults = append(
+            peopleSearch.SearchResults,
+            peopleSearchResult)
+    }
+
+    outputJson, err := json.MarshalIndent(peopleSearch, "", "\t")
+    return outputJson, err
+}
+
 func SearchPeopleHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Origin", "*")
     // w.Header().Set("Access-Control-Allow-Headers", "authorization")
@@ -586,7 +753,8 @@ func SearchPeopleHandler(w http.ResponseWriter, r *http.Request) {
     fmt.Printf("%+v\n", sqlInputVars)
 
     db.CheckDbConn()
-    SearchPeopleResultJson, err := SearchPeople(db.Conn, sqlInputVars)
+    // SearchPeopleResultJson, err := SearchPeople(db.Conn, sqlInputVars)
+    SearchPeopleResultJson, err := SearchPeople2(db.Conn, sqlInputVars)
     if err != nil {
         if err == pgx.ErrNoRows {
             log.Print("People entry not found in database")
@@ -891,8 +1059,8 @@ func CreateNewVacRec(conn *pgx.Conn, vru VacRecUpsert) error {
         sql := 
             `insert into kkm.vaccination
             (
-                vaccine, people, vaccination, firstAdm,  
-                secondDoseDt, aefiClass, aefiReaction, remarks
+                vaccine, people, vaccination, firstadm,  
+                seconddosedt, aeficlass, aefireaction, remarks
             )
             select vac.id, $1, $2, $3, $4, $5, $6, $7
             from kkm.vaccine vac
@@ -907,8 +1075,8 @@ func CreateNewVacRec(conn *pgx.Conn, vru VacRecUpsert) error {
         sql := 
             `insert into kkm.vaccination
             (
-                vaccine, people, vaccination, firstAdm, firstDoseDt, 
-                aefiClass, aefiReaction, remarks
+                vaccine, people, vaccination, firstadm, firstdosedt, 
+                aeficlass, aefireaction, remarks
             )
             select vac.id, $1, $2, $3, $4, $5, $6, $7
             from kkm.vaccine vac
@@ -923,8 +1091,8 @@ func CreateNewVacRec(conn *pgx.Conn, vru VacRecUpsert) error {
         sql := 
             `insert into kkm.vaccination
             (
-                vaccine, people, vaccination, firstAdm,  
-                aefiClass, aefiReaction, remarks
+                vaccine, people, vaccination, firstadm,  
+                aeficlass, aefireaction, remarks
             )
             select vac.id, $1, $2, $3, $4, $5, $6
             from kkm.vaccine vac
@@ -938,8 +1106,8 @@ func CreateNewVacRec(conn *pgx.Conn, vru VacRecUpsert) error {
         sql := 
             `insert into kkm.vaccination
             (
-                vaccine, people, vaccination, firstAdm, firstDoseDt, 
-                secondDoseDt, aefiClass, aefiReaction, remarks
+                vaccine, people, vaccination, firstadm, firstdosedt, 
+                seconddosedt, aeficlass, aefireaction, remarks
             )
             select vac.id, $1, $2, $3, $4, $5, $6, $7, $8
             from kkm.vaccine vac
