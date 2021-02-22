@@ -6,7 +6,8 @@ import (
     "log"
     "os"
     "context"
-    "github.com/jackc/pgx"
+    // "github.com/jackc/pgx"
+    "github.com/jackc/pgx/pgxpool"
 )
 
 /*
@@ -26,11 +27,13 @@ import (
 //     conn.Close(context.Background())
 // }
 
-var Conn *pgx.Conn
+// var Conn *pgx.Conn
+var Conn *pgxpool.Pool 
 
 func Open() {
     var err error
-    Conn, err = pgx.Connect(context.Background(), os.Getenv("DATABASE_URL"))
+    // Conn, err = pgx.Connect(context.Background(), os.Getenv("DATABASE_URL"))
+    Conn, err = pgxpool.Connect(context.Background(), os.Getenv("DATABASE_URL"))
     if err != nil {
         fmt.Fprintf(os.Stderr, "Unable to make connection to database: %v\n", err)
 		os.Exit(1)
@@ -39,7 +42,8 @@ func Open() {
 
 func Close() {
     CheckDbConn()
-    Conn.Close(context.Background())
+    // Conn.Close(context.Background())
+    Conn.Close()
 }
 
 func CheckDbConn() {

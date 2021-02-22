@@ -6,7 +6,8 @@ import (
     "fmt"
     "log"
     "context"
-    "github.com/jackc/pgx"
+    // "github.com/jackc/pgx"
+    "github.com/jackc/pgx/pgxpool"
 	"myvaksin/webservice/db"
 )
 
@@ -14,7 +15,7 @@ type Identity struct {
     Ident string    `json:"ident"`
 }
 
-func TestGetPeople(conn *pgx.Conn, ident string) error {
+func TestGetPeople(conn *pgxpool.Pool, ident string) error {
     row := conn.QueryRow(context.Background(), 
         `select kkm.people.name
           from kkm.people             

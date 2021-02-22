@@ -6,6 +6,7 @@ import (
     "fmt"
     "context"
     "github.com/jackc/pgx"
+    "github.com/jackc/pgx/pgxpool"
 	"myvaksin/webservice/db"
 )
 
@@ -35,7 +36,7 @@ type SignInAuthResult struct {
 	Role string 			`json:"role"`
 }
 
-func SignUpPeople(conn *pgx.Conn, people People) (string, error) {
+func SignUpPeople(conn *pgxpool.Pool, people People) (string, error) {
 	sqlSelect := 
 		`select name, password from kkm.people
 		 where ident=$1`
@@ -134,7 +135,7 @@ func SignUpPeopleHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // Bind == SignIn 
-func Bind(conn *pgx.Conn, people People) (bool, error, string, string) {
+func Bind(conn *pgxpool.Pool, people People) (bool, error, string, string) {
 	sql := 
 		`select name, role from kkm.people
 		 where ident=$1 and password=$2`

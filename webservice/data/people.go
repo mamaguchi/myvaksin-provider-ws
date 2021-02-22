@@ -10,6 +10,7 @@ import (
     "log"
     "context"
     "github.com/jackc/pgx"
+    "github.com/jackc/pgx/pgxpool"
     "myvaksin/webservice/db"
     "myvaksin/webservice/auth"
 )
@@ -174,7 +175,7 @@ func TestHandler(w http.ResponseWriter, r *http.Request) {
     fmt.Printf("%+v\n", identity)    
 }
 
-func GetPeoples(conn *pgx.Conn) ([]byte, error) {
+func GetPeoples(conn *pgxpool.Pool) ([]byte, error) {
     var peoples Peoples
     rows, _ := conn.Query(context.Background(), 
         "select ident, name, dob::text, tel, address, race, nationality, eduLvl, occupation, comorbids, supportVac from kkm.people")
@@ -218,7 +219,7 @@ func GetPeoples(conn *pgx.Conn) ([]byte, error) {
     return output, err
 }
 
-func GetPeople(conn *pgx.Conn, ident string) ([]byte, error) {
+func GetPeople(conn *pgxpool.Pool, ident string) ([]byte, error) {
     row := conn.QueryRow(context.Background(), 
         `select kkm.people.name, kkm.people.gender, kkm.people.dob::text, 
         kkm.people.nationality, kkm.people.race, kkm.people.tel, 
@@ -319,7 +320,7 @@ func GetPeople(conn *pgx.Conn, ident string) ([]byte, error) {
     return outputJson, err
 }
 
-func GetPeopleProfile(conn *pgx.Conn, ident string) ([]byte, error) {
+func GetPeopleProfile(conn *pgxpool.Pool, ident string) ([]byte, error) {
     // rows, err := conn.Query(context.Background(), 
     //     `select people.name, people.gender, people.dob::text, 
     //      people.nationality, people.race, people.tel, people.email,
@@ -525,7 +526,7 @@ func GetPeopleHandler(w http.ResponseWriter, r *http.Request) {
     fmt.Fprintf(w, "%s", peopleProfJson)
 }
 
-func SearchPeople(conn *pgx.Conn, sqlInputVars SqlInputVars) ([]byte, error) {
+func SearchPeople(conn *pgxpool.Pool, sqlInputVars SqlInputVars) ([]byte, error) {
     sqlOpt1 := 
         `select people.ident, people.name, people.dob, people.race, 
            people.nationality, people.locality, people.district, people.state 
@@ -611,7 +612,7 @@ func SearchPeople(conn *pgx.Conn, sqlInputVars SqlInputVars) ([]byte, error) {
     return outputJson, err
 }
 
-func SearchPeople2(conn *pgx.Conn, sqlInputVars SqlInputVars) ([]byte, error) {
+func SearchPeople2(conn *pgxpool.Pool, sqlInputVars SqlInputVars) ([]byte, error) {
     // sql := 
     //     `select people.ident, people.name, people.dob, people.race,
     //         people.nationality, people.locality, people.district, people.state,            
@@ -812,7 +813,7 @@ func SearchPeopleHandler(w http.ResponseWriter, r *http.Request) {
     fmt.Fprintf(w, "%s", SearchPeopleResultJson)
 }
 
-func CreateNewPeople(conn *pgx.Conn, people People) (string, error) {
+func CreateNewPeople(conn *pgxpool.Pool, people People) (string, error) {
     sqlSelect := 
 		`select name from kkm.people
 		 where ident=$1`
@@ -935,7 +936,7 @@ func CreateNewPeopleHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "%s", createNewPeopleRespJson)
 }
 
-func UpdatePeople(conn *pgx.Conn, people People) error {  
+func UpdatePeople(conn *pgxpool.Pool, people People) error {  
     var err error
 
     if people.ProfilePicData == "" {
@@ -1017,7 +1018,7 @@ func UpdatePeopleHandler(w http.ResponseWriter, r *http.Request) {
     }   
 }
 
-func AddPeople(conn *pgx.Conn, people People) error {
+func AddPeople(conn *pgxpool.Pool, people People) error {
     var err error
 
     if people.ProfilePicData == "" {
@@ -1083,7 +1084,7 @@ func AddPeopleHandler(w http.ResponseWriter, r *http.Request) {
     }
 }
 
-func DeletePeople(conn *pgx.Conn, identity Identity) error {
+func DeletePeople(conn *pgxpool.Pool, identity Identity) error {
     sql := `delete from kkm.people 
             where ident=$1`
 
@@ -1126,7 +1127,7 @@ func DeletePeopleHandler(w http.ResponseWriter, r *http.Request) {
     }
 }
 
-func CreateNewVacRec(conn *pgx.Conn, vru VacRecUpsert) error {                  
+func CreateNewVacRec(conn *pgxpool.Pool, vru VacRecUpsert) error {                  
     var err error
     if vru.VacRec.Fdd == "" {
         sql := 
@@ -1231,7 +1232,7 @@ func CreateNewVacRecHandler(w http.ResponseWriter, r *http.Request) {
     }   
 }
 
-func UpdateVacRec(conn *pgx.Conn, vru VacRecUpsert) error {
+func UpdateVacRec(conn *pgxpool.Pool, vru VacRecUpsert) error {
     var err error
     if vru.VacRec.Fdd == "" {
         sql := 
@@ -1340,7 +1341,7 @@ func UpdateVacRecHandler(w http.ResponseWriter, r *http.Request) {
     }   
 }
 
-func DeleteVacRec(conn *pgx.Conn, vacRecId int64) error {
+func DeleteVacRec(conn *pgxpool.Pool, vacRecId int64) error {
     sql := `delete from kkm.vaccination where id=$1`
 
     _, err := conn.Exec(context.Background(), sql, vacRecId)
