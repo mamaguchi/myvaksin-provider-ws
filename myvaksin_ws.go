@@ -25,7 +25,6 @@ func main() {
 	http.HandleFunc("/people/create", data.CreateNewPeopleHandler)
 	http.HandleFunc("/people/get", data.GetPeopleHandler)
 	http.HandleFunc("/people/update", data.UpdatePeopleHandler)
-	http.HandleFunc("/people/add", data.AddPeopleHandler)
 	http.HandleFunc("/people/delete", data.DeletePeopleHandler)
 	http.HandleFunc("/vacrec/create", data.CreateNewVacRecHandler)
 	http.HandleFunc("/vacrec/update", data.UpdateVacRecHandler)

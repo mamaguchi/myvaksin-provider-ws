@@ -1,12 +1,9 @@
 package db 
 
 import (
-    "net/http"
     "fmt"
-    "log"
     "os"
     "context"
-    // "github.com/jackc/pgx"
     "github.com/jackc/pgx/pgxpool"
 )
 
@@ -54,18 +51,3 @@ func CheckDbConn() {
 		os.Exit(1)
     }
 }
-
-func LogErrAndSendBadReqStatus(w http.ResponseWriter, err error) {
-    log.Print(err)
-    http.Error(w, err.Error(), http.StatusBadRequest) //Http status code: 400
-}
-
-func SendUnauthorizedStatus(w http.ResponseWriter) {
-    http.Error(w, "Unauthorized Access", http.StatusUnauthorized) //Http status code: 401
-}
-
-func LogErrAndSendInternalServerErrorStatus(w http.ResponseWriter, err error) {
-    log.Print(err)
-    http.Error(w, err.Error(), http.StatusInternalServerError) //Http status code: 500
-}
-

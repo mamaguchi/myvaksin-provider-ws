@@ -8,6 +8,7 @@ import (
     "github.com/jackc/pgx"
     "github.com/jackc/pgx/pgxpool"
 	"myvaksin/webservice/db"
+	"myvaksin/webservice/util"
 )
 
 const (
@@ -95,23 +96,18 @@ func SignUpPeople(conn *pgxpool.Pool, people People) (string, error) {
 		// So unable to sign up a new account.
 		// (Got account, Got profile)
 		return "0", nil
-	}
-
-
-	
+	}	
 }
 
 func SignUpPeopleHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT")	
-	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
+	util.SetDefaultHeader(w)
 	if (r.Method == "OPTIONS") { return }
     fmt.Println("[SignUpPeopleHandler] request received")
         
     var people People
     err := json.NewDecoder(r.Body).Decode(&people)
     if err != nil {
-        db.LogErrAndSendBadReqStatus(w, err)
+        util.SendInternalServerErrorStatus(w, err)
         return
     }
     fmt.Printf("%+v\n", people)
@@ -119,7 +115,7 @@ func SignUpPeopleHandler(w http.ResponseWriter, r *http.Request) {
 	db.CheckDbConn()
     signUpResult, err := SignUpPeople(db.Conn, people)
     if err != nil {
-        db.LogErrAndSendInternalServerErrorStatus(w, err)
+        util.SendInternalServerErrorStatus(w, err)
         return
     }  
 
@@ -128,7 +124,7 @@ func SignUpPeopleHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	signUpRespJson, err := json.MarshalIndent(signUpRespCode, "", "")
 	if err != nil {
-        db.LogErrAndSendInternalServerErrorStatus(w, err)
+        util.SendInternalServerErrorStatus(w, err)
         return
     } 
 	fmt.Fprintf(w, "%s", signUpRespJson)
@@ -156,9 +152,7 @@ func Bind(conn *pgxpool.Pool, people People) (bool, error, string, string) {
 }
 
 func BindHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT")	
-	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
+	util.SetDefaultHeader(w)
 	if (r.Method == "OPTIONS") { return }
     fmt.Println("[BindHandler] request received")
     
@@ -166,7 +160,7 @@ func BindHandler(w http.ResponseWriter, r *http.Request) {
     var people People
     err := json.NewDecoder(r.Body).Decode(&people)
     if err != nil {
-        db.LogErrAndSendBadReqStatus(w, err)
+        util.SendInternalServerErrorStatus(w, err)
         return
     }
     fmt.Printf("%+v\n", people)
@@ -178,17 +172,17 @@ func BindHandler(w http.ResponseWriter, r *http.Request) {
 	db.CheckDbConn()
     bindResult, err, name, role = Bind(db.Conn, people)
     if err != nil {
-		db.LogErrAndSendBadReqStatus(w, err)
+		util.SendInternalServerErrorStatus(w, err)
         return
 	}  
 	fmt.Printf("Bind status: %v\n", bindResult)
 	if !bindResult {
-        db.SendUnauthorizedStatus(w)
+        util.SendUnauthorizedStatus(w)
         return
     }  
 	tokenString, err := NewTokenHMAC(people.Ident)
 	if err != nil {
-		db.LogErrAndSendInternalServerErrorStatus(w, err)
+		util.SendInternalServerErrorStatus(w, err)
         return
 	}
 
@@ -201,7 +195,7 @@ func BindHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	authResultJson, err := json.MarshalIndent(&authResult, "", "")
 	if err != nil {
-		db.LogErrAndSendInternalServerErrorStatus(w, err)
+		util.SendInternalServerErrorStatus(w, err)
         return
 	}
 	fmt.Fprintf(w, "%s", authResultJson)
