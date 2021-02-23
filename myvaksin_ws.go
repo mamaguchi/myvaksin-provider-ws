@@ -27,6 +27,7 @@ func main() {
 	http.HandleFunc("/people/update", data.UpdatePeopleHandler)
 	http.HandleFunc("/people/delete", data.DeletePeopleHandler)
 	http.HandleFunc("/vacrec/create", data.CreateNewVacRecHandler)
+	http.HandleFunc("/vacrec/get", data.GetCovidVacRecHandler)
 	http.HandleFunc("/vacrec/update", data.UpdateVacRecHandler)
 	http.HandleFunc("/vacrec/delete", data.DeleteVacRecHandler)
 

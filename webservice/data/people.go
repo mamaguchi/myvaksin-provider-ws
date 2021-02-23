@@ -327,6 +327,97 @@ func SearchPeopleHandler(w http.ResponseWriter, r *http.Request) {
     fmt.Fprintf(w, "%s", SearchPeopleResultJson)
 }
 
+func GetCovidVacRec(conn *pgxpool.Pool, ident string) ([]byte, error) {   
+    row := conn.QueryRow(context.Background(), 
+        `select 
+            vaccine.brand, 
+            vaccine.type, 
+            vaccine.against, 
+            vaccine.raoa, 
+            vaccination.id, 
+            vaccination.firstAdm::text,                     
+            coalesce(vaccination.firstDoseDt::text, '') as firstDoseDt, 
+            coalesce(vaccination.secondDoseDt::text, '') as secondDoseDt, 
+            vaccination.aefiClass::text, 
+            coalesce(vaccination.aefiReaction, '{}') as aefiReaction, 
+            vaccination.remarks
+         from kkm.vaccination 
+             join kkm.vaccine
+               on kkm.vaccination.vaccine = kkm.vaccine.id
+           where vaccination.people=$1 
+             and vaccination.vaccination=$2`,
+        ident, "COVID-19")
+   
+    // Vaccine
+    var brand string 
+    var vacType string 
+    var against string 
+    var raoa string 
+    // Vaccination
+    var vaccinationId int64
+    var fa string 
+    var fdd string
+    var sdd string 
+    var aefiClass string 
+    var aefiReaction []string 
+    var remarks string 
+
+    err := row.Scan(&brand, &vacType, &against, &raoa, 
+        &vaccinationId, &fa, &fdd, &sdd, &aefiClass, &aefiReaction, &remarks)
+    if err != nil {
+        return nil, err
+    }
+
+    vaccinationRecord := VaccinationRecord{
+        VaccinationId: vaccinationId,
+        Vaccination: "COVID-19",
+        VaccineBrand: brand,
+        VaccineType: vacType,
+        VaccineAgainst: against,
+        VaccineRaoa: raoa,
+        Fa: fa,
+        Fdd: fdd,
+        Sdd: sdd,
+        AefiClass: aefiClass,
+        AefiReaction: aefiReaction,
+        Remarks: remarks,
+    }   
+    outputJson, err := json.MarshalIndent(vaccinationRecord, "", "")        
+    return outputJson, err
+}
+
+func GetCovidVacRecHandler(w http.ResponseWriter, r *http.Request) {
+    util.SetDefaultHeader(w)
+    if (r.Method == "OPTIONS") { return }
+    fmt.Println("[GetCovidVacRecHandler] request received")    
+
+    // VERIFY AUTH TOKEN
+    authToken := strings.Split(r.Header.Get("Authorization"), " ")[1]
+    if !auth.VerifyTokenHMAC(authToken) {
+        util.SendUnauthorizedStatus(w)
+        return
+    }   
+
+    var identity Identity
+    err := json.NewDecoder(r.Body).Decode(&identity)
+    if err != nil {
+        util.SendInternalServerErrorStatus(w, err)
+        return
+    }
+    
+    db.CheckDbConn()
+    covidVacRecJson, err := GetCovidVacRec(db.Conn, identity.Ident)
+    if err != nil {
+        if err == pgx.ErrNoRows {
+            log.Print("Vaccination record entry not found in database")
+        }
+        util.SendInternalServerErrorStatus(w, err)
+        return 
+    }
+    fmt.Printf("%s\n", covidVacRecJson)
+    fmt.Fprintf(w, "%s", covidVacRecJson)
+}
+
 func CreateNewPeople(conn *pgxpool.Pool, people People) (string, error) {
     sqlSelect := 
 		`select name from kkm.people
