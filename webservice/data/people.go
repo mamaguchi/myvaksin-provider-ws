@@ -100,6 +100,23 @@ type VaccinationRecord struct {
     Remarks string           `json:"remarks"`
 }
 
+type VaccinationRecord2 struct {
+    VaccinationId int64      `json:"vaccinationId"`
+    Vaccination string       `json:"vaccination"`
+    FdVaccineBrand string    `json:"fdVaccineBrand"`
+    SdVaccineBrand string    `json:"sdVaccineBrand"`
+    FdTCA string             `json:"fdTCA"` //kiv change to time.Time type
+    SdTCA string             `json:"sdTCA"` //kiv change to time.Time type
+    FdGiven string           `json:"fdGiven"` //kiv change to time.Time type
+    SdGiven string           `json:"sdGiven"` //kiv change to time.Time type
+    FdAefiClass string       `json:"fdAefiClass"`
+    SdAefiClass string       `json:"sdAefiClass"`
+    FdAefiReaction []string  `json:"fdAefiReaction"`
+    SdAefiReaction []string  `json:"sdAefiReaction"`
+    FdRemarks string         `json:"fdRemarks"`
+    SdRemarks string         `json:"sdRemarks"`
+}
+
 type PeopleProfile struct {
     People People                           `json:"people"`   
     VaccinationRecords []VaccinationRecord  `json:"vaccinationRecords"` 
@@ -129,8 +146,28 @@ type PeopleSearchResult struct {
     DoseTaken string         `json:"doseTaken"`    
 }
 
+type PeopleSearchResult2 struct {
+    Ident string             `json:"ident"`
+    Name string              `json:"name"`
+    Dob time.Time            `json:"dob"`
+    Race string              `json:"race"`
+    Nationality string       `json:"nationality"`
+    Locality string          `json:"locality"`
+    District string          `json:"district"`
+    State string             `json:"state"`
+    Vaccination string       `json:"vaccination"`
+    FdVaccineBrand string    `json:"fdVaccineBrand"`
+    SdVaccineBrand string    `json:"sdVaccineBrand"`
+    NumDose string           `json:"numDose"`
+    DoseTaken string         `json:"doseTaken"`    
+}
+
 type PeopleSearch struct {
     SearchResults []PeopleSearchResult    `json:"peopleSearchResults"`
+}
+
+type PeopleSearch2 struct {
+    SearchResults []PeopleSearchResult2    `json:"peopleSearchResults"`
 }
 
 
@@ -294,6 +331,157 @@ func SearchPeople(conn *pgxpool.Pool, sqlInputVars SqlInputVars) ([]byte, error)
     return outputJson, err
 }
 
+func SearchPeople2(conn *pgxpool.Pool, sqlInputVars SqlInputVars) ([]byte, error) {    
+    sqlOpt1 := 
+        `select p.ident, p.name, p.dob, p.race,
+            p.nationality, p.locality, p.district, p.state,
+            coalesce(fdv.brand, '') as fdbrand,
+            coalesce(sdv.brand, '') as sdbrand,
+            coalesce(fdv.numdose, 0) as fdnumdose,
+            coalesce(v.vaccination, '') as vaccination,
+            coalesce(v.fdgiven::text, '') as fdgiven, 
+            coalesce(v.sdgiven::text, '') as sdgiven
+            from kkm.people p
+                left join kkm.vaccination v
+                on p.ident = v.people
+                left join kkm.vaccine fdv
+                on v.fdvaccine = fdv.id
+                left join kkm.vaccine sdv
+                on v.sdvaccine = sdv.id
+            where p.ident=$1`
+
+    // NOTE: pgx (Golang PostgreSQL driver) does not support the term
+    //       'timestamp' before the date string in the sql, or else it
+    //       will cause syntax error.
+    //       Using 'timestamp' term before date string is supported 
+    //       but optional in native psql command.
+    sqlOpt2 := 
+         `select p.ident, p.name, p.dob, p.race,
+            p.nationality, p.locality, p.district, p.state,
+            coalesce(fdv.brand, '') as fdbrand,
+            coalesce(sdv.brand, '') as sdbrand,
+            coalesce(fdv.numdose, 0) as fdnumdose,
+            coalesce(v.vaccination, '') as vaccination,
+            coalesce(v.fdgiven::text, '') as fdgiven, 
+            coalesce(v.sdgiven::text, '') as sdgiven
+            from kkm.people p
+                left join kkm.vaccination v
+                on p.ident = v.people
+                left join kkm.vaccine fdv
+                on v.fdvaccine = fdv.id
+                left join kkm.vaccine sdv
+                on v.sdvaccine = sdv.id
+            where dob between $1 and $2`
+
+    sqlOpt3 := 
+        `select p.ident, p.name, p.dob, p.race,
+            p.nationality, p.locality, p.district, p.state,
+            coalesce(fdv.brand, '') as fdbrand,
+            coalesce(sdv.brand, '') as sdbrand,
+            coalesce(fdv.numdose, 0) as fdnumdose,
+            coalesce(v.vaccination, '') as vaccination,
+            coalesce(v.fdgiven::text, '') as fdgiven, 
+            coalesce(v.sdgiven::text, '') as sdgiven
+            from kkm.people p
+                left join kkm.vaccination v
+                on p.ident = v.people
+                left join kkm.vaccine fdv
+                on v.fdvaccine = fdv.id
+                left join kkm.vaccine sdv
+                on v.sdvaccine = sdv.id
+            where name ilike $1
+                and race::text ilike $2
+                and nationality::text ilike $3
+                and state::text ilike $4
+                and district ilike $5
+                and locality ilike $6`
+    
+    var rows pgx.Rows 
+    var err error
+    if sqlInputVars.SqlOpt == "1" {
+        rows, err = conn.Query(context.Background(), sqlOpt1, 
+          sqlInputVars.Ident)        
+    } else if sqlInputVars.SqlOpt == "2" {
+        rows, err = conn.Query(context.Background(), sqlOpt2, 
+          sqlInputVars.DobInterval.MinDate,
+          sqlInputVars.DobInterval.MaxDate)   
+    } else if sqlInputVars.SqlOpt == "3" {
+        rows, err = conn.Query(context.Background(), sqlOpt3, 
+          sqlInputVars.Name,
+          sqlInputVars.Race,
+          sqlInputVars.Nationality,
+          sqlInputVars.State,
+          sqlInputVars.District,
+          sqlInputVars.Locality)
+    }
+    if err != nil {
+        return nil, err 
+    }    
+
+    var peopleSearch PeopleSearch2
+    for rows.Next() {
+        var ident string 
+        var name string 
+        var dob time.Time
+        var race string 
+        var nationality string 
+        var locality string 
+        var district string 
+        var state string
+        var fdVaccineBrand string 
+        var sdVaccineBrand string 
+        var fdNumDose int 
+        var vaccination string 
+        var fdGiven string 
+        var sdGiven string 
+
+        err = rows.Scan(&ident, &name, &dob, &race, &nationality, 
+                        &locality, &district, &state, 
+                        &fdVaccineBrand, &sdVaccineBrand, 
+                        &fdNumDose, &vaccination, 
+                        &fdGiven, &sdGiven) 
+        if err != nil {
+            // TODO: Kiv to add a return which return 
+            // a code that signals 0 search results.
+            return nil, err 
+        }                   
+
+        numDoseStr := strconv.Itoa(fdNumDose)
+        doseTaken := 0
+        if len(vaccination) != 0 {
+            if len(fdGiven) != 0 {
+                doseTaken++
+            }
+            if len(sdGiven) != 0 {
+                doseTaken++
+            }           
+        }
+        doseTakenStr := strconv.Itoa(doseTaken)
+
+        peopleSearchResult := PeopleSearchResult2{
+            Ident: ident,
+            Name: name,
+            Dob: dob,
+            Race: race,
+            Nationality: nationality,
+            Locality: locality,
+            District: district,
+            State: state,            
+            Vaccination: vaccination,
+            FdVaccineBrand: fdVaccineBrand,
+            SdVaccineBrand: sdVaccineBrand,
+            NumDose: numDoseStr,
+            DoseTaken: doseTakenStr,            
+        }     
+        peopleSearch.SearchResults = append(
+            peopleSearch.SearchResults,
+            peopleSearchResult)
+    }
+
+    outputJson, err := json.MarshalIndent(peopleSearch, "", "")
+    return outputJson, err
+}
+
 func SearchPeopleHandler(w http.ResponseWriter, r *http.Request) {
     util.SetDefaultHeader(w)
     if (r.Method =="OPTIONS") {return}
@@ -315,7 +503,7 @@ func SearchPeopleHandler(w http.ResponseWriter, r *http.Request) {
     fmt.Printf("%+v\n", sqlInputVars)
 
     db.CheckDbConn()
-    SearchPeopleResultJson, err := SearchPeople(db.Conn, sqlInputVars)
+    SearchPeopleResultJson, err := SearchPeople2(db.Conn, sqlInputVars)
     if err != nil {
         if err == pgx.ErrNoRows {
             log.Print("People entry not found in database")
@@ -328,6 +516,65 @@ func SearchPeopleHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetCovidVacRec(conn *pgxpool.Pool, ident string) ([]byte, error) {   
+    row := conn.QueryRow(context.Background(), 
+        `select 
+            vaccine.brand, 
+            vaccine.type, 
+            vaccine.against, 
+            vaccine.raoa, 
+            vaccination.id, 
+            vaccination.firstAdm::text,                     
+            coalesce(vaccination.firstDoseDt::text, '') as firstDoseDt, 
+            coalesce(vaccination.secondDoseDt::text, '') as secondDoseDt, 
+            vaccination.aefiClass::text, 
+            coalesce(vaccination.aefiReaction, '{}') as aefiReaction, 
+            vaccination.remarks
+         from kkm.vaccination 
+             join kkm.vaccine
+               on kkm.vaccination.vaccine = kkm.vaccine.id
+           where vaccination.people=$1 
+             and vaccination.vaccination=$2`,
+        ident, "COVID-19")
+   
+    // Vaccine
+    var brand string 
+    var vacType string 
+    var against string 
+    var raoa string 
+    // Vaccination
+    var vaccinationId int64
+    var fa string 
+    var fdd string
+    var sdd string 
+    var aefiClass string 
+    var aefiReaction []string 
+    var remarks string 
+
+    err := row.Scan(&brand, &vacType, &against, &raoa, 
+        &vaccinationId, &fa, &fdd, &sdd, &aefiClass, &aefiReaction, &remarks)
+    if err != nil {
+        return nil, err
+    }
+
+    vaccinationRecord := VaccinationRecord{
+        VaccinationId: vaccinationId,
+        Vaccination: "COVID-19",
+        VaccineBrand: brand,
+        VaccineType: vacType,
+        VaccineAgainst: against,
+        VaccineRaoa: raoa,
+        Fa: fa,
+        Fdd: fdd,
+        Sdd: sdd,
+        AefiClass: aefiClass,
+        AefiReaction: aefiReaction,
+        Remarks: remarks,
+    }   
+    outputJson, err := json.MarshalIndent(vaccinationRecord, "", "")        
+    return outputJson, err
+}
+
+func GetCovidVacRec2(conn *pgxpool.Pool, ident string) ([]byte, error) {   
     row := conn.QueryRow(context.Background(), 
         `select 
             vaccine.brand, 
@@ -406,7 +653,7 @@ func GetCovidVacRecHandler(w http.ResponseWriter, r *http.Request) {
     }
     
     db.CheckDbConn()
-    covidVacRecJson, err := GetCovidVacRec(db.Conn, identity.Ident)
+    covidVacRecJson, err := GetCovidVacRec2(db.Conn, identity.Ident)
     if err != nil {
         if err == pgx.ErrNoRows {
             log.Print("Vaccination record entry not found in database")
