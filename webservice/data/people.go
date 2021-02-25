@@ -106,8 +106,8 @@ type VaccinationRecord2 struct {
     FdVaccineBrand string    `json:"fdVaccineBrand"`
     SdVaccineBrand string    `json:"sdVaccineBrand"`
     FdTCA string             `json:"fdTCA"` //kiv change to time.Time type
-    SdTCA string             `json:"sdTCA"` //kiv change to time.Time type
     FdGiven string           `json:"fdGiven"` //kiv change to time.Time type
+    SdTCA string             `json:"sdTCA"` //kiv change to time.Time type
     SdGiven string           `json:"sdGiven"` //kiv change to time.Time type
     FdAefiClass string       `json:"fdAefiClass"`
     SdAefiClass string       `json:"sdAefiClass"`
@@ -122,9 +122,19 @@ type PeopleProfile struct {
     VaccinationRecords []VaccinationRecord  `json:"vaccinationRecords"` 
 }
 
+type PeopleProfile2 struct {
+    People People                           `json:"people"`   
+    VaccinationRecords []VaccinationRecord2  `json:"vaccinationRecords"` 
+}
+
 type VacRecUpsert struct {
     Ident string             `json:"ident"`//People's Ident  
     VacRec VaccinationRecord `json:"vacRec"` 
+}
+
+type VacRecUpsert2 struct {
+    Ident string              `json:"ident"`//People's Ident  
+    VacRec VaccinationRecord2 `json:"vacRec"` 
 }
 
 type VacRecDelete struct {
@@ -577,57 +587,67 @@ func GetCovidVacRec(conn *pgxpool.Pool, ident string) ([]byte, error) {
 func GetCovidVacRec2(conn *pgxpool.Pool, ident string) ([]byte, error) {   
     row := conn.QueryRow(context.Background(), 
         `select 
-            vaccine.brand, 
-            vaccine.type, 
-            vaccine.against, 
-            vaccine.raoa, 
-            vaccination.id, 
-            vaccination.firstAdm::text,                     
-            coalesce(vaccination.firstDoseDt::text, '') as firstDoseDt, 
-            coalesce(vaccination.secondDoseDt::text, '') as secondDoseDt, 
-            vaccination.aefiClass::text, 
-            coalesce(vaccination.aefiReaction, '{}') as aefiReaction, 
-            vaccination.remarks
-         from kkm.vaccination 
-             join kkm.vaccine
-               on kkm.vaccination.vaccine = kkm.vaccine.id
-           where vaccination.people=$1 
-             and vaccination.vaccination=$2`,
+            coalesce(fdv.brand, '') as fdBrand,
+            coalesce(sdv.brand, '') as sdBrand,
+            v.id, 
+            coalesce(v.fdtca::text, '') as fdTCA, 
+            coalesce(v.fdgiven::text, '') as fdGiven, 
+            coalesce(v.sdtca::text, '') as sdTCA, 
+            coalesce(v.sdgiven::text, '') as sdGiven, 
+            coalesce(v.fdaeficlass::text, '') as fdAefiClass, 
+            coalesce(v.sdaeficlass::text, '') as sdAefiClass,
+            coalesce(v.fdaefireaction, '{}') as fdAefiReaction, 
+            coalesce(v.sdaefireaction, '{}') as sdAefiReaction, 
+            coalesce(v.fdremarks, '') as fdRemarks,
+            coalesce(v.sdremarks, '') as sdRemarks
+         from kkm.vaccination v
+             join kkm.vaccine fdv
+               on v.fdvaccine = fdv.id
+             join kkm.vaccine sdv
+               on v.sdvaccine = sdv.id
+           where v.people=$1 
+             and v.vaccination=$2`,
         ident, "COVID-19")
    
     // Vaccine
-    var brand string 
-    var vacType string 
-    var against string 
-    var raoa string 
+    var fdBrand string 
+    var sdBrand string 
     // Vaccination
     var vaccinationId int64
-    var fa string 
-    var fdd string
-    var sdd string 
-    var aefiClass string 
-    var aefiReaction []string 
-    var remarks string 
+    var fdTCA string
+    var fdGiven string
+    var sdTCA string
+    var sdGiven string
+    var fdAefiClass string 
+    var sdAefiClass string 
+    var fdAefiReaction []string 
+    var sdAefiReaction []string 
+    var fdRemarks string 
+    var sdRemarks string 
 
-    err := row.Scan(&brand, &vacType, &against, &raoa, 
-        &vaccinationId, &fa, &fdd, &sdd, &aefiClass, &aefiReaction, &remarks)
+    err := row.Scan(&fdBrand, &sdBrand, &vaccinationId, 
+        &fdTCA, &fdGiven, &sdTCA, &sdGiven, 
+        &fdAefiClass, &sdAefiClass, &fdAefiReaction, &sdAefiReaction,
+        &fdRemarks, &sdRemarks)
     if err != nil {
         return nil, err
     }
 
-    vaccinationRecord := VaccinationRecord{
+    vaccinationRecord := VaccinationRecord2{
         VaccinationId: vaccinationId,
         Vaccination: "COVID-19",
-        VaccineBrand: brand,
-        VaccineType: vacType,
-        VaccineAgainst: against,
-        VaccineRaoa: raoa,
-        Fa: fa,
-        Fdd: fdd,
-        Sdd: sdd,
-        AefiClass: aefiClass,
-        AefiReaction: aefiReaction,
-        Remarks: remarks,
+        FdVaccineBrand: fdBrand,
+        SdVaccineBrand: sdBrand,
+        FdTCA: fdTCA,
+        FdGiven: fdGiven,
+        SdTCA: sdTCA,
+        SdGiven: sdGiven,
+        FdAefiClass: fdAefiClass,
+        SdAefiClass: sdAefiClass,
+        FdAefiReaction: fdAefiReaction,
+        SdAefiReaction: sdAefiReaction,
+        FdRemarks: fdRemarks,
+        SdRemarks: sdRemarks,
     }   
     outputJson, err := json.MarshalIndent(vaccinationRecord, "", "")        
     return outputJson, err
@@ -921,6 +941,154 @@ func GetPeopleProfile(conn *pgxpool.Pool, ident string) ([]byte, error) {
     return outputJson, err
 }
 
+func GetPeopleProfile2(conn *pgxpool.Pool, ident string) ([]byte, error) {   
+    rows, err := conn.Query(context.Background(), 
+        `select p.name, p.gender, p.dob::text, 
+         p.nationality, p.race, p.tel, p.email,
+         p.address, p.postalcode, p.locality, 
+         p.district, p.state, p.eduLvl, 
+         p.occupation, p.comorbids, p.supportVac, 
+         coalesce(p.profilepic, '') as profilepic, p.role,
+         coalesce(fdv.brand, '') as fdBrand, 
+         coalesce(sdv.brand, '') as sdBrand,           
+         coalesce(v.id, -1) as id, 
+         coalesce(v.fdtca::text, '') as fdTCA, 
+         coalesce(v.fdgiven::text, '') as fdGiven, 
+         coalesce(v.sdtca::text, '') as sdTCA, 
+         coalesce(v.sdgiven::text, '') as sdGiven, 
+         coalesce(v.fdaeficlass::text, '') as fdAefiClass, 
+         coalesce(v.sdaeficlass::text, '') as sdAefiClass,
+         coalesce(v.fdaefireaction, '{}') as fdAefiReaction, 
+         coalesce(v.sdaefireaction, '{}') as sdAefiReaction, 
+         coalesce(v.fdremarks, '') as fdRemarks,
+         coalesce(v.sdremarks, '') as sdRemarks
+         from kkm.people p
+             left join kkm.vaccination v
+               on p.ident = v.people
+             left join kkm.vaccine fdv
+               on v.vaccine = fdv.id
+             left join kkm.vaccine sdv
+               on v.vaccine = sdv.id
+         where p.ident=$1`,
+        ident)
+    if err != nil {
+        return nil, err
+    }
+    // var peopleProfile PeopleProfile
+    var peopleProfile PeopleProfile2
+    firstRecord := true
+
+    for rows.Next() {
+        // Vaccine
+        var fdBrand string 
+        var sdBrand string 
+        // Vaccination
+        var vaccinationId int64
+        var vaccination string          
+        var fdTCA string
+        var fdGiven string
+        var sdTCA string
+        var sdGiven string
+        var fdAefiClass string 
+        var sdAefiClass string 
+        var fdAefiReaction []string 
+        var sdAefiReaction []string 
+        var fdRemarks string 
+        var sdRemarks string 
+
+        if firstRecord {
+            // People
+            var name string
+            var gender string
+            var dob string
+            var nationality string
+            var race string
+            var tel string
+            var email string 
+            var address string
+            var postalCode string 
+            var locality string 
+            var district string 
+            var state string 
+            var eduLvl string
+            var occupation string
+            var comorbids []int
+            var supportVac bool
+            var profilePicData string 
+            var role string
+
+            err = rows.Scan(&name, &gender, &dob, &nationality, &race, &tel, 
+                &email, &address, &postalCode, &locality, &district, &state, 
+                &eduLvl, &occupation, &comorbids, &supportVac, &profilePicData, 
+                &role,
+                &fdBrand, &sdBrand, &vaccinationId, 
+                &fdTCA, &fdGiven, &sdTCA, &sdGiven, 
+                &fdAefiClass, &sdAefiClass, &fdAefiReaction, &sdAefiReaction,
+                &fdRemarks, &sdRemarks)
+            if err != nil {
+                return nil, err
+            }
+            peopleProfile.People = People{
+                Ident: ident,
+                Name: name,
+                Gender: gender,
+                Dob: dob,
+                Nationality: nationality,
+                Race: race,
+                Tel: tel,
+                Email: email,
+                Address: address,
+                PostalCode: postalCode,
+                Locality: locality,
+                District: district,
+                State: state,
+                EduLvl: eduLvl,
+                Occupation: occupation,
+                Comorbids: comorbids,
+                SupportVac: supportVac,
+                ProfilePicData: profilePicData,
+                Role: role,
+            }
+            firstRecord = false                                     
+        } else {
+            err = rows.Scan(nil, nil, nil, nil, nil, nil, nil,
+                nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil,
+                &fdBrand, &sdBrand, &vaccinationId, 
+                &fdTCA, &fdGiven, &sdTCA, &sdGiven, 
+                &fdAefiClass, &sdAefiClass, &fdAefiReaction, &sdAefiReaction,
+                &fdRemarks, &sdRemarks)                      
+            if err != nil {
+                return nil, err
+            }
+        }
+        if vaccinationId != -1 {        
+            vaccinationRecord := VaccinationRecord2{
+                VaccinationId: vaccinationId,
+                Vaccination: vaccination,
+                FdVaccineBrand: fdBrand,
+                SdVaccineBrand: sdBrand,
+                FdTCA: fdTCA,
+                FdGiven: fdGiven,
+                SdTCA: sdTCA,
+                SdGiven: sdGiven,
+                FdAefiClass: fdAefiClass,
+                SdAefiClass: sdAefiClass,
+                FdAefiReaction: fdAefiReaction,
+                SdAefiReaction: sdAefiReaction,
+                FdRemarks: fdRemarks,
+                SdRemarks: sdRemarks,
+            }
+            peopleProfile.VaccinationRecords = append(
+                peopleProfile.VaccinationRecords,
+                vaccinationRecord,
+            )
+        }
+    }
+
+    outputJson, err := json.MarshalIndent(peopleProfile, "", "\t")        
+    return outputJson, err
+}
+
 func GetPeopleHandler(w http.ResponseWriter, r *http.Request) {
     util.SetDefaultHeader(w)
     if (r.Method == "OPTIONS") { return }
@@ -941,7 +1109,7 @@ func GetPeopleHandler(w http.ResponseWriter, r *http.Request) {
     }
     
     db.CheckDbConn()
-    peopleProfJson, err := GetPeopleProfile(db.Conn, identity.Ident)
+    peopleProfJson, err := GetPeopleProfile2(db.Conn, identity.Ident)
     if err != nil {
         if err == pgx.ErrNoRows {
             log.Print("People entry not found in database")
@@ -1136,6 +1304,99 @@ func CreateNewVacRec(conn *pgxpool.Pool, vru VacRecUpsert) error {
     return nil
 }
 
+func CreateNewVacRec2(conn *pgxpool.Pool, vru VacRecUpsert2) error {                  
+    var err error
+    // if vru.VacRec.Fdd == "" {
+    //     sql := 
+    //         `insert into kkm.vaccination
+    //         (
+    //             fdvaccine, people, vaccination,   
+    //             fdtca, fdgiven, fdaeficlass, fdaefireaction, fdremarks, 
+    //             sdtca, sdgiven, sdaeficlass, sdaefireaction, sdremarks, 
+    //             sdvaccine
+    //         )
+    //         select fdv.id, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12
+    //         from kkm.vaccine fdv
+    //         where fdv.brand=$13
+    //         union all
+    //         select sdv.id
+    //         from kkm.vaccine sdv
+    //         where sdv.brand=$14` 
+
+    //     _, err = conn.Exec(context.Background(), sql, 
+    //     vru.Ident, vru.VacRec.Vaccination, 
+    //     vru.VacRec.FdTCA, vru.VacRec.FdGiven, vru.VacRec.FdAefiClass, vru.VacRec.FdAefiReaction,
+    //     vru.VacRec.FdRemarks,
+    //     vru.VacRec.SdTCA, vru.VacRec.SdGiven, vru.VacRec.SdAefiClass, vru.VacRec.SdAefiReaction,
+    //     vru.VacRec.SdRemarks,
+    //     vru.VacRec.FdVaccineBrand,
+    //     vru.VacRec.SdVaccineBrand)
+    // } else if vru.VacRec.Sdd == "" {
+
+    if ((vru.VacRec.FdTCA != "" && vru.VacRec.FdGiven != "") && (vru.VacRec.SdTCA == "" || vru.VacRec.SdGiven == "")) {
+        sql := 
+            `insert into kkm.vaccination
+            (
+                fdvaccine, people, vaccination,   
+                fdtca, fdgiven, fdaeficlass::text, fdaefireaction, fdremarks               
+            )
+            select fdv.id, $1, $2, $3, $4, $5, $6, $7
+            from kkm.vaccine fdv
+            where fdv.brand=$8`
+
+        _, err = conn.Exec(context.Background(), sql, 
+        vru.Ident, vru.VacRec.Vaccination, 
+        vru.VacRec.FdTCA, vru.VacRec.FdGiven, vru.VacRec.FdAefiClass, vru.VacRec.FdAefiReaction,
+        vru.VacRec.FdRemarks,
+        vru.VacRec.FdVaccineBrand)
+    } else if vru.VacRec.FdGiven == "" {
+        sql := 
+            `insert into kkm.vaccination
+            (
+                fdvaccine, people, vaccination,   
+                fdtca, fdaeficlass, fdaefireaction, fdremarks
+            )
+            select fdv.id, $1, $2, $3, $4, $5, $6
+            from kkm.vaccine fdv
+            where fdv.brand=$7`  
+
+        _, err = conn.Exec(context.Background(), sql, 
+            vru.Ident, vru.VacRec.Vaccination, 
+            vru.VacRec.FdTCA, vru.VacRec.FdAefiClass, vru.VacRec.FdAefiReaction,
+            vru.VacRec.FdRemarks,
+            vru.VacRec.FdVaccineBrand)
+    } else {
+        sql := 
+            `insert into kkm.vaccination
+            (
+                fdvaccine, people, vaccination,   
+                fdtca, fdgiven, fdaeficlass, fdaefireaction, fdremarks, 
+                sdtca, sdgiven, sdaeficlass, sdaefireaction, sdremarks, 
+                sdvaccine
+            )
+            select fdv.id, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12
+            from kkm.vaccine fdv
+            where fdv.brand=$13
+            union all
+            select sdv.id
+            from kkm.vaccine sdv
+            where sdv.brand=$14`  
+
+        _, err = conn.Exec(context.Background(), sql, 
+            vru.Ident, vru.VacRec.Vaccination, 
+            vru.VacRec.FdTCA, vru.VacRec.FdGiven, vru.VacRec.FdAefiClass, vru.VacRec.FdAefiReaction,
+            vru.VacRec.FdRemarks,
+            vru.VacRec.SdTCA, vru.VacRec.SdGiven, vru.VacRec.SdAefiClass, vru.VacRec.SdAefiReaction,
+            vru.VacRec.SdRemarks,
+            vru.VacRec.FdVaccineBrand,
+            vru.VacRec.SdVaccineBrand)
+    }    
+    if err != nil {
+        return err
+    }
+    return nil
+}
+
 func CreateNewVacRecHandler(w http.ResponseWriter, r *http.Request) {
     util.SetDefaultHeader(w)
     if (r.Method == "OPTIONS") { return }
@@ -1148,7 +1409,8 @@ func CreateNewVacRecHandler(w http.ResponseWriter, r *http.Request) {
         return
     }
         
-    var vru VacRecUpsert
+    // var vru VacRecUpsert
+    var vru VacRecUpsert2
     err := json.NewDecoder(r.Body).Decode(&vru)
     if err != nil {
         util.SendInternalServerErrorStatus(w, err)
@@ -1157,7 +1419,7 @@ func CreateNewVacRecHandler(w http.ResponseWriter, r *http.Request) {
     fmt.Printf("%+v\n", vru)
 
     db.CheckDbConn()
-    err = CreateNewVacRec(db.Conn, vru)
+    err = CreateNewVacRec2(db.Conn, vru)
     if err != nil {
         util.SendInternalServerErrorStatus(w, err)
         return
@@ -1238,6 +1500,73 @@ func UpdateVacRec(conn *pgxpool.Pool, vru VacRecUpsert) error {
     }
     return nil
 }
+
+func UpdateVacRec2(conn *pgxpool.Pool, vru VacRecUpsert2) error {
+    var err error
+    // if vru.VacRec.Fdd == "" {
+    //     sql := 
+    //         `update kkm.vaccination
+    //         set vaccine=subq.id, firstadm=$1,
+    //             seconddosedt=$2, aeficlass=$3, aefireaction=$4,
+    //             remarks=$5
+    //         from (select vac.id 
+    //             from kkm.vaccine vac
+    //             where vac.brand=$6) as subq
+    //         where kkm.vaccination.id=$7`
+
+    //     _, err = conn.Exec(context.Background(), sql, 
+    //         vru.VacRec.Fa, vru.VacRec.Sdd,
+    //         vru.VacRec.AefiClass, vru.VacRec.AefiReaction,
+    //         vru.VacRec.Remarks, vru.VacRec.VaccineBrand, 
+    //         vru.VacRec.VaccinationId)
+    // } else if vru.VacRec.Sdd == "" {
+
+    if vru.VacRec.SdTCA == "" || vru.VacRec.SdGiven == "" {
+        sql := 
+            `update kkm.vaccination
+            set fdvaccine=subqFd.id, 
+                fdtca=$1, fdgiven=$2, fdaeficlass=$3, fdaefireaction=$4,
+                fdremarks=$5               
+            from (select vac.id 
+                from kkm.vaccine vac
+                where vac.brand=$6) as subqFd
+            where kkm.vaccination.id=$7`
+
+        _, err = conn.Exec(context.Background(), sql, 
+            vru.VacRec.FdTCA, vru.VacRec.FdGiven, vru.VacRec.FdAefiClass, vru.VacRec.FdAefiReaction,
+            vru.VacRec.FdRemarks, 
+            vru.VacRec.FdVaccineBrand, vru.VacRec.VaccinationId)
+
+    } else {
+        sql := 
+        `update kkm.vaccination
+        set fdvaccine=subq.fdId, sdvaccine=subq.sdId
+            fdtca=$1, fdgiven=$2, fdaeficlass=$3, fdaefireaction=$4,
+            fdremarks=$5,
+            sdtca=$6, sdgiven=$7, sdaeficlass=$8, sdaefireaction=$9,
+            sdremarks=$10                
+        from (select fdVac.id as fdId
+            from kkm.vaccine fdVac
+            where fdVac.brand=$11
+            union all
+            select sdVac.id as sdId
+            from kkm.vaccine sdVac
+            where sdVac.brand=$12
+            ) as subq
+        where kkm.vaccination.id=$13`
+
+        _, err = conn.Exec(context.Background(), sql, 
+            vru.VacRec.FdTCA, vru.VacRec.FdGiven, vru.VacRec.FdAefiClass, vru.VacRec.FdAefiReaction,
+            vru.VacRec.FdRemarks,
+            vru.VacRec.SdTCA, vru.VacRec.SdGiven, vru.VacRec.SdAefiClass, vru.VacRec.SdAefiReaction,
+            vru.VacRec.SdRemarks, 
+            vru.VacRec.FdVaccineBrand, vru.VacRec.SdVaccineBrand, vru.VacRec.VaccinationId)
+    }
+    if err != nil {
+        return err
+    }
+    return nil
+}
  
 func UpdateVacRecHandler(w http.ResponseWriter, r *http.Request) {
     util.SetDefaultHeader(w)
@@ -1251,7 +1580,8 @@ func UpdateVacRecHandler(w http.ResponseWriter, r *http.Request) {
         return
     }
         
-    var vru VacRecUpsert
+    // var vru VacRecUpsert
+    var vru VacRecUpsert2
     err := json.NewDecoder(r.Body).Decode(&vru)
     if err != nil {
         util.SendInternalServerErrorStatus(w, err)
@@ -1260,7 +1590,7 @@ func UpdateVacRecHandler(w http.ResponseWriter, r *http.Request) {
     fmt.Printf("%+v\n", vru)
 
     db.CheckDbConn()
-    err = UpdateVacRec(db.Conn, vru)
+    err = UpdateVacRec2(db.Conn, vru)
     if err != nil {
         util.SendInternalServerErrorStatus(w, err)
         return
