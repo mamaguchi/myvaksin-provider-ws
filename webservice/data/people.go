@@ -138,7 +138,11 @@ type VacRecUpsert2 struct {
 }
 
 type VacRecDelete struct {
-    VaccinationId int64      `json:"vaccinationId`
+    VaccinationId int64      `json:"vaccinationId"`
+}
+
+type PgxReturningId struct {
+    ReturningId int64        `json:"returningId"`
 }
 
 type PeopleSearchResult struct {
@@ -952,6 +956,7 @@ func GetPeopleProfile2(conn *pgxpool.Pool, ident string) ([]byte, error) {
          coalesce(fdv.brand, '') as fdBrand, 
          coalesce(sdv.brand, '') as sdBrand,           
          coalesce(v.id, -1) as id, 
+         coalesce(v.vaccination, '') as vaccination,
          coalesce(v.fdtca::text, '') as fdTCA, 
          coalesce(v.fdgiven::text, '') as fdGiven, 
          coalesce(v.sdtca::text, '') as sdTCA, 
@@ -966,9 +971,9 @@ func GetPeopleProfile2(conn *pgxpool.Pool, ident string) ([]byte, error) {
              left join kkm.vaccination v
                on p.ident = v.people
              left join kkm.vaccine fdv
-               on v.vaccine = fdv.id
+               on v.fdvaccine = fdv.id
              left join kkm.vaccine sdv
-               on v.vaccine = sdv.id
+               on v.sdvaccine = sdv.id
          where p.ident=$1`,
         ident)
     if err != nil {
@@ -1021,7 +1026,7 @@ func GetPeopleProfile2(conn *pgxpool.Pool, ident string) ([]byte, error) {
                 &email, &address, &postalCode, &locality, &district, &state, 
                 &eduLvl, &occupation, &comorbids, &supportVac, &profilePicData, 
                 &role,
-                &fdBrand, &sdBrand, &vaccinationId, 
+                &fdBrand, &sdBrand, &vaccinationId, &vaccination,
                 &fdTCA, &fdGiven, &sdTCA, &sdGiven, 
                 &fdAefiClass, &sdAefiClass, &fdAefiReaction, &sdAefiReaction,
                 &fdRemarks, &sdRemarks)
@@ -1053,7 +1058,7 @@ func GetPeopleProfile2(conn *pgxpool.Pool, ident string) ([]byte, error) {
         } else {
             err = rows.Scan(nil, nil, nil, nil, nil, nil, nil,
                 nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil,
-                &fdBrand, &sdBrand, &vaccinationId, 
+                &fdBrand, &sdBrand, &vaccinationId, &vaccination,
                 &fdTCA, &fdGiven, &sdTCA, &sdGiven, 
                 &fdAefiClass, &sdAefiClass, &fdAefiReaction, &sdAefiReaction,
                 &fdRemarks, &sdRemarks)                      
@@ -1304,7 +1309,7 @@ func CreateNewVacRec(conn *pgxpool.Pool, vru VacRecUpsert) error {
     return nil
 }
 
-func CreateNewVacRec2(conn *pgxpool.Pool, vru VacRecUpsert2) error {                  
+func CreateNewVacRec2(conn *pgxpool.Pool, vru VacRecUpsert2) ([]byte, error) {                  
     var err error
     // if vru.VacRec.Fdd == "" {
     //     sql := 
@@ -1333,56 +1338,83 @@ func CreateNewVacRec2(conn *pgxpool.Pool, vru VacRecUpsert2) error {
     //     vru.VacRec.SdVaccineBrand)
     // } else if vru.VacRec.Sdd == "" {
 
-    if ((vru.VacRec.FdTCA != "" && vru.VacRec.FdGiven != "") && (vru.VacRec.SdTCA == "" || vru.VacRec.SdGiven == "")) {
+    var row pgx.Row
+    if vru.VacRec.FdTCA != "" && vru.VacRec.FdGiven == "" &&
+       vru.VacRec.SdTCA == "" && vru.VacRec.SdGiven == "" {
         sql := 
             `insert into kkm.vaccination
             (
                 fdvaccine, people, vaccination,   
-                fdtca, fdgiven, fdaeficlass::text, fdaefireaction, fdremarks               
+                fdtca
             )
-            select fdv.id, $1, $2, $3, $4, $5, $6, $7
+            select fdv.id, $1, $2, $3
             from kkm.vaccine fdv
-            where fdv.brand=$8`
+            where fdv.brand=$4
+            returning id`  
 
-        _, err = conn.Exec(context.Background(), sql, 
+        // _, err = conn.Exec(context.Background(), sql, 
+        //     vru.Ident, vru.VacRec.Vaccination, 
+        //     vru.VacRec.FdTCA, 
+        //     vru.VacRec.FdVaccineBrand)
+
+        row = conn.QueryRow(context.Background(), sql, 
+            vru.Ident, vru.VacRec.Vaccination, 
+            vru.VacRec.FdTCA, 
+            vru.VacRec.FdVaccineBrand)
+    } else if vru.VacRec.FdTCA != "" && vru.VacRec.FdGiven != "" &&
+              vru.VacRec.SdTCA != "" && vru.VacRec.SdGiven == "" {       
+        sql := 
+            `insert into kkm.vaccination
+            (
+                fdvaccine, sdvaccine, people, vaccination,   
+                fdtca, fdgiven, fdaeficlass, fdaefireaction, fdremarks,
+                sdtca              
+            )
+            select fdv.id, sdv.id, $1, $2, $3, $4, $5, $6, $7, $8
+            from kkm.vaccine fdv
+            cross join kkm.vaccine sdv                
+            where fdv.brand=$9
+                and sdv.brand=$10
+            returning id`
+
+        // _, err = conn.Exec(context.Background(), sql, 
+        // vru.Ident, vru.VacRec.Vaccination, 
+        // vru.VacRec.FdTCA, vru.VacRec.FdGiven, vru.VacRec.FdAefiClass, vru.VacRec.FdAefiReaction,
+        // vru.VacRec.FdRemarks,
+        // vru.VacRec.SdTCA,
+        // vru.VacRec.FdVaccineBrand, vru.VacRec.SdVaccineBrand)
+
+        row = conn.QueryRow(context.Background(), sql, 
         vru.Ident, vru.VacRec.Vaccination, 
         vru.VacRec.FdTCA, vru.VacRec.FdGiven, vru.VacRec.FdAefiClass, vru.VacRec.FdAefiReaction,
         vru.VacRec.FdRemarks,
-        vru.VacRec.FdVaccineBrand)
-    } else if vru.VacRec.FdGiven == "" {
-        sql := 
-            `insert into kkm.vaccination
-            (
-                fdvaccine, people, vaccination,   
-                fdtca, fdaeficlass, fdaefireaction, fdremarks
-            )
-            select fdv.id, $1, $2, $3, $4, $5, $6
-            from kkm.vaccine fdv
-            where fdv.brand=$7`  
-
-        _, err = conn.Exec(context.Background(), sql, 
-            vru.Ident, vru.VacRec.Vaccination, 
-            vru.VacRec.FdTCA, vru.VacRec.FdAefiClass, vru.VacRec.FdAefiReaction,
-            vru.VacRec.FdRemarks,
-            vru.VacRec.FdVaccineBrand)
+        vru.VacRec.SdTCA,
+        vru.VacRec.FdVaccineBrand, vru.VacRec.SdVaccineBrand)
     } else {
         sql := 
             `insert into kkm.vaccination
             (
-                fdvaccine, people, vaccination,   
+                fdvaccine, sdvaccine, people, vaccination,   
                 fdtca, fdgiven, fdaeficlass, fdaefireaction, fdremarks, 
-                sdtca, sdgiven, sdaeficlass, sdaefireaction, sdremarks, 
-                sdvaccine
+                sdtca, sdgiven, sdaeficlass, sdaefireaction, sdremarks                
             )
-            select fdv.id, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12
+            select fdv.id, sdv.id, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12
             from kkm.vaccine fdv
+            cross join kkm.vaccine sdv                
             where fdv.brand=$13
-            union all
-            select sdv.id
-            from kkm.vaccine sdv
-            where sdv.brand=$14`  
+                and sdv.brand=$14
+            returning id`  
 
-        _, err = conn.Exec(context.Background(), sql, 
+        // _, err = conn.Exec(context.Background(), sql, 
+        //     vru.Ident, vru.VacRec.Vaccination, 
+        //     vru.VacRec.FdTCA, vru.VacRec.FdGiven, vru.VacRec.FdAefiClass, vru.VacRec.FdAefiReaction,
+        //     vru.VacRec.FdRemarks,
+        //     vru.VacRec.SdTCA, vru.VacRec.SdGiven, vru.VacRec.SdAefiClass, vru.VacRec.SdAefiReaction,
+        //     vru.VacRec.SdRemarks,
+        //     vru.VacRec.FdVaccineBrand,
+        //     vru.VacRec.SdVaccineBrand)
+
+        row = conn.QueryRow(context.Background(), sql, 
             vru.Ident, vru.VacRec.Vaccination, 
             vru.VacRec.FdTCA, vru.VacRec.FdGiven, vru.VacRec.FdAefiClass, vru.VacRec.FdAefiReaction,
             vru.VacRec.FdRemarks,
@@ -1390,11 +1422,18 @@ func CreateNewVacRec2(conn *pgxpool.Pool, vru VacRecUpsert2) error {
             vru.VacRec.SdRemarks,
             vru.VacRec.FdVaccineBrand,
             vru.VacRec.SdVaccineBrand)
-    }    
-    if err != nil {
-        return err
     }
-    return nil
+    var vaccinationId int64
+    err = row.Scan(&vaccinationId)
+    if err != nil {
+        return nil, err
+    }
+    // return nil
+    newVacRecId := PgxReturningId{
+        ReturningId: vaccinationId,
+    }
+    outputJson, err := json.MarshalIndent(newVacRecId, "", "")        
+    return outputJson, err
 }
 
 func CreateNewVacRecHandler(w http.ResponseWriter, r *http.Request) {
@@ -1419,11 +1458,13 @@ func CreateNewVacRecHandler(w http.ResponseWriter, r *http.Request) {
     fmt.Printf("%+v\n", vru)
 
     db.CheckDbConn()
-    err = CreateNewVacRec2(db.Conn, vru)
+    newVacRecIdJson, err := CreateNewVacRec2(db.Conn, vru)
     if err != nil {
         util.SendInternalServerErrorStatus(w, err)
         return
     }   
+    fmt.Printf("%s\n", newVacRecIdJson)
+    fmt.Fprintf(w, "%s", newVacRecIdJson)
 }
 
 func UpdateVacRec(conn *pgxpool.Pool, vru VacRecUpsert) error {
@@ -1521,37 +1562,56 @@ func UpdateVacRec2(conn *pgxpool.Pool, vru VacRecUpsert2) error {
     //         vru.VacRec.VaccinationId)
     // } else if vru.VacRec.Sdd == "" {
 
-    if vru.VacRec.SdTCA == "" || vru.VacRec.SdGiven == "" {
+    if vru.VacRec.FdTCA != "" && vru.VacRec.FdGiven == "" &&
+       vru.VacRec.SdTCA == "" && vru.VacRec.SdGiven == "" {
         sql := 
             `update kkm.vaccination
             set fdvaccine=subqFd.id, 
-                fdtca=$1, fdgiven=$2, fdaeficlass=$3, fdaefireaction=$4,
-                fdremarks=$5               
+                fdtca=$1              
             from (select vac.id 
                 from kkm.vaccine vac
-                where vac.brand=$6) as subqFd
-            where kkm.vaccination.id=$7`
+                where vac.brand=$2) as subqFd
+            where kkm.vaccination.id=$3`
 
         _, err = conn.Exec(context.Background(), sql, 
-            vru.VacRec.FdTCA, vru.VacRec.FdGiven, vru.VacRec.FdAefiClass, vru.VacRec.FdAefiReaction,
-            vru.VacRec.FdRemarks, 
+            vru.VacRec.FdTCA, 
             vru.VacRec.FdVaccineBrand, vru.VacRec.VaccinationId)
+
+    } else if vru.VacRec.FdTCA != "" && vru.VacRec.FdGiven != "" &&
+              vru.VacRec.SdTCA != "" && vru.VacRec.SdGiven == "" {
+     sql := 
+         `update kkm.vaccination
+        set fdvaccine=subq.fdid, sdvaccine=subq.sdid,
+             fdtca=$1, fdgiven=$2, fdaeficlass=$3, fdaefireaction=$4,
+             fdremarks=$5,
+             sdtca=$6
+        from (select fdv.id as fdid, sdv.id as sdid
+            from kkm.vaccine fdv
+            cross join kkm.vaccine sdv               
+            where fdv.brand=$7
+                and sdv.brand=$8
+            ) as subq
+        where kkm.vaccination.id=$9`
+
+     _, err = conn.Exec(context.Background(), sql, 
+         vru.VacRec.FdTCA, vru.VacRec.FdGiven, vru.VacRec.FdAefiClass, vru.VacRec.FdAefiReaction,
+         vru.VacRec.FdRemarks, 
+         vru.VacRec.SdTCA,
+         vru.VacRec.FdVaccineBrand, vru.VacRec.SdVaccineBrand, vru.VacRec.VaccinationId)
 
     } else {
         sql := 
         `update kkm.vaccination
-        set fdvaccine=subq.fdId, sdvaccine=subq.sdId
+        set fdvaccine=subq.fdid, sdvaccine=subq.sdid,
             fdtca=$1, fdgiven=$2, fdaeficlass=$3, fdaefireaction=$4,
             fdremarks=$5,
             sdtca=$6, sdgiven=$7, sdaeficlass=$8, sdaefireaction=$9,
             sdremarks=$10                
-        from (select fdVac.id as fdId
-            from kkm.vaccine fdVac
-            where fdVac.brand=$11
-            union all
-            select sdVac.id as sdId
-            from kkm.vaccine sdVac
-            where sdVac.brand=$12
+        from (select fdv.id as fdid, sdv.id as sdid
+            from kkm.vaccine fdv
+            cross join kkm.vaccine sdv                
+            where fdv.brand=$11
+                and sdv.brand=$12
             ) as subq
         where kkm.vaccination.id=$13`
 
