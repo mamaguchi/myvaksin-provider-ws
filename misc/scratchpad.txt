@@ -1909,6 +1909,25 @@ curl -H "Content-Type:application/json" http://localhost:8080/people/get -d "{ \
 
 curl -H "Content-Type:application/json" http://localhost:8080/test -d "{ \"ident\" : \"880601105149\" }"
 
+curl -H "Content-Type:application/json" http://localhost:8080/poscases -d "{ \"name\" : \"bandarjengka-2021-02-01-hospjengka\" }"
+
+curl -H "Content-Type:application/json" http://localhost:8080/closecontacts -d "{ \"name\" : \"bandarjengka-2021-02-01-hospjengka\" }"
+
+curl -H "Content-Type:application/json" http://localhost:8080/people/get -d "{ \"ident\" : \"880601105149\" }"
+
+curl -H "Content-Type:application/json" http://localhost:8080/wbkcase/people/add -d "{ \"name\" : \"bandarjengka-2021-02-01-hospjengka\", \"peopleident\" : \"880601109999\" }"
+
+curl -H "Content-Type:application/json" http://localhost:8080/wbkcase/people/del -d "{ \"name\" : \"bandarjengka-2021-02-01-hospjengka\", \"peopleident\" : \"880601109999\" }"
+
+curl -H "Content-Type:application/json" http://localhost:8080/people/add -d "{ \"ident\" : \"880601107777\", \"name\" : \"Sanji\", \"gender\" : \"Male\", \"dob\" : \"1988-06-01\", \"nationality\" : \"Warganegara\", \"race\" : \"Chinese\", \"tel\" : \"0163184120\", \"address\" : \"Genting, Bentong\", \"state\" : \"Pahang\", \"district\" : \"bentong\", \"locality\" : \"Genting\", \"occupation\" : \"driver\", \"isgovemp\" : false }"
+
+curl -H "Content-Type:application/json" http://localhost:8080/hso/add -d "{ \"idents\" : [\"880601105149\", \"880601105150\", \"880601105151\"], \"begindt\" : \"2021-02-01\", \"enddt\" : \"2021-02-10\", \"extension\" : 0, \"address\" : \"Genting, Bentong\", \"state\" : \"Pahang\", \"district\" : \"bentong\", \"locality\" : \"Genting\" }"
+
+curl -H "Content-Type:application/json" http://localhost:8080/hso/del -d "{ \"id\" : 4 }"
+
+curl -H "Content-Type:application/json" http://localhost:8080/hso/update -d "{ \"id\" : 5, \"peopleident\" : \"880601105150\", \"begindt\" : \"2021-02-02\", \"enddt\" : \"2021-02-12\", \"extension\" : 1, \"address\" : \"Awana, Bentong\", \"state\" : \"Pahang\", \"district\" : \"bentong\", \"locality\" : \"Awana\" }"
+
+curl -H "Content-Type:application/json" http://localhost:8080/wbkcase/people/update -d "{ \"name\" : \"bandarjengka-2021-02-01-hospjengka\", \"peopleident\" : \"880601105149\", \"contactto\" : \"880601109999\", \"lastcontact\" : \"2021-01-25\", \"symptoms\" : [\"fever\", \"cough\"], \"onset\" : \"2021-01-28\", \"workloc\" : \"Mydin Mall\", \"remarks\" : \"Work at Apparel Unit\", \"casetype\" : \"importa\", \"livedeadstat\" : \"alive\", \"causeofdeath\" : \"\" }"
 
 ======================
 10 Feb 2021 - myVaksin
